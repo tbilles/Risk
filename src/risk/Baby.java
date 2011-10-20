@@ -13,7 +13,7 @@ public class Baby extends Child {
         StringBuilder sb = new StringBuilder();
 
         sb.append(super.toString());
-        sb.append(": ");
+        sb.append("> ");
         sb.append(criesOverNight ? "Cries" : "DoesntCry");
 
         return sb.toString();
