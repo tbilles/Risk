@@ -28,7 +28,7 @@ class server {
             if (args.length > 0 && "obj".compareTo(args[0]) == 0) {
                 System.out.println("Object writing");
                 ObjectOutputStream ous = new ObjectOutputStream(clientSocket.getOutputStream());
-                Child p = new Child("Tamás", 10, true);
+                Baby p = new Baby("Tamás", 10, true, false);
 
                 while (true) {
                     System.out.println(p.toString());
@@ -37,6 +37,7 @@ class server {
                     p.Age = p.Age+1;
                     p.Name = "." + p.Name;
                     p.canWalk = !p.canWalk;
+                    p.criesOverNight = !p.criesOverNight;
                     try {
                         Thread.currentThread().sleep(1000);
                     } catch (InterruptedException e) {
