@@ -18,3 +18,22 @@ class Person implements Serializable {
         return sb.toString();
     }
 }
+
+class Child extends Person {
+    public boolean canWalk;
+
+    public Child(String n, int a, boolean walk) {
+        super(n, a);
+        canWalk = walk;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(super.toString());
+        sb.append(": ");
+        sb.append(canWalk ? "Walk" : "NoWalk");
+
+        return sb.toString();
+    };
+};
