@@ -5,4 +5,3 @@ class protocol {
     public int Age;
 
 };
-

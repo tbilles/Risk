@@ -3,9 +3,9 @@ package risk;
 import java.io.Serializable;
 
 public class Person implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	public String Name;
+    private static final long serialVersionUID = 1L;
+
+    public String Name;
     public int Age;
 
     public Person(String n, int a) {
@@ -22,4 +22,3 @@ public class Person implements Serializable {
         return sb.toString();
     }
 }
-

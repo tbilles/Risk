@@ -33,12 +33,12 @@ public class client {
                 System.out.println(e.getStackTrace());
                 System.exit(-2);
             }
-                
+
             sock.close();
         } catch (IOException e) {
             System.err.println("IOEx");
         }
 
     }
-	
+
 };

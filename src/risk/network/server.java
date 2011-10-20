@@ -24,7 +24,6 @@ public class server {
             System.exit(-1);
         }
 
-
         try {
             ObjectOutputStream ous = new ObjectOutputStream(clientSocket.getOutputStream());
             Baby p = new Baby("Tamás", 10, true, false);
@@ -33,24 +32,24 @@ public class server {
                 System.out.println(p.toString());
                 ous.writeObject(p);
                 ous.reset();
-                p.Age = p.Age+1;
+                p.Age = p.Age + 1;
                 p.Name = "." + p.Name;
                 p.canWalk = !p.canWalk;
                 p.criesOverNight = !p.criesOverNight;
                 try {
-					Thread.sleep(1000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                
+
                 }
             }
-	
-	        clientSocket.close();
-	        sock.close();
+
+            clientSocket.close();
+            sock.close();
         } catch (IOException e) {
             System.err.println("IOexception");
             System.err.println(e.getMessage());
             System.err.println(e.getStackTrace());
         }
     }
-	
+
 };

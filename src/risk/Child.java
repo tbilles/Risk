@@ -1,8 +1,8 @@
 package risk;
 
 public class Child extends Person {
-	private static final long serialVersionUID = 1L;
-	public boolean canWalk;
+    private static final long serialVersionUID = 1L;
+    public boolean canWalk;
 
     public Child(String n, int a, boolean walk) {
         super(n, a);
