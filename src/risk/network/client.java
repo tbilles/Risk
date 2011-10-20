@@ -1,7 +1,10 @@
+package risk.network;
+
 import java.io.*;
 import java.net.*;
+import risk.*;
 
-class client {
+public class client {
     public void doit() {
         Socket sock = null;
 

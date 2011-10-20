@@ -1,3 +1,6 @@
+package risk;
+
+import risk.network.*;
 
 class Risk {
     public static void main(String[] args) {

@@ -1,7 +1,10 @@
+package risk.network;
+
 import java.io.*;
 import java.net.*;
+import risk.*;
 
-class server {
+public class server {
     public void doit() {
         ServerSocket sock = null;
 
@@ -35,7 +38,7 @@ class server {
                 p.canWalk = !p.canWalk;
                 p.criesOverNight = !p.criesOverNight;
                 try {
-                    Thread.currentThread().sleep(1000);
+					Thread.sleep(1000);
                 } catch (InterruptedException e) {
                 
                 }
