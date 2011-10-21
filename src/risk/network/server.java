@@ -26,7 +26,7 @@ public class server {
 
         try {
             ObjectOutputStream ous = new ObjectOutputStream(clientSocket.getOutputStream());
-            Baby p = new Baby("Tamas2", 10, true, false);
+            Baby p = new Baby("Tamas267", 10, true, false);
 
             while (p != null) {
                 System.out.println(p.toString());
