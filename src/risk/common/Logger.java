@@ -3,6 +3,7 @@ package risk.common;
 import risk.common.LogLevel;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Date;
 
 public class Logger {
@@ -12,6 +13,7 @@ public class Logger {
     private boolean initialized;
     private LogLevel logLevel = LogLevel.TRACE;
     static private Logger instance = new Logger();
+    private final String endLine = "\r\n";
     
     static public Logger getInstance() {
         return instance;
@@ -46,7 +48,7 @@ public class Logger {
         logMsg.append(level.toString());
         logMsg.append("] ");
         logMsg.append(msg);
-        logMsg.append("\n");
+        logMsg.append(endLine);
         
         if (logFile != null) {
             try {
@@ -60,6 +62,23 @@ public class Logger {
         if (logToConsole) {
             System.out.print(logMsg.toString());
         }
+    }
+    
+    private void log(Exception e) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Exception: ");
+        sb.append(e.toString());
+        sb.append(e.getMessage());
+        sb.append(endLine);
+        sb.append("    Stack trace:" + endLine);
+        StackTraceElement[] stkElements = e.getStackTrace();
+        for (StackTraceElement stkFrame : stkElements) {
+            sb.append("        in " + stkFrame.getClassName() + "." + stkFrame.getMethodName() + " ");
+            sb.append("at " + stkFrame.getFileName() + ":" + stkFrame.getLineNumber());
+            sb.append(endLine);
+        }
+        
+        log(LogLevel.ERROR, sb.toString());
     }
     
     static public void logtrace(String msg) {
@@ -80,5 +99,9 @@ public class Logger {
     
     static public void logerror(String msg) {
         getInstance().log(LogLevel.ERROR, msg);
+    }
+    
+    static public void logexception(Exception e) {
+        getInstance().log(e);
     }
 }
