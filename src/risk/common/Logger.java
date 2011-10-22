@@ -64,9 +64,10 @@ public class Logger {
         }
     }
     
-    private void log(Exception e) {
+    private void log(Exception e, String msg) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Exception: ");
+        sb.append(msg + endLine);
+        sb.append("    Exception: ");
         sb.append(e.toString());
         sb.append(e.getMessage());
         sb.append(endLine);
@@ -101,7 +102,7 @@ public class Logger {
         getInstance().log(LogLevel.ERROR, msg);
     }
     
-    static public void logexception(Exception e) {
-        getInstance().log(e);
+    static public void logexception(Exception e, String msg) {
+        getInstance().log(e, msg);
     }
 }
