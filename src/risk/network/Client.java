@@ -7,21 +7,21 @@ import risk.common.Settings;
 
 public class Client {
     private Socket socket;
-    
+
     public boolean Connect() {
         String address = Settings.getInstance().getClientConnectAddr();
         int port = Settings.getInstance().getClientConnectPort();
-        
+
         try {
             socket = new Socket(address, port);
         } catch (IOException e) {
-            
+
             return false;
         }
-        
+
         return true;
     };
-    
+
     public void doit() {
         Socket sock = null;
 
