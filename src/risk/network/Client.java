@@ -2,60 +2,43 @@ package risk.network;
 
 import java.io.*;
 import java.net.*;
+import javax.imageio.stream.ImageOutputStream;
+import org.GNOME.Bonobo.Stream;
 import risk.*;
+import risk.common.Logger;
 import risk.common.Settings;
 
 public class Client {
     private Socket socket;
 
-    public boolean Connect() {
+    public void connect() throws IOException {
         String address = Settings.getInstance().getClientConnectAddr();
         int port = Settings.getInstance().getClientConnectPort();
 
         try {
             socket = new Socket(address, port);
         } catch (IOException e) {
-
-            return false;
+            throw new IOException("Couldn't connect to " + address + ":" + port, e);
         }
-
-        return true;
     };
 
-    public void doit() {
-        Socket sock = null;
-
-        try {
-            sock = new Socket("localhost", 34343);
-        } catch (IOException e) {
-            System.err.println("IOEx");
-            System.exit(-1);
+    public void close() throws IOException {
+        if (socket.isClosed()) {
+            return;
         }
 
         try {
-            ObjectInputStream ois = new ObjectInputStream(sock.getInputStream());
-
-            System.out.println("Reading obj");
-
-            try {
-                Person p;
-                while ((p = (Person)ois.readObject()) != null) {
-                    System.out.println(p.toString());
-                    p.Name = "00000";
-                    p.Age = 0;
-                }
-            } catch (Exception e) {
-                System.out.println("Exception");
-                System.out.println(e.getMessage());
-                System.out.println(e.getStackTrace());
-                System.exit(-2);
-            }
-
-            sock.close();
+            socket.close();
         } catch (IOException e) {
-            System.err.println("IOEx");
+            throw new IOException("Couldn't close socket", e);
         }
-
     }
 
+    public InputStream getInputStream() throws IOException {
+        return socket.getInputStream();
+    }
+
+    public OutputStream getOutputStream() throws IOException {
+        return socket.getOutputStream();
+    }
 };
