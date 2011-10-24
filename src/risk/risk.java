@@ -13,8 +13,8 @@ class Risk {
 
             if (args.length > 0) {
                 if (args[0].compareTo("server") == 0) {
-                    server s = new server();
-                    s.doit();
+                    //server s = new server();
+                    //s.doit();
                 } else if (args[0].compareTo("client") == 0) {
                     Client c = new Client();
                     try {
