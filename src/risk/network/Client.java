@@ -2,10 +2,6 @@ package risk.network;
 
 import java.io.*;
 import java.net.*;
-import javax.imageio.stream.ImageOutputStream;
-import org.GNOME.Bonobo.Stream;
-import risk.*;
-import risk.common.Logger;
 import risk.common.Settings;
 
 public class Client {
@@ -41,4 +37,4 @@ public class Client {
     public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
-};
+}

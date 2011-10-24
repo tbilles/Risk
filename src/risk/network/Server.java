@@ -2,7 +2,6 @@ package risk.network;
 
 import java.io.*;
 import java.net.*;
-import risk.*;
 import risk.common.Settings;
 
 public class Server {
@@ -39,4 +38,4 @@ public class Server {
             throw new IOException("Cannot close server socket", e);
         }
     }
-};
+}
