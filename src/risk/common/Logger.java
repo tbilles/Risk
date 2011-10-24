@@ -11,7 +11,7 @@ public class Logger {
     private FileWriter wr;
     private boolean logToConsole;
     private boolean initialized;
-    private LogLevel logLevel = LogLevel.TRACE;
+    private LogLevel logLevel = LogLevel.DEBUG;
     static private Logger instance = new Logger();
     private final String endLine = "\r\n";
 
@@ -50,6 +50,7 @@ public class Logger {
         logMsg.append(msg);
         logMsg.append(endLine);
 
+        // Log to file
         if (logFile != null) {
             try {
                 wr.write(logMsg.toString());
@@ -59,6 +60,7 @@ public class Logger {
             }
         }
 
+        // Log to console
         if (logToConsole) {
             System.out.print(logMsg.toString());
         }
@@ -86,10 +88,6 @@ public class Logger {
         if (e.getCause() != null) {
             appendException(e.getCause(), sb);
         }
-    }
-
-    static public void logtrace(String msg) {
-        getInstance().log(LogLevel.TRACE, msg);
     }
 
     static public void logdebug(String msg) {

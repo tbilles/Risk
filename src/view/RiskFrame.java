@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import risk.common.Logger;
 import risk.game.server.GameServer;
 import risk.network.*;
 /**
@@ -36,6 +37,7 @@ public class RiskFrame extends JFrame implements ActionListener{
     public RiskFrame(){
         super(appName);
         setSize(1200,800);
+        Logger.getInstance().initialize(true, "Risk.log");
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e)
