@@ -26,7 +26,7 @@ public class Logger {
         this.logFile = logFile;
         if (this.logFile != null) {
             try {
-                wr = new FileWriter(logFile);
+                wr = new FileWriter(logFile, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
