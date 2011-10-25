@@ -5,29 +5,31 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
-    private CardLayout clay=new CardLayout(); 
+    private CardLayout clay = new CardLayout();
     private ClientPanel cp;
     private ServerPanel sp;
     private JPanel empty;
-    
-    public GamePanel(){
-        
+
+    public GamePanel() {
+
         setLayout(clay);
-        empty=new JPanel();
+        empty = new JPanel();
         add(empty, "empty");
-        cp=new ClientPanel();
+        cp = new ClientPanel();
         add(cp, "client");
-        sp=new ServerPanel();
+        sp = new ServerPanel();
         add(sp, "server");
     }
-    
-    public void changeToEmpty(){
+
+    public void changeToEmpty() {
         clay.show(this, "empty");
     }
-    public void changeToServer(){
+
+    public void changeToServer() {
         clay.show(this, "server");
     }
-    public void changeToClient(){
+
+    public void changeToClient() {
         clay.show(this, "client");
     }
 }

@@ -13,24 +13,24 @@ class Risk {
 
             if (args.length > 0) {
                 if (args[0].compareTo("server") == 0) {
-                    //server s = new server();
-                    //s.doit();
+                    // server s = new server();
+                    // s.doit();
                 } else if (args[0].compareTo("client") == 0) {
                     NetworkClient c = new NetworkClient();
-                    //try {
-                        //c.connect();
-                        try {
+                    // try {
+                    // c.connect();
+                    try {
 
-                        } finally {
-                            try {
-                                c.close();
-                            } catch (IOException e) {
-                                Logger.logexception(e, "Can't close connection");
-                            }
+                    } finally {
+                        try {
+                            c.close();
+                        } catch (IOException e) {
+                            Logger.logexception(e, "Can't close connection");
                         }
-                    //} catch (IOException e) {
-                    //    Logger.logexception(e, "Can't connect to server");
-                    //}
+                    }
+                    // } catch (IOException e) {
+                    // Logger.logexception(e, "Can't connect to server");
+                    // }
 
                     // c.doit();
                 }

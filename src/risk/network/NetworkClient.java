@@ -11,7 +11,8 @@ public class NetworkClient {
         try {
             socket = new Socket(address, port);
         } catch (IOException e) {
-            throw new IOException("Couldn't connect to " + address + ":" + port, e);
+            throw new IOException(
+                    "Couldn't connect to " + address + ":" + port, e);
         }
     };
 

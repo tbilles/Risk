@@ -7,53 +7,58 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ControlPanel extends JPanel implements ActionListener{
+public class ControlPanel extends JPanel implements ActionListener {
 
     GamePanel gamePanel;
-    private boolean serverAvailable=false;
-    private boolean clientAvailable=false;
-    private boolean clientSelected=true;
+    private boolean serverAvailable = false;
+    private boolean clientAvailable = false;
+    private boolean clientSelected = true;
     JButton change;
-    
-    public ControlPanel(GamePanel parent){
-        gamePanel=parent;
-        change=new JButton();
+
+    public ControlPanel(GamePanel parent) {
+        gamePanel = parent;
+        change = new JButton();
         change.setText("No client/server started");
         setLayout(new FlowLayout());
         add(change);
         change.addActionListener(this);
     }
-    public void serverStarted(){
-        serverAvailable=true;
+
+    public void serverStarted() {
+        serverAvailable = true;
         gamePanel.changeToServer();
-        clientSelected=false;
-        if(clientAvailable) change.setText("Váltás kliensre");
-        else change.setText("Csak szerver fut");
+        clientSelected = false;
+        if (clientAvailable)
+            change.setText("VÃ¡ltÃ¡s kliensre");
+        else
+            change.setText("Csak szerver fut");
     }
-    public void clientStarted(){
-        clientAvailable=true;
+
+    public void clientStarted() {
+        clientAvailable = true;
         gamePanel.changeToClient();
-        clientSelected=true;
-        if(serverAvailable) change.setText("Váltás szerverre)");
-        else change.setText("Csak kliens fut");
+        clientSelected = true;
+        if (serverAvailable)
+            change.setText("VÃ¡ltÃ¡s szerverre)");
+        else
+            change.setText("Csak kliens fut");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==change){
-            if(clientAvailable&&serverAvailable){
-                if(clientSelected){
+        if (e.getSource() == change) {
+            if (clientAvailable && serverAvailable) {
+                if (clientSelected) {
                     gamePanel.changeToServer();
-                    change.setText("Váltás kliensre");
-                    clientSelected=false;
-                }
-                else{
+                    change.setText("Vï¿½ltï¿½s kliensre");
+                    clientSelected = false;
+                } else {
                     gamePanel.changeToClient();
-                    change.setText("Váltás szerverre");
-                    clientSelected=true;
+                    change.setText("Vï¿½ltï¿½s szerverre");
+                    clientSelected = true;
                 }
             }
         }
-        
+
     }
 }

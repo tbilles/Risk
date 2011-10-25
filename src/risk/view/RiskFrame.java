@@ -14,80 +14,83 @@ import javax.swing.JMenuItem;
 import risk.common.Logger;
 import risk.game.server.GameServer;
 import risk.network.*;
+
 /**
  * @author Tamas
- *
+ * 
  */
-public class RiskFrame extends JFrame implements ActionListener{
-    
-/* variable declarations */
-    public static String appName="Risk v0.01";
+public class RiskFrame extends JFrame implements ActionListener {
+
+    /* variable declarations */
+    public static String appName = "Risk v0.01";
     NetworkClient client;
     GameServer server;
-    /* menu */  
+    /* menu */
     JMenuBar menu = new JMenuBar();
     JMenu game = new JMenu("Game");
     JMenuItem startServer = new JMenuItem("Start new server...");
     JMenuItem startClient = new JMenuItem("Connect to server...");
 
     RiskPanel rp;
+
     /**
      * @param args
      */
-    public RiskFrame(){
+    public RiskFrame() {
         super(appName);
-        setSize(1200,800);
+        setSize(1200, 800);
         Logger.getInstance().initialize(true, "Risk.log");
         Logger.loginfo("Starting risk");
-        addWindowListener(new WindowAdapter(){
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e)
-               {
+            public void windowClosing(WindowEvent e) {
                 exit();
                 //
-               }
             }
-          );
+        });
         setJMenuBar(menu);
         game.add(startClient).addActionListener(this);
         game.add(startServer).addActionListener(this);
         menu.add(game);
         setLayout(new BorderLayout());
-        rp=new RiskPanel();
+        rp = new RiskPanel();
         add(rp, BorderLayout.CENTER);
-        
+
     }
+
     public static void main(String[] args) {
-        JFrame frame=new RiskFrame();
+        JFrame frame = new RiskFrame();
         frame.setVisible(true);
     }
-    private void exit(){
+
+    private void exit() {
         Logger.loginfo("Exit");
-        if(server!=null){
+        if (server != null) {
             server.interrupt();
         }
-        if(client!=null){
-            //client.interrupt();
+        if (client != null) {
+            // client.interrupt();
         }
         dispose();
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-       if(e.getSource()==startServer){
-           if(server==null){
-               server=new GameServer();
-               server.start();
-               rp.serverStarted();
-           }
-       }
-       if(e.getSource()==startClient){
-           if(client==null){
-               client=new NetworkClient();
-               //client.start();
-               rp.clientStarted();            
-           }
-       }
-        
+        if (e.getSource() == startServer) {
+            if (server == null) {
+                server = new GameServer();
+                server.start();
+                rp.serverStarted();
+            }
+        }
+        if (e.getSource() == startClient) {
+            if (client == null) {
+                client = new NetworkClient();
+                // client.start();
+                rp.clientStarted();
+            }
+        }
+
     }
 
 }

@@ -1,6 +1,8 @@
 package risk.common;
 
 import risk.common.LogLevel;
+import risk.utils.RiskIO;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -40,20 +42,22 @@ public class Logger {
             return;
         }
 
-        StringBuilder logMsg = new StringBuilder();
+        StringBuilder logMsgBuilder = new StringBuilder();
         Date d = new Date();
 
-        logMsg.append(d.toString());
-        logMsg.append(" - [");
-        logMsg.append(level.toString());
-        logMsg.append("] ");
-        logMsg.append(msg);
-        logMsg.append(endLine);
+        logMsgBuilder.append(d.toString());
+        logMsgBuilder.append(" - [");
+        logMsgBuilder.append(level.toString());
+        logMsgBuilder.append("] ");
+        logMsgBuilder.append(msg);
+        logMsgBuilder.append(endLine);
+
+        String logMsg = logMsgBuilder.toString();
 
         // Log to file
         if (logFile != null) {
             try {
-                wr.write(logMsg.toString());
+                wr.write(logMsg);
                 wr.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -62,7 +66,14 @@ public class Logger {
 
         // Log to console
         if (logToConsole) {
-            System.out.print(logMsg.toString());
+            System.out.print(logMsg);
+        }
+
+        // Log to GUI
+        if (Thread.currentThread().getName().compareTo("GameServerThread") == 0) {
+            RiskIO.serverPrintln(logMsg);
+        } else {
+            RiskIO.clientPrintln(logMsg);
         }
     }
 
@@ -81,8 +92,10 @@ public class Logger {
         sb.append("    Stack trace:" + endLine);
         StackTraceElement[] stkElements = e.getStackTrace();
         for (StackTraceElement stkFrame : stkElements) {
-            sb.append("        in " + stkFrame.getClassName() + "." + stkFrame.getMethodName() + " ");
-            sb.append("at " + stkFrame.getFileName() + ":" + stkFrame.getLineNumber());
+            sb.append("        in " + stkFrame.getClassName() + "."
+                    + stkFrame.getMethodName() + " ");
+            sb.append("at " + stkFrame.getFileName() + ":"
+                    + stkFrame.getLineNumber());
             sb.append(endLine);
         }
         if (e.getCause() != null) {

@@ -3,6 +3,7 @@ package risk.game.server;
 import java.io.*;
 import java.net.*;
 import risk.Baby;
+import risk.common.Logger;
 import risk.utils.RiskIO;
 
 public class GameServer extends Thread {
@@ -31,28 +32,26 @@ public class GameServer extends Thread {
                 sock.setSoTimeout(1000);
 
             } catch (IOException e) {
-                RiskIO.serverPrintln("Couldn't listen on port.");
-                // System.exit(-1);
+                Logger.logexception(e, "Couldn't listen on port.");
                 return;
             }
 
             try {
-                boolean b=true;
+                boolean b = true;
                 while (b) {
-                    try{
-                    clientSocket = sock.accept();
-                    if (clientSocket!=null) b=false;
-                    }
-                    catch(SocketTimeoutException ste){
-                        if(interrupted()){
+                    try {
+                        clientSocket = sock.accept();
+                        if (clientSocket != null)
+                            b = false;
+                    } catch (SocketTimeoutException ste) {
+                        if (interrupted()) {
                             return;
                         }
                     }
                 }
-                
+
             } catch (IOException e) {
-                RiskIO.serverPrintln("Couldn't accept on port.");
-                // System.exit(-1);
+                Logger.logexception(e, "Couldn't accept on port.");
                 return;
             }
 
@@ -76,9 +75,7 @@ public class GameServer extends Thread {
                     Thread.sleep(1000);
                 }
             } catch (IOException e) {
-                RiskIO.serverPrintln("IOexception");
-                RiskIO.serverPrintln(e.getMessage());
-                RiskIO.serverPrintln(e.getStackTrace());
+                Logger.logexception(e, "Couldn't write to socket.");
             }
         } catch (InterruptedException ie) {
 
@@ -89,9 +86,7 @@ public class GameServer extends Thread {
                 if (sock != null)
                     sock.close();
             } catch (IOException e) {
-                RiskIO.serverPrintln("IOexception");
-                RiskIO.serverPrintln(e.getMessage());
-                RiskIO.serverPrintln(e.getStackTrace());
+                Logger.logexception(e, "Couldn't close sockets");
             }
         }
 

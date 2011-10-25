@@ -6,12 +6,11 @@ public class Settings {
     private int clientConnectPort = 34343;
     private String playerName = "player";
     static private Settings instance = new Settings();
-    
+
     public static Settings getInstance() {
         return instance;
     }
-    
-    
+
     /**
      * Get the port on which the server starts to listen.
      */
@@ -53,18 +52,18 @@ public class Settings {
     public void setClientConnectPort(int clientConnectPort) {
         this.clientConnectPort = clientConnectPort;
     }
-    
+
     /**
      * Gets the name of the player.
      */
     public String getPlayerName() {
-		return playerName;
-	}
+        return playerName;
+    }
 
     /**
      * Sets the name of the player.
      */
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 }

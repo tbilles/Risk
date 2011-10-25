@@ -9,10 +9,10 @@ import javax.swing.JTextArea;
 
 public class ServerPanel extends JPanel {
 
-    public ServerPanel(){
-        JTextArea temp=RiskIO.getServerTextArea();
+    public ServerPanel() {
+        JTextArea temp = RiskIO.getServerTextArea();
         setLayout(new BorderLayout());
         add(temp, BorderLayout.CENTER);
-        
+
     }
 }
