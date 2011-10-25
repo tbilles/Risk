@@ -9,14 +9,18 @@ public class GameServer extends Thread {
     /**
      * A listener that accepts connections from clients.
      */
-    //private ConnectionListener listener;
+    // private ConnectionListener listener;
 
     /**
      * An array ConnectionHandlers that handles clients.
      */
-    //private ConnectionHandler[] clientHandlers;
-    
+    // private ConnectionHandler[] clientHandlers;
+
     // TODO: place this functionality to ConnectionListener
+    public GameServer() {
+        super("GameServerThread");
+    }
+
     @Override
     public void run() {
         ServerSocket sock = null;
@@ -24,6 +28,7 @@ public class GameServer extends Thread {
         try {
             try {
                 sock = new ServerSocket(34343);
+                sock.setSoTimeout(1000);
 
             } catch (IOException e) {
                 RiskIO.serverPrintln("Couldn't listen on port.");
@@ -32,7 +37,19 @@ public class GameServer extends Thread {
             }
 
             try {
-                clientSocket = sock.accept();
+                boolean b=true;
+                while (b) {
+                    try{
+                    clientSocket = sock.accept();
+                    if (clientSocket!=null) b=false;
+                    }
+                    catch(SocketTimeoutException ste){
+                        if(interrupted()){
+                            return;
+                        }
+                    }
+                }
+                
             } catch (IOException e) {
                 RiskIO.serverPrintln("Couldn't accept on port.");
                 // System.exit(-1);
