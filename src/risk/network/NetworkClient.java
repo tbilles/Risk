@@ -7,10 +7,7 @@ import risk.common.Settings;
 public class NetworkClient {
     private Socket socket;
 
-    public void connect() throws IOException {
-        String address = Settings.getInstance().getClientConnectAddr();
-        int port = Settings.getInstance().getClientConnectPort();
-
+    public void connect(String address, int port) throws IOException {
         try {
             socket = new Socket(address, port);
         } catch (IOException e) {

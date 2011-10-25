@@ -4,6 +4,7 @@ public class Settings {
     private int serverListenPort = 34343;
     private String clientConnectAddr = "localhost";
     private int clientConnectPort = 34343;
+    private String playerName = "player";
     static private Settings instance = new Settings();
     
     public static Settings getInstance() {
@@ -52,4 +53,18 @@ public class Settings {
     public void setClientConnectPort(int clientConnectPort) {
         this.clientConnectPort = clientConnectPort;
     }
+    
+    /**
+     * Gets the name of the player.
+     */
+    public String getPlayerName() {
+		return playerName;
+	}
+
+    /**
+     * Sets the name of the player.
+     */
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
 }

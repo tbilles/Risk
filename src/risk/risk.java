@@ -17,8 +17,8 @@ class Risk {
                     //s.doit();
                 } else if (args[0].compareTo("client") == 0) {
                     NetworkClient c = new NetworkClient();
-                    try {
-                        c.connect();
+                    //try {
+                        //c.connect();
                         try {
 
                         } finally {
@@ -28,9 +28,9 @@ class Risk {
                                 Logger.logexception(e, "Can't close connection");
                             }
                         }
-                    } catch (IOException e) {
-                        Logger.logexception(e, "Can't connect to server");
-                    }
+                    //} catch (IOException e) {
+                    //    Logger.logexception(e, "Can't connect to server");
+                    //}
 
                     // c.doit();
                 }

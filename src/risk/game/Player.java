@@ -12,4 +12,12 @@ public class Player {
      * The color of the player.
      */
     private Color color;
+
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
