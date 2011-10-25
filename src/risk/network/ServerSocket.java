@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import risk.common.Settings;
 
-public class Server {
+public class ServerSocket {
     private ServerSocket socket;
 
     public Socket acceptConnection() throws IOException {
