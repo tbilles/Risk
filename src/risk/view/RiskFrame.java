@@ -38,6 +38,7 @@ public class RiskFrame extends JFrame implements ActionListener{
         super(appName);
         setSize(1200,800);
         Logger.getInstance().initialize(true, "Risk.log");
+        Logger.loginfo("Starting risk");
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e)
@@ -61,6 +62,7 @@ public class RiskFrame extends JFrame implements ActionListener{
         frame.setVisible(true);
     }
     private void exit(){
+        Logger.loginfo("Exit");
         if(server!=null){
             server.interrupt();
         }
