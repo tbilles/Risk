@@ -1,4 +1,4 @@
-package risk.utils;
+package risk.common;
 
 import java.io.PrintStream;
 

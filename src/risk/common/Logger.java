@@ -1,7 +1,6 @@
 package risk.common;
 
 import risk.common.LogLevel;
-import risk.utils.RiskIO;
 
 import java.io.FileWriter;
 import java.io.IOException;

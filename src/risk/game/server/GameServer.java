@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import risk.Baby;
 import risk.common.Logger;
-import risk.utils.RiskIO;
+import risk.common.RiskIO;
 
 public class GameServer extends Thread {
     /**

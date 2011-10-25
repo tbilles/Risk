@@ -2,7 +2,7 @@ package risk.view;
 
 import java.awt.BorderLayout;
 
-import risk.utils.RiskIO;
+import risk.common.RiskIO;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
