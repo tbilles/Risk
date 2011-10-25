@@ -1,7 +1,7 @@
 /**
  * 
  */
-package view;
+package risk.view;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -3,7 +3,7 @@ package risk.game.server;
 import java.io.*;
 import java.net.*;
 import risk.Baby;
-import utils.RiskIO;
+import risk.utils.RiskIO;
 
 public class GameServer extends Thread {
     /**

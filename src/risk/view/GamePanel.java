@@ -1,4 +1,4 @@
-package view;
+package risk.view;
 
 import java.awt.CardLayout;
 
