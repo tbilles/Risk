@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import risk.common.Settings;
 
-public class ClientSocket {
+public class NetworkClient {
     private Socket socket;
 
     public void connect() throws IOException {

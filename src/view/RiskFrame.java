@@ -22,7 +22,7 @@ public class RiskFrame extends JFrame implements ActionListener{
     
 /* variable declarations */
     public static String appName="Risk v0.01";
-    ClientSocket client;
+    NetworkClient client;
     GameServer server;
     /* menu */  
     JMenuBar menu = new JMenuBar();
@@ -80,7 +80,7 @@ public class RiskFrame extends JFrame implements ActionListener{
        }
        if(e.getSource()==startClient){
            if(client==null){
-               client=new ClientSocket();
+               client=new NetworkClient();
                //client.start();
                rp.clientStarted();            
            }

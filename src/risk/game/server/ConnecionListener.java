@@ -1,5 +1,5 @@
 package risk.game.server;
 
 public class ConnecionListener {
-    private risk.network.ServerSocket server;
+    private risk.network.NetworkServer server;
 }

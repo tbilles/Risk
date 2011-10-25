@@ -4,14 +4,14 @@ import java.io.*;
 import java.net.*;
 import risk.common.Settings;
 
-public class ServerSocket {
-    private ServerSocket socket;
+public class NetworkServer {
+    private java.net.ServerSocket socket;
 
     public Socket acceptConnection() throws IOException {
         if (socket == null || socket.isClosed()) {
             int port = Settings.getInstance().getServerListenPort();
             try {
-                socket = new ServerSocket(port);
+                socket = new java.net.ServerSocket(port);
             } catch (IOException e) {
                 throw new IOException("Couldn't open server socket", e);
             }
