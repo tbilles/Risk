@@ -1,94 +1,61 @@
 package risk.game.server;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.*;
-import risk.Baby;
+import java.util.LinkedList;
 import risk.common.Logger;
-import risk.utils.RiskIO;
+import risk.common.Settings;
+import risk.game.Player;
+import risk.protocol.command.Command;
 
-public class GameServer extends Thread {
+public class GameServer extends Thread implements ConnectionAcceptor, CommandExecutor {
     /**
      * A listener that accepts connections from clients.
      */
-    // private ConnectionListener listener;
+    private ConnectionListener listener;
 
     /**
-     * An array ConnectionHandlers that handles clients.
+     * A list of ClientHandlers that handles clients.
      */
-    // private ConnectionHandler[] clientHandlers;
+    private LinkedList<ClientHandler> clientHandlers = new LinkedList<ClientHandler>();
+    
+    private Object clientHandlerLock = new Object();
+    private Object commandLock = new Object();
 
-    // TODO: place this functionality to ConnectionListener
     public GameServer() {
         super("GameServerThread");
     }
 
     @Override
     public void run() {
-        ServerSocket sock = null;
-        Socket clientSocket = null;
+        Logger.loginfo("Server started");
+        listener = new ConnectionListener(Settings.getInstance().getServerListenPort(), this);
+        listener.start();        
+    }
+
+    @Override
+    public void newConnection(Socket s) {
+        Logger.loginfo("New connection arrived from " + s.getInetAddress() + ":" + s.getPort());
         try {
-            try {
-                sock = new ServerSocket(34343);
-                sock.setSoTimeout(1000);
-
-            } catch (IOException e) {
-                Logger.logexception(e, "Couldn't listen on port.");
-                return;
+            ClientHandler tmp = new ClientHandler(s, this);
+            synchronized (clientHandlerLock) {
+                clientHandlers.add(tmp);
+                tmp.start();
             }
-
-            try {
-                boolean b = true;
-                while (b) {
-                    try {
-                        clientSocket = sock.accept();
-                        if (clientSocket != null)
-                            b = false;
-                    } catch (SocketTimeoutException ste) {
-                        if (interrupted()) {
-                            return;
-                        }
-                    }
-                }
-
-            } catch (IOException e) {
-                Logger.logexception(e, "Couldn't accept on port.");
-                return;
-            }
-
-            try {
-                ObjectOutputStream ous = new ObjectOutputStream(
-                        clientSocket.getOutputStream());
-                Baby p = new Baby("Tamas99999", 10, true, false);
-
-                while (p != null) {
-                    if (interrupted()) {
-                        break;
-                    } else {
-                        RiskIO.serverPrintln(p.toString());
-                        ous.writeObject(p);
-                        ous.reset();
-                        p.Age = p.Age + 1;
-                        p.Name = "." + p.Name;
-                        p.canWalk = !p.canWalk;
-                        p.criesOverNight = !p.criesOverNight;
-                    }
-                    Thread.sleep(1000);
-                }
-            } catch (IOException e) {
-                Logger.logexception(e, "Couldn't write to socket.");
-            }
-        } catch (InterruptedException ie) {
-
-        } finally {
-            try {
-                if (clientSocket != null)
-                    clientSocket.close();
-                if (sock != null)
-                    sock.close();
-            } catch (IOException e) {
-                Logger.logexception(e, "Couldn't close sockets");
-            }
+        } catch (IOException e) {
+            Logger.logexception(e, "Client connection LOST!");
         }
+    }
 
+    @Override
+    public void stoppedListening() {
+        Logger.logdebug("Stopped listening.");
+    }
+
+    @Override
+    public void QueueCommand(Command cmd, Player player) {
+        synchronized (commandLock) {
+            // TODO: add to command queue
+        }
     }
 }

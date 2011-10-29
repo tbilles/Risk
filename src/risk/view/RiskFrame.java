@@ -12,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import risk.common.Logger;
+import risk.game.client.GameClient;
 import risk.game.server.GameServer;
 import risk.network.*;
 
@@ -23,7 +24,7 @@ public class RiskFrame extends JFrame implements ActionListener {
 
     /* variable declarations */
     public static String appName = "Risk v0.01";
-    NetworkClient client;
+    GameClient client;
     GameServer server;
     /* menu */
     JMenuBar menu = new JMenuBar();
@@ -85,8 +86,8 @@ public class RiskFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == startClient) {
             if (client == null) {
-                client = new NetworkClient();
-                // client.start();
+                client = new GameClient();
+                client.start();
                 rp.clientStarted();
             }
         }

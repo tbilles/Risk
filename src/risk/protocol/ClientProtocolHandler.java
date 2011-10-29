@@ -1,5 +1,8 @@
 package risk.protocol;
 
+import java.io.IOException;
+
+import risk.common.Logger;
 import risk.game.Player;
 import risk.network.NetworkClient;
 
@@ -10,7 +13,8 @@ public class ClientProtocolHandler {
         proto = new RiskProtocol(nc);
     }
 
-    public void onConnectionEstablished(Player player) {
+    public void onConnectionEstablished(Player player) throws IOException {
+        Logger.logdebug("Sending HelloCommand");
         proto.sendHello(player);
     }
 }
