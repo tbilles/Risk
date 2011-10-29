@@ -6,6 +6,7 @@ import risk.utils.RiskIO;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
@@ -16,6 +17,7 @@ public class Logger {
     private LogLevel logLevel = LogLevel.DEBUG;
     static private Logger instance = new Logger();
     private final String endLine = "\r\n";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     static public Logger getInstance() {
         return instance;
@@ -45,10 +47,9 @@ public class Logger {
         StringBuilder logMsgBuilder = new StringBuilder();
         Date d = new Date();
 
-        logMsgBuilder.append(d.toString());
-        logMsgBuilder.append(" - [");
-        logMsgBuilder.append(level.toString());
-        logMsgBuilder.append("] ");
+        logMsgBuilder.append(sdf.format(d));
+        logMsgBuilder.append(" - [" + level.toString() + "]");
+        logMsgBuilder.append("[" + Thread.currentThread().getName() + "] ");
         logMsgBuilder.append(msg);
         logMsgBuilder.append(endLine);
 
@@ -70,7 +71,9 @@ public class Logger {
         }
 
         // Log to GUI
-        if (Thread.currentThread().getName().compareTo("GameServerThread") == 0) {
+        if (Thread.currentThread().getName().startsWith("GameServer") ||
+            Thread.currentThread().getName().startsWith("ClientHandlerGroup"))
+        {
             RiskIO.serverPrintln(logMsg);
         } else {
             RiskIO.clientPrintln(logMsg);

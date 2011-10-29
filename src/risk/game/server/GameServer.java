@@ -19,6 +19,8 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
      */
     private LinkedList<ClientHandler> clientHandlers = new LinkedList<ClientHandler>();
     
+    private ThreadGroup threadGroup = new ThreadGroup("ClientHandlerGroup");
+    
     private Object clientHandlerLock = new Object();
     private Object commandLock = new Object();
 
@@ -37,7 +39,7 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
     public void newConnection(Socket s) {
         Logger.loginfo("New connection arrived from " + s.getInetAddress() + ":" + s.getPort());
         try {
-            ClientHandler tmp = new ClientHandler(s, this);
+            ClientHandler tmp = new ClientHandler(threadGroup, s, this);
             synchronized (clientHandlerLock) {
                 clientHandlers.add(tmp);
                 tmp.start();

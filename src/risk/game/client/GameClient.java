@@ -40,7 +40,7 @@ public class GameClient extends Thread implements GameView, GameController {
                 Logger.logexception(e, "Cannot connect to server");
             }
             
-            Logger.loginfo("ClientHandler started");
+            Logger.loginfo("Connected to server");
             while (!interrupted()) {
                 try {
                     Command cmd = nc.readCommand();

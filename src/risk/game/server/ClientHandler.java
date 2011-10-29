@@ -14,7 +14,8 @@ public class ClientHandler extends Thread {
     private NetworkClient nc;
     private ServerProtocolHandler sph;
     
-    public ClientHandler(Socket s, CommandExecutor ce) throws IOException {
+    public ClientHandler(ThreadGroup tg, Socket s, CommandExecutor ce) throws IOException {
+        super(tg, tg.getName() + s.getInetAddress() + ":" + s.getPort());
         Logger.loginfo("Created clientHandler for new client");
         nc = new NetworkClient(s);
         sph = new ServerProtocolHandler(nc);
