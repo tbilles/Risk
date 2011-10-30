@@ -40,11 +40,71 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
         super("GameServerThread");
     }
 
+    /**
+     * Call this when the GameServer thread exits. This will do some cleanup
+     * and interrupt other threads.
+     */
+    private void onExit() {
+        Logger.loginfo("Exiting, interrupting server threads");
+        if (listener != null) {
+            try {
+                listener.interrupt();
+            } catch (SecurityException e) {
+                Logger.logexception(e, "Insufficient permissions to interrupt thread");
+            }
+        }
+
+        synchronized (clientHandlerLock) {
+            for (ClientHandler ch : clientHandlers) {
+                try {
+                    ch.interrupt();
+                } catch (SecurityException e) {
+                    Logger.logexception(e, "Insufficient permissions to interrupt thread");
+                }
+            }
+        }
+    }
+
     @Override
     public void run() {
-        Logger.loginfo("Server started");
+        try {
+            try {
+                Logger.loginfo("Server started");
+
+                // Start listener thread
+                startListening();
+
+                // Wait for incoming commands
+                handleCommands();
+            } finally {
+                onExit();
+            }
+        } catch (Exception e) {
+            Logger.logexception(e, "Unhandled exception");
+        }
+    }
+
+    /**
+     * This function starts the listener thread that will wait for incoming connections.
+     */
+    private void startListening() {
+        Logger.logdebug("Starting listener thread");
         listener = new ConnectionListener(Settings.getInstance().getServerListenPort(), this);
-        listener.start();        
+        listener.start();
+    }
+
+    /**
+     * This function waits for Commands being put to CommandQueue, and processes them.
+     */
+    private void handleCommands() {
+        while (!interrupted()) {
+            try {
+                // TODO: replace with command handling
+                sleep(1000);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
     }
 
     /**

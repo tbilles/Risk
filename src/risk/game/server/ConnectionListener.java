@@ -31,8 +31,7 @@ public class ConnectionListener extends Thread {
         this.acceptor = acceptor;
     }
     
-    @Override
-    public void run() {
+    private void listen() {
         try {
             // Open socket
             try {
@@ -45,18 +44,15 @@ public class ConnectionListener extends Thread {
 
             // Wait for incoming connections
             try {
-                boolean b = true;
-                while (b) {
+                while (!interrupted()) {
                     try {
                         Socket clientSocket = sock.accept();
                         acceptor.newConnection(clientSocket);
                     } catch (SocketTimeoutException ste) {
-                        if (interrupted()) {
-                            return;
-                        }
+                        // Socket timeout occurred, nothing to do.
+                        // If the thread is not interrupted, just continue accepting.
                     }
                 }
-
             } catch (IOException e) {
                 Logger.logexception(e, "Couldn't accept on port.");
                 return;
@@ -69,6 +65,15 @@ public class ConnectionListener extends Thread {
                 Logger.logexception(e, "Couldn't close sockets");
             }
             acceptor.stoppedListening();
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            listen();
+        } catch(Exception e) {
+            Logger.logexception(e, "Uncaught exception");
         }
     }
 }

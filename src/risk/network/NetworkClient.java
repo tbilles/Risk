@@ -14,9 +14,10 @@ public class NetworkClient {
         this.serverSide = serverSide;
     }
     
-    public NetworkClient(Socket socket) throws IOException {
+    public NetworkClient(Socket socket, int timeout, boolean serverSide) throws IOException {
         this.serverSide = serverSide;
-        this.socket = socket; 
+        this.socket = socket;
+        this.socket.setSoTimeout(timeout);
         try {
             // ObjectInputStream will block until the corresponding ObjectOutputStream is not created.
             // So we have to initialize them in opposite order in the server and the client.
@@ -61,6 +62,8 @@ public class NetworkClient {
         Object o;
         try {
             o = ois.readObject();
+        } catch (SocketTimeoutException e) {
+            throw e;
         } catch (IOException e) {
             throw new IOException("Cannot read command object", e);
         } catch (ClassNotFoundException e) {
