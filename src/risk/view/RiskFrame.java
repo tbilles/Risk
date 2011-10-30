@@ -70,7 +70,7 @@ public class RiskFrame extends JFrame implements ActionListener {
             server.interrupt();
         }
         if (client != null) {
-            // client.interrupt();
+            client.interrupt();
         }
         dispose();
     }

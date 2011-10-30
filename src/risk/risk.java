@@ -16,7 +16,7 @@ class Risk {
                     // server s = new server();
                     // s.doit();
                 } else if (args[0].compareTo("client") == 0) {
-                    NetworkClient c = new NetworkClient(false);
+                    NetworkClient c = new NetworkClient(1000, false);
                     // try {
                     // c.connect();
                     try {

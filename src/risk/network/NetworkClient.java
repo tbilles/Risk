@@ -9,13 +9,16 @@ public class NetworkClient {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
     private boolean serverSide;
+    private int timeout;
     
-    public NetworkClient(boolean serverSide) {
+    public NetworkClient(int timeout, boolean serverSide) {
         this.serverSide = serverSide;
+        this.timeout = timeout;
     }
     
     public NetworkClient(Socket socket, int timeout, boolean serverSide) throws IOException {
         this.serverSide = serverSide;
+        this.timeout = timeout;
         this.socket = socket;
         this.socket.setSoTimeout(timeout);
         try {
@@ -36,6 +39,7 @@ public class NetworkClient {
     public void connect(String address, int port) throws IOException {
         try {
             socket = new Socket(address, port);
+            socket.setSoTimeout(timeout);
             // ObjectInputStream will block until the corresponding ObjectOutputStream is not created.
             // So we have to initialize them in opposite order in the server and the client.
             if (serverSide) {
