@@ -9,6 +9,9 @@ import risk.network.NetworkClient;
 import risk.protocol.ServerProtocolHandler;
 import risk.protocol.command.Command;
 
+/**
+ * ClientHandler handles a client connected to the server.
+ */
 public class ClientHandler extends Thread {
     private Player player;
     private NetworkClient nc;

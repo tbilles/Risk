@@ -19,9 +19,21 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
      */
     private LinkedList<ClientHandler> clientHandlers = new LinkedList<ClientHandler>();
     
+    /**
+     * A ThreadGroup for the ClientHandler threads.
+     */
     private ThreadGroup threadGroup = new ThreadGroup("ClientHandlerGroup");
     
+    /**
+     * This object protects the ClientHandler list from being accessed/modified
+     * from more than one thread at the same time.
+     */
     private Object clientHandlerLock = new Object();
+    
+    /**
+     * This object protects the CommandQueue from being accessed/modified
+     * from more than one thread at the same time.
+     */
     private Object commandLock = new Object();
 
     public GameServer() {
@@ -35,6 +47,10 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
         listener.start();        
     }
 
+    /**
+     * This function is called by ConnectionListener upon a new connection.
+     * It creates a new ClientHander for the connection.
+     */
     @Override
     public void newConnection(Socket s) {
         Logger.loginfo("New connection arrived from " + s.getInetAddress() + ":" + s.getPort());
@@ -49,11 +65,18 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
         }
     }
 
+    /**
+     * This function is called by ConnectionListener when ConnectionListener exits.
+     */
     @Override
     public void stoppedListening() {
         Logger.logdebug("Stopped listening.");
     }
 
+    /**
+     * This function allows incoming commands to be put in a queue, that will be
+     * processed by the GameServer.
+     */
     @Override
     public void QueueCommand(Command cmd, Player player) {
         synchronized (commandLock) {
