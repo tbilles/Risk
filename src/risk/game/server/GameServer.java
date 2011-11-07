@@ -6,10 +6,14 @@ import java.util.LinkedList;
 import risk.common.Logger;
 import risk.common.RiskIO;
 import risk.common.Settings;
+import risk.game.Game;
 import risk.game.Player;
+import risk.network.QueuedSender;
+import risk.protocol.ServerCommandVisitor;
 import risk.protocol.command.Command;
+import risk.protocol.command.CommandFromClient;
 
-public class GameServer extends Thread implements ConnectionAcceptor, CommandExecutor {
+public class GameServer extends Thread implements ConnectionAcceptor, CommandExecutor, CommandSender {
     /**
      * A listener that accepts connections from clients.
      */
@@ -19,23 +23,29 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
      * A list of ClientHandlers that handles clients.
      */
     private LinkedList<ClientHandler> clientHandlers = new LinkedList<ClientHandler>();
-    
+
     /**
      * A ThreadGroup for the ClientHandler threads.
      */
     private ThreadGroup threadGroup = new ThreadGroup("ClientHandlerGroup");
-    
+
     /**
      * This object protects the ClientHandler list from being accessed/modified
      * from more than one thread at the same time.
      */
     private Object clientHandlerLock = new Object();
-    
+
+    private LinkedList<CommandFromClient> commandQueue = new LinkedList<CommandFromClient>();
+
     /**
      * This object protects the CommandQueue from being accessed/modified
      * from more than one thread at the same time.
      */
     private Object commandLock = new Object();
+
+    private static final int COMMAND_INTERRUPT_TIMEOUT = 1000;
+
+    private Game game = new Game();
 
     public GameServer() {
         super("GameServerThread");
@@ -99,12 +109,22 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
      */
     private void handleCommands() {
         while (!interrupted()) {
-            try {
-                // TODO: replace with command handling
-                sleep(1000);
-            } catch (InterruptedException e) {
-                break;
+            CommandFromClient ccmd;
+            synchronized (commandLock) {
+                if (commandQueue.isEmpty()) {
+                    try {
+                        commandLock.wait(COMMAND_INTERRUPT_TIMEOUT);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+                if (commandQueue.isEmpty())
+                    continue;
+                ccmd = commandQueue.removeFirst();
+                Logger.logdebug("Got command from CommandQueue");
             }
+            ServerCommandVisitor scv = new ServerCommandVisitor(this, game, ccmd.clientHandler);
+            ccmd.cmd.accept(scv);
         }
     }
 
@@ -139,9 +159,20 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
      * processed by the GameServer.
      */
     @Override
-    public void QueueCommand(Command cmd, Player player) {
+    public void QueueCommand(CommandFromClient ccmd) {
         synchronized (commandLock) {
-            // TODO: add to command queue
+            commandQueue.add(ccmd);
+            commandLock.notify();
+        }
+    }
+
+    @Override
+    public void sendCmd(Command cmd, Player p) {
+        synchronized (clientHandlerLock) {
+            for (ClientHandler ch : clientHandlers) {
+                if (p == null || ch.getPlayer() == p)
+                    ch.queueForSend(cmd);
+            }
         }
     }
 }

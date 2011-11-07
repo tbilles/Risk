@@ -7,8 +7,12 @@ public class HelloCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
     private String name;
     
-    public HelloCmd(Player p) {
-        name = p.getName();
+    public HelloCmd(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

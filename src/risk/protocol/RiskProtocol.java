@@ -5,18 +5,19 @@ import java.io.IOException;
 import risk.common.Logger;
 import risk.game.Player;
 import risk.network.NetworkClient;
+import risk.network.QueuedSender;
 import risk.protocol.command.HelloCmd;
 
 class RiskProtocol {
-    private NetworkClient nc;
+    private QueuedSender sender;
 
-    public RiskProtocol(NetworkClient nc) {
-        this.nc = nc;
+    public RiskProtocol(QueuedSender sender) {
+        this.sender = sender;
     }
 
-    public void sendHello(Player p) throws IOException {
+    public void sendHello(String name) throws IOException {
         Logger.logdebug("Sending Hello to server");
-        nc.writeCommand(new HelloCmd(p));
+        sender.queueForSend(new HelloCmd(name));
     }
 
 };
