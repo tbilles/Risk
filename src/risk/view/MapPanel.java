@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import risk.common.ImagePanel;
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
 import javax.swing.JLayeredPane;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
