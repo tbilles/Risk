@@ -2,7 +2,7 @@ package risk.game;
 
 import java.util.LinkedList;
 
-public class Game {
+public class Game implements GameView, GameController {
     /**
      * The map that represent the current state of the world.
      */
@@ -17,7 +17,7 @@ public class Game {
         players.add(p);
     }
 
-    public LinkedList<Player> getPlayers() {
+    public Iterable<Player> getPlayers() {
         return players;
     }
 }

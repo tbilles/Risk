@@ -13,7 +13,7 @@ import risk.protocol.ClientCommandVisitor;
 import risk.protocol.ClientProtocolHandler;
 import risk.protocol.command.Command;
 
-public class GameClient extends Thread implements GameView, GameController, IOutputQueue {
+public class GameClient extends Thread implements IOutputQueue {
     private static final int SOCKET_INTERRUPT_TIMEOUT = 1000;
     private static final int SENDER_INTERRUPT_TIMEOUT = 1000;
 

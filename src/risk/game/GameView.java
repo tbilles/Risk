@@ -6,4 +6,6 @@ public interface GameView {
     // getPlayers()
     // getMap()
     // getWinState()
+
+    public Iterable<Player> getPlayers();
 }

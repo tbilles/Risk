@@ -7,4 +7,6 @@ public interface GameController {
     // doRegroup(Country from, Country to, int howmanyunits);
     // connectToServer()
     // disconnect()
+
+    public void addPlayer(Player p);
 }
