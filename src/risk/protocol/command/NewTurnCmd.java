@@ -3,22 +3,22 @@ package risk.protocol.command;
 import risk.game.Player;
 import risk.protocol.CommandVisitor;
 
-public class PlayerJoinedCmd extends Command {
+public class NewTurnCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
-    private Player player;
-
-    public PlayerJoinedCmd(Player player) {
+    private Player nextPlayer;
+    
+    public NewTurnCmd(Player nextPlayer) {
         super();
-        this.player = player;
+        this.nextPlayer = nextPlayer;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getNextPlayer() {
+        return nextPlayer;
     }
 
     @Override
     public void accept(CommandVisitor cv) {
-        // TODO Auto-generated method stub
         cv.visit(this);
     }
+
 }

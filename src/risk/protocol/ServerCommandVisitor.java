@@ -8,10 +8,12 @@ import risk.protocol.command.*;
 public class ServerCommandVisitor implements CommandVisitor {
     private ClientHandler clientHandler;
     private CommandSender cmdSender;
-    private Game game;
+    private GameView gameView;
+    private GameController gameCtrl;
 
-    public ServerCommandVisitor(CommandSender cmdSender, Game game, ClientHandler clientHandler) {
-        this.game = game;
+    public ServerCommandVisitor(CommandSender cmdSender, GameView gameView, GameController gameCtrl, ClientHandler clientHandler) {
+        this.gameView = gameView;
+        this.gameCtrl = gameCtrl;
         this.cmdSender = cmdSender;
         this.clientHandler = clientHandler;
     }
@@ -21,20 +23,43 @@ public class ServerCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got HelloCmd!");
 
         // Get current players and send them to the new player
-        Iterable<Player> players = game.getPlayers();
+        Iterable<Player> players = gameView.getPlayers();
         for (Player p : players) {
             clientHandler.queueForSend(new PlayerJoinedCmd(p));
         }
 
         // Create new player and send it to everyone
         Player newPlayer = new Player(cmd.getName());
-        game.addPlayer(newPlayer);
+        gameCtrl.addPlayer(newPlayer);
         clientHandler.setPlayer(newPlayer);
         cmdSender.sendCmd(new PlayerJoinedCmd(newPlayer), null);
+        
+        // Check if all the players are here
+        if (gameView.getPlayers().size() == 2) {
+            startGame();
+        }
     }
 
     @Override
     public void visit(PlayerJoinedCmd cmd) {
-        Logger.logwarn("Server shouldn't receive PlayerJoinedCmd");
+        WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(GameStartedCmd cmd) {
+        WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(NewTurnCmd cmd) {
+        WrongCommand(cmd);
+    }
+
+    private void WrongCommand(Command cmd) {
+        Logger.logwarn("Server shouldn't receive " + cmd.toString());
+    }
+
+    private void startGame() {
+        cmdSender.sendCmd(new GameStartedCmd(), null);
     }
 }

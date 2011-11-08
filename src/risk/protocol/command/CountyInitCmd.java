@@ -1,24 +1,24 @@
 package risk.protocol.command;
 
-import risk.game.Player;
+import risk.game.Country;
 import risk.protocol.CommandVisitor;
 
-public class PlayerJoinedCmd extends Command {
+public class CountyInitCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
-    private Player player;
+    private Country country;
 
-    public PlayerJoinedCmd(Player player) {
+    public CountyInitCmd(Country country) {
         super();
-        this.player = player;
+        this.country = country;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Country getCountry() {
+        return country;
     }
 
     @Override
     public void accept(CommandVisitor cv) {
         // TODO Auto-generated method stub
-        cv.visit(this);
+
     }
 }

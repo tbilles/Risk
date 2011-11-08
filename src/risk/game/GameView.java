@@ -1,5 +1,7 @@
 package risk.game;
 
+import java.util.Collection;
+
 public interface GameView {
     // Will be filled with methods that are used to query the current game's
     // state.
@@ -7,5 +9,5 @@ public interface GameView {
     // getMap()
     // getWinState()
 
-    public Iterable<Player> getPlayers();
+    public Collection<Player> getPlayers();
 }

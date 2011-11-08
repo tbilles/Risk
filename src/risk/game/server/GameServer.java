@@ -123,7 +123,7 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
                 ccmd = commandQueue.removeFirst();
                 Logger.logdebug("Got command from CommandQueue");
             }
-            ServerCommandVisitor scv = new ServerCommandVisitor(this, game, ccmd.clientHandler);
+            ServerCommandVisitor scv = new ServerCommandVisitor(this, game, game, ccmd.clientHandler);
             ccmd.cmd.accept(scv);
         }
     }

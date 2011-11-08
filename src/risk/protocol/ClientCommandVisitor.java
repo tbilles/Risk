@@ -23,4 +23,14 @@ public class ClientCommandVisitor implements CommandVisitor {
         game.addPlayer(cmd.getPlayer());
     }
 
+    @Override
+    public void visit(GameStartedCmd cmd) {
+        Logger.logdebug("Game started");
+    }
+
+    @Override
+    public void visit(NewTurnCmd cmd) {
+        Logger.logdebug("New turn started for player " + cmd.getNextPlayer().getName());
+    }
+
 }

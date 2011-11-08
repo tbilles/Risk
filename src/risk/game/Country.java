@@ -4,10 +4,10 @@ import java.awt.Polygon;
 
 public class Country {
     /**
-     * A polygon that represents the borders of this country.
+     * The name of the country.
      */
-    private Polygon borders;
-
+    private String name;
+    
     /**
      * The player who controls this country.
      */
@@ -17,4 +17,8 @@ public class Country {
      * The number of units of soldiers stationed in this country.
      */
     private int troops;
+    
+    public Country(String name) {
+        this.name = name;
+    }
 }

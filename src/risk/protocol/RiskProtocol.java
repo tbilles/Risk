@@ -19,5 +19,4 @@ class RiskProtocol {
         Logger.logdebug("Sending Hello to server");
         sender.queueForSend(new HelloCmd(name));
     }
-
 };
