@@ -96,4 +96,12 @@ public class Map {
         
         continents.add(new Continent("Australia", countries));
     }
+    public Country getCountry(String countryName){
+        for(Continent c : continents){
+            if(!c.getCountry(countryName).equals(null)){
+                return c.getCountry(countryName);
+            }
+        }
+        return null;
+    }
 }

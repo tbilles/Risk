@@ -8,6 +8,10 @@ public class Country {
      */
     private String name;
     
+    public String getName() {
+        return name;
+    }
+
     /**
      * The player who controls this country.
      */

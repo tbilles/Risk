@@ -21,4 +21,9 @@ public class Game implements GameView, GameController {
     public Collection<Player> getPlayers() {
         return players;
     }
+
+    @Override
+    public Country getCountry(String countryName) {      
+        return map.getCountry(countryName);
+    }
 }
