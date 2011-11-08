@@ -29,9 +29,9 @@ public class ControlPanel extends JPanel implements ActionListener {
         gamePanel.changeToServer();
         clientSelected = false;
         if (clientAvailable)
-            change.setText("Váltás kliensre");
+            change.setText("Change to client");
         else
-            change.setText("Csak szerver fut");
+            change.setText("Only server is running");
     }
 
     public void clientStarted() {
@@ -39,9 +39,9 @@ public class ControlPanel extends JPanel implements ActionListener {
         gamePanel.changeToClient();
         clientSelected = true;
         if (serverAvailable)
-            change.setText("Váltás szerverre)");
+            change.setText("Change to server)");
         else
-            change.setText("Csak kliens fut");
+            change.setText("Only client is running");
     }
 
     @Override
@@ -50,11 +50,11 @@ public class ControlPanel extends JPanel implements ActionListener {
             if (clientAvailable && serverAvailable) {
                 if (clientSelected) {
                     gamePanel.changeToServer();
-                    change.setText("V�lt�s kliensre");
+                    change.setText("Change to client");
                     clientSelected = false;
                 } else {
                     gamePanel.changeToClient();
-                    change.setText("V�lt�s szerverre");
+                    change.setText("Change to server");
                     clientSelected = true;
                 }
             }

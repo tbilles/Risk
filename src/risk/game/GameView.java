@@ -12,4 +12,6 @@ public interface GameView {
     public Collection<Player> getPlayers();
     
     public Country getCountry(String CountryName);
+    
+    public void registerObserver(Observer o);
 }

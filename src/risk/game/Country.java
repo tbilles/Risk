@@ -17,6 +17,10 @@ public class Country {
      */
     private Player owner;
 
+    public Player getOwner() {
+        return owner;
+    }
+
     /**
      * The number of units of soldiers stationed in this country.
      */
