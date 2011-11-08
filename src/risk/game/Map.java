@@ -30,4 +30,12 @@ public class Map {
         
         countries.add(new Country(""));
     }
+    public Country getCountry(String countryName){
+        for(Continent c : continents){
+            if(!c.getCountry(countryName).equals(null)){
+                return c.getCountry(countryName);
+            }
+        }
+        return null;
+    }
 }

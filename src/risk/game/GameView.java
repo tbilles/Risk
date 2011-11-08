@@ -10,4 +10,6 @@ public interface GameView {
     // getWinState()
 
     public Collection<Player> getPlayers();
+    
+    public Country getCountry(String CountryName);
 }

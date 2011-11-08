@@ -27,4 +27,9 @@ public class Game implements GameView, GameController {
         players = new LinkedList<Player>();
         map = new Map();
     }
+
+    @Override
+    public Country getCountry(String countryName) {      
+        return map.getCountry(countryName);
+    }
 }
