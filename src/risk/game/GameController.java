@@ -9,5 +9,4 @@ public interface GameController {
     // disconnect()
 
     public void addPlayer(Player p);
-    public void reset();
 }

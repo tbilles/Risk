@@ -9,7 +9,13 @@ public class Continent {
      */
     private LinkedList<Country> countries;
     
-    public Continent(Collection<Country> countries) {
+    /**
+     * The name of the continent.
+     */
+    private String name;
+    
+    public Continent(String name, Collection<Country> countries) {
         this.countries = new LinkedList<Country>(countries);
+        this.name = name;
     }
 }

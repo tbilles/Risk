@@ -31,10 +31,10 @@ public class GameClient extends Thread implements IOutputQueue {
         String address = Settings.getInstance().getClientConnectAddr();
         int port = Settings.getInstance().getClientConnectPort();
 
+        game = new Game();
         nc = new NetworkClient(SOCKET_INTERRUPT_TIMEOUT, false);
         nc.connect(address, port);
         Logger.logdebug("Socket established to server");
-        game = new Game();
         queuedSender = new QueuedSender("ClientQueuedSenderThread", nc, SENDER_INTERRUPT_TIMEOUT);
         queuedSender.start();
         cph = new ClientProtocolHandler(queuedSender);

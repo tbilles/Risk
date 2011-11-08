@@ -7,12 +7,12 @@ public class Game implements GameView, GameController {
     /**
      * The map that represent the current state of the world.
      */
-    private Map map;
+    private Map map = new Map();
 
     /**
      * A list of players.
      */
-    private LinkedList<Player> players;
+    private LinkedList<Player> players = new LinkedList<Player>();
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -20,11 +20,5 @@ public class Game implements GameView, GameController {
 
     public Collection<Player> getPlayers() {
         return players;
-    }
-
-    @Override
-    public void reset() {
-        players = new LinkedList<Player>();
-        map = new Map();
     }
 }
