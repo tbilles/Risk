@@ -21,6 +21,10 @@ public class Country {
         return owner;
     }
 
+    public int getTroops() {
+        return troops;
+    }
+
     /**
      * The number of units of soldiers stationed in this country.
      */

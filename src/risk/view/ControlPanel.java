@@ -39,7 +39,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         gamePanel.changeToClient();
         clientSelected = true;
         if (serverAvailable)
-            change.setText("Change to server)");
+            change.setText("Change to server");
         else
             change.setText("Only client is running");
     }

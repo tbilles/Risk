@@ -13,5 +13,6 @@ public CountryButton(String CountryName){
 }
 public void refresh(GameView view){
     setBackground(view.getCountry(country).getOwner().getColor());
+    setText(view.getCountry(country).getTroops()+"");
 }
 }
