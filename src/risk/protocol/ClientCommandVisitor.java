@@ -45,4 +45,10 @@ public class ClientCommandVisitor implements CommandVisitor {
         gameCtrl.initCountry(newCountry);
     }
 
+    @Override
+    public void visit(GameEndedCmd cmd) {
+        String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
+        Logger.logdebug("Got GameEnded command: " + cmd.getPlayer().getName() + " has " + reason);
+    }
+
 }

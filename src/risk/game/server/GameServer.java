@@ -12,6 +12,7 @@ import risk.network.QueuedSender;
 import risk.protocol.ServerCommandVisitor;
 import risk.protocol.command.Command;
 import risk.protocol.command.CommandFromClient;
+import risk.protocol.command.GameEndedCmd;
 
 public class GameServer extends Thread implements ConnectionAcceptor, CommandExecutor, CommandSender {
     /**
@@ -46,6 +47,8 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
     private static final int COMMAND_INTERRUPT_TIMEOUT = 1000;
 
     private Game game = new Game();
+
+    private boolean closingDown = false;
 
     public GameServer() {
         super("GameServerThread");
@@ -136,7 +139,7 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
     public void newConnection(Socket s) {
         Logger.loginfo("New connection arrived from " + s.getInetAddress() + ":" + s.getPort());
         try {
-            ClientHandler tmp = new ClientHandler(threadGroup, s, this);
+            ClientHandler tmp = new ClientHandler(threadGroup, s, this, this);
             synchronized (clientHandlerLock) {
                 clientHandlers.add(tmp);
                 tmp.start();
@@ -173,6 +176,23 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
                 if (p == null || ch.getPlayer() == p)
                     ch.queueForSend(cmd);
             }
+        }
+    }
+
+    @Override
+    public void connectionLost(ClientHandler ch) {
+        boolean needSend = false;
+        synchronized (clientHandlerLock) {
+            clientHandlers.remove(ch);
+            if (!closingDown) {
+                closingDown = true;
+                needSend  = true;
+            }
+        }
+        if (needSend) {
+            Logger.logdebug("Connection lost, notifying users");
+            Player p = ch.getPlayer();
+            sendCmd(new GameEndedCmd(p, GameEndedCmd.QUIT), null);
         }
     }
 }

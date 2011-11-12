@@ -9,6 +9,7 @@ import risk.game.*;
 import risk.network.IOutputQueue;
 import risk.network.NetworkClient;
 import risk.network.QueuedSender;
+import risk.network.SocketClosedException;
 import risk.protocol.ClientCommandVisitor;
 import risk.protocol.ClientProtocolHandler;
 import risk.protocol.command.Command;
@@ -22,6 +23,7 @@ public class GameClient extends Thread implements IOutputQueue {
     private Player myPlayer;
     private Game game;
     private QueuedSender queuedSender;
+    private boolean serverIsAlive = false;
 
     public GameClient() {
         super("ClientThread");
@@ -39,6 +41,7 @@ public class GameClient extends Thread implements IOutputQueue {
         queuedSender.start();
         cph = new ClientProtocolHandler(queuedSender);
         cph.onConnectionEstablished(Settings.getInstance().getPlayerName());
+        serverIsAlive = true;
     }
     
     @Override
@@ -53,14 +56,18 @@ public class GameClient extends Thread implements IOutputQueue {
                 }
 
                 Logger.loginfo("Connected to server");
-                while (!interrupted()) {
+                while (!interrupted() && serverIsAlive) {
                     try {
                         Command cmd = nc.readCommand();
                         ClientCommandVisitor ccv = new ClientCommandVisitor(game, game);
                         cmd.accept(ccv);
                     } catch (SocketTimeoutException e) {
+                    } catch (SocketClosedException e) {
+                        serverIsAlive = false;
+                        Logger.loginfo("Server closed connection");
                     } catch (IOException e) {
                         Logger.logexception(e, "Couldn't read Command");
+                        serverIsAlive = false;
                     }
                 }
             } finally {

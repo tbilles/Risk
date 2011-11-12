@@ -8,5 +8,6 @@ import java.net.Socket;
  */
 public interface ConnectionAcceptor {
     public void newConnection(Socket s);
+    public void connectionLost(ClientHandler ch);
     public void stoppedListening();
 }

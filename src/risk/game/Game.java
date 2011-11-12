@@ -13,13 +13,17 @@ public class Game implements GameView, GameController {
     /**
      * A list of players.
      */
-    
-    private ArrayList<Observer> observers=new ArrayList<Observer>();
     private LinkedList<Player> players = new LinkedList<Player>();
+
+    /**
+     * A list of obersvers for the Observer design pattern.
+     */
+    private ArrayList<Observer> observers=new ArrayList<Observer>();
+
 
     public void addPlayer(Player p) {
         players.add(p);
-        
+
         modelChanged();
     }
 
@@ -71,7 +75,7 @@ public class Game implements GameView, GameController {
         observers.add(o);
         modelChanged();
     }
-    
+
     private void modelChanged(){
         for(Observer o : observers){
             o.refresh(this);

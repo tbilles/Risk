@@ -70,6 +70,8 @@ public class NetworkClient {
             o = ois.readObject();
         } catch (SocketTimeoutException e) {
             throw e;
+        } catch (EOFException e) {
+            throw new SocketClosedException("Socket closed", e);
         } catch (IOException e) {
             throw new IOException("Cannot read command object", e);
         } catch (ClassNotFoundException e) {

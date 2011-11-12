@@ -65,6 +65,11 @@ public class ServerCommandVisitor implements CommandVisitor {
         WrongCommand(cmd);
     }
 
+    @Override
+    public void visit(GameEndedCmd cmd) {
+        WrongCommand(cmd);
+    }
+
     private void WrongCommand(Command cmd) {
         Logger.logwarn("Server shouldn't receive " + cmd.toString());
     }
