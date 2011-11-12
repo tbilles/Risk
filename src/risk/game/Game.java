@@ -100,4 +100,21 @@ public class Game implements GameView, GameController {
         }
         return 0;
     }
+
+    @Override
+    public void cancelCountrySelection(Country c) {
+        // TODO: implement
+        // Also cancel neighbour countries
+    }
+
+    @Override
+    public void selectCountry(Country c) {
+        // Also select neighbour countries
+    }
+
+    @Override
+    public boolean isCountryNeighbourSelected(Country c) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import risk.game.GameView;
+import risk.game.Controller;
 
 public class ControlPanel extends JPanel implements ActionListener {
 
@@ -35,9 +35,9 @@ public class ControlPanel extends JPanel implements ActionListener {
             change.setText("Only server is running");
     }
 
-    public void clientStarted(GameView gameView) {
+    public void clientStarted(Controller controller) {
         clientAvailable = true;
-        gamePanel.clientStarted(gameView);
+        gamePanel.clientStarted(controller);
         gamePanel.changeToClient();
         clientSelected = true;
         if (serverAvailable)

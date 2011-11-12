@@ -20,6 +20,7 @@ public interface GameView {
     public Country getCountry(String countryName);
     public Color getCountryColor(String countryName);
     public int getCountryTroops(String countryName);
+    public boolean isCountryNeighbourSelected(Country c);
     
     public void registerObserver(Observer o);
 }

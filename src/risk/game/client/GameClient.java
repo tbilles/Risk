@@ -21,6 +21,7 @@ public class GameClient extends Thread implements IOutputQueue {
     private NetworkClient nc;
     private ClientProtocolHandler cph;
     private Game game = new Game();
+    private Controller controller = new ClientGameLogic(game, game);
     private QueuedSender queuedSender;
     private boolean serverIsAlive = false;
 
@@ -30,6 +31,10 @@ public class GameClient extends Thread implements IOutputQueue {
 
     public GameView getGameView() {
         return game;
+    }
+    
+    public Controller getController() {
+        return controller;
     }
     
     public void ConnectToServer() throws IOException {

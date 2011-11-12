@@ -10,4 +10,7 @@ public interface GameController {
 
     public void addPlayer(Player p);
     public void initCountry(Country newCountry);
+
+    public void cancelCountrySelection(Country c);
+    public void selectCountry(Country c);
 }
