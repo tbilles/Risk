@@ -111,4 +111,10 @@ public class Game implements GameView, GameController {
     public void selectCountry(Country c) {
         // Also select neighbour countries
     }
+
+    @Override
+    public boolean isCountryNeighbourSelected(Country c) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

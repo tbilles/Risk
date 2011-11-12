@@ -18,7 +18,6 @@ public class Country implements Serializable {
     private Player owner;
     
     private transient boolean selected;
-    private transient boolean neightbourSelected;
 
     public Player getOwner() {
         return owner;
@@ -55,13 +54,5 @@ public class Country implements Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public boolean isNeightbourSelected() {
-        return neightbourSelected;
-    }
-
-    public void setNeightbourSelected(boolean neightbourSelected) {
-        this.neightbourSelected = neightbourSelected;
     }
 }
