@@ -39,7 +39,7 @@ public class RiskFrame extends JFrame implements ActionListener {
      */
     public RiskFrame() {
         super(appName);
-        setSize(1160, 790);
+        setSize(1280, 735);
         setResizable(false);
         Logger.getInstance().initialize(true, "Risk.log");
         Logger.loginfo("Starting risk");

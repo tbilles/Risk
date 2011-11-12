@@ -13,16 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class ClientPanel extends JPanel implements Observer{
-    MapPanel map=new MapPanel();    
+    MapPanel map=new MapPanel();
+    FeedbackPanel fbp=new FeedbackPanel();
     public ClientPanel() {
-        JTextArea temp = RiskIO.getClientTextArea();
-        temp.setRows(3);
-        JScrollPane sp=new JScrollPane(temp);
         setLayout(new BorderLayout());
-        add(sp, BorderLayout.NORTH);
         add(map, BorderLayout.CENTER);
+        add(fbp, BorderLayout.EAST);
     }
     public void refresh(GameView view){
         map.refresh(view);
+        fbp.refresh(view);
     }
 }
