@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import risk.common.Logger;
 import risk.game.client.GameClient;
@@ -79,16 +80,41 @@ public class RiskFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startServer) {
+            if (server != null) {
+                int answer = JOptionPane
+                        .showConfirmDialog(
+                                this,
+                                "A server is already running. Do you want to finish it, and start a new client?",
+                                "Warning!", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    // the current server should be terminated correctly
+                    server = null;
+                }
+            }
             if (server == null) {
-                server = new GameServer();
-                server.start();
-                rp.serverStarted();
+                ServerStartDialog ssd = new ServerStartDialog(this);
+                if (ServerStartDialog.isCreateServer()) {
+                    server = new GameServer();
+                    server.start();
+                    rp.serverStarted();
+                }
             }
         }
         if (e.getSource() == startClient) {
+            if (client != null) {
+                int answer = JOptionPane
+                        .showConfirmDialog(
+                                this,
+                                "A client is already running. Do you want to finish it, and start a new server?",
+                                "Warning!", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    // the current client should be terminated correctly
+                    client = null;
+                }
+            }
             if (client == null) {
-                ClientStartDialog csd=new ClientStartDialog(this);
-                if(ClientStartDialog.isCreateClient()){
+                ClientStartDialog csd = new ClientStartDialog(this);
+                if (ClientStartDialog.isCreateClient()) {
                     client = new GameClient();
                     client.start();
                     rp.clientStarted();
