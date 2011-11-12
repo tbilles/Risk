@@ -105,7 +105,7 @@ public class RiskFrame extends JFrame implements ActionListener {
                 int answer = JOptionPane
                         .showConfirmDialog(
                                 this,
-                                "A client is already running. Do you want to finish it, and start a new client?",
+                                "A client is already running. Do you want to finish it, and start a new server?",
                                 "Warning!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     // the current client should be terminated correctly

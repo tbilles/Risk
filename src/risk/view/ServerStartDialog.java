@@ -38,7 +38,7 @@ public class ServerStartDialog extends JDialog {
      * Create the dialog.
      */
     public ServerStartDialog(RiskFrame frame) {
-        super(frame, "Start new client...", true);
+        super(frame, "Start new server...", true);
 
         try {
             serverName=InetAddress.getLocalHost().getHostName();
@@ -61,6 +61,7 @@ public class ServerStartDialog extends JDialog {
         }
         {
             serverNameTextField = new JTextField();
+            serverNameTextField.setEditable(false);
             serverNameTextField.setText(serverName);
             contentPanel.add(serverNameTextField);
             serverNameTextField.setColumns(10);
@@ -71,6 +72,7 @@ public class ServerStartDialog extends JDialog {
         }
         {
             serverIPTextField = new JTextField();
+            serverIPTextField.setEditable(false);
             serverIPTextField.setText(serverAddress);
             contentPanel.add(serverIPTextField);
             serverIPTextField.setColumns(10);
