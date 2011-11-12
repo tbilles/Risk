@@ -3,8 +3,6 @@ package risk.protocol;
 import java.io.IOException;
 
 import risk.common.Logger;
-import risk.game.Player;
-import risk.network.NetworkClient;
 import risk.network.QueuedSender;
 import risk.protocol.command.HelloCmd;
 

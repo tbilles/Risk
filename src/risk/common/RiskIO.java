@@ -1,7 +1,5 @@
 package risk.common;
 
-import java.io.PrintStream;
-
 import javax.swing.JTextArea;
 
 public class RiskIO {

@@ -2,9 +2,6 @@ package risk.protocol;
 
 import java.io.IOException;
 
-import risk.common.Logger;
-import risk.game.Player;
-import risk.network.NetworkClient;
 import risk.network.QueuedSender;
 
 public class ClientProtocolHandler extends RiskProtocol {

@@ -20,7 +20,6 @@ public class GameClient extends Thread implements IOutputQueue {
 
     private NetworkClient nc;
     private ClientProtocolHandler cph;
-    private Player myPlayer;
     private Game game;
     private QueuedSender queuedSender;
     private boolean serverIsAlive = false;

@@ -2,7 +2,6 @@ package risk.game;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Iterator;
 
 public class Continent {
     /**

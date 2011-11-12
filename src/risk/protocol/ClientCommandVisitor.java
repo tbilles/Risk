@@ -2,7 +2,6 @@ package risk.protocol;
 
 import risk.common.Logger;
 import risk.game.Country;
-import risk.game.Game;
 import risk.game.GameController;
 import risk.game.GameView;
 import risk.protocol.command.*;
