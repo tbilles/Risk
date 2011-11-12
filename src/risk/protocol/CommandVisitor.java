@@ -7,4 +7,5 @@ public interface CommandVisitor {
     public void visit(PlayerJoinedCmd cmd);
     public void visit(GameStartedCmd cmd);
     public void visit(NewTurnCmd cmd);
+    public void visit(CountyInitCmd cmd);
 }

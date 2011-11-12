@@ -1,5 +1,6 @@
 package risk.game;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Map {
@@ -96,12 +97,19 @@ public class Map {
         
         continents.add(new Continent("Australia", countries));
     }
-    public Country getCountry(String countryName){
-        for(Continent c : continents){
-            if(!c.getCountry(countryName).equals(null)){
-                return c.getCountry(countryName);
+    
+    public Country getCountry(String countryName) {
+        for(Continent c : continents) {
+            for (Country country : c.getCountries()) {
+                if (country.getName().compareTo(countryName) == 0) {
+                    return country;
+                }
             }
         }
         return null;
+    }
+
+    public Collection<Continent> getContinents() {
+        return continents;
     }
 }

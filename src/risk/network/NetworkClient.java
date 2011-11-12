@@ -2,6 +2,8 @@ package risk.network;
 
 import java.io.*;
 import java.net.*;
+
+import risk.common.Logger;
 import risk.protocol.command.Command;
 
 public class NetworkClient {
@@ -81,6 +83,8 @@ public class NetworkClient {
     public void writeCommand(Command cmd) throws IOException {
         try {
             oos.writeObject(cmd);
+            oos.flush();
+            Logger.logdebug("Command sent");
         } catch (IOException e) {
             throw new IOException("Cannot write Command object to network", e);
         }

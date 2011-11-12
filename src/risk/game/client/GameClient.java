@@ -56,7 +56,7 @@ public class GameClient extends Thread implements IOutputQueue {
                 while (!interrupted()) {
                     try {
                         Command cmd = nc.readCommand();
-                        ClientCommandVisitor ccv = new ClientCommandVisitor(game);
+                        ClientCommandVisitor ccv = new ClientCommandVisitor(game, game);
                         cmd.accept(ccv);
                     } catch (SocketTimeoutException e) {
                     } catch (IOException e) {

@@ -18,7 +18,6 @@ public class CountyInitCmd extends Command {
 
     @Override
     public void accept(CommandVisitor cv) {
-        // TODO Auto-generated method stub
-
+        cv.visit(this);
     }
 }

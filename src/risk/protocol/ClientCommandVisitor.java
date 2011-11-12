@@ -1,15 +1,20 @@
 package risk.protocol;
 
 import risk.common.Logger;
+import risk.game.Country;
 import risk.game.Game;
+import risk.game.GameController;
+import risk.game.GameView;
 import risk.protocol.command.*;
 
 public class ClientCommandVisitor implements CommandVisitor {
-    private Game game;
+    private GameView gameView;
+    private GameController gameCtrl;
 
-    public ClientCommandVisitor(Game game) {
+    public ClientCommandVisitor(GameView gameView, GameController gameCtrl) {
         super();
-        this.game = game;
+        this.gameView = gameView;
+        this.gameCtrl = gameCtrl;
     }
 
     @Override
@@ -20,7 +25,7 @@ public class ClientCommandVisitor implements CommandVisitor {
     @Override
     public void visit(PlayerJoinedCmd cmd) {
         Logger.logdebug("Got PlayerJoinedCmd: " + cmd.getPlayer().getName());
-        game.addPlayer(cmd.getPlayer());
+        gameCtrl.addPlayer(cmd.getPlayer());
     }
 
     @Override
@@ -31,6 +36,13 @@ public class ClientCommandVisitor implements CommandVisitor {
     @Override
     public void visit(NewTurnCmd cmd) {
         Logger.logdebug("New turn started for player " + cmd.getNextPlayer().getName());
+    }
+
+    @Override
+    public void visit(CountyInitCmd cmd) {
+        Logger.logdebug("Got CountryInitCmd!");
+        Country newCountry = cmd.getCountry();
+        gameCtrl.initCountry(newCountry);
     }
 
 }

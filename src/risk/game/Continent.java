@@ -25,4 +25,8 @@ public class Continent {
         }
         return null;
     }
+    
+    public Collection<Country> getCountries() {
+        return countries;
+    }
 }

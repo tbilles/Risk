@@ -1,17 +1,17 @@
 package risk.game;
 
-import java.awt.Polygon;
+import java.io.Serializable;
 
-public class Country {
+import risk.protocol.command.Command;
+
+public class Country implements Serializable {
+    private static final long serialVersionUID = Command.serialVersionUID;
+
     /**
      * The name of the country.
      */
     private String name;
     
-    public String getName() {
-        return name;
-    }
-
     /**
      * The player who controls this country.
      */
@@ -24,5 +24,25 @@ public class Country {
     
     public Country(String name) {
         this.name = name;
+    }
+    
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setTroops(int i) {
+        troops = i;
+    }
+
+    public int getTroops() {
+        return troops;
     }
 }
