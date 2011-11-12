@@ -19,6 +19,8 @@ public class Game implements GameView, GameController {
 
     public void addPlayer(Player p) {
         players.add(p);
+        
+        modelChanged();
     }
 
     public Collection<Player> getPlayers() {
@@ -60,11 +62,14 @@ public class Game implements GameView, GameController {
         Player newOwner = getPlayer(newCountry.getOwner().getName());
         oldCountry.setOwner(newOwner);
         oldCountry.setTroops(newCountry.getTroops());
+        
+        modelChanged();
     }
     
     @Override
     public void registerObserver(Observer o) {
         observers.add(o);
+        modelChanged();
     }
     
     private void modelChanged(){
