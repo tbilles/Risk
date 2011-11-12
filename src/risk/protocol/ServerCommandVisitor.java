@@ -1,5 +1,6 @@
 package risk.protocol;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,12 +16,21 @@ public class ServerCommandVisitor implements CommandVisitor {
     private CommandSender cmdSender;
     private GameView gameView;
     private GameController gameCtrl;
+    private ArrayList<Color> colors;
 
     public ServerCommandVisitor(CommandSender cmdSender, GameView gameView, GameController gameCtrl, ClientHandler clientHandler) {
         this.gameView = gameView;
         this.gameCtrl = gameCtrl;
         this.cmdSender = cmdSender;
         this.clientHandler = clientHandler;
+        
+        colors = new ArrayList<Color>();
+        colors.add(new Color(200, 0, 0)); // Red
+        colors.add(new Color(0, 0, 200)); // Blue
+        colors.add(new Color(0, 200, 0)); // Green
+        colors.add(new Color(200, 200, 0)); // Yellow
+        colors.add(new Color(200, 0, 200)); // Magenta
+        colors.add(new Color(0, 200, 200)); // Cyan
     }
 
     @Override
@@ -34,7 +44,7 @@ public class ServerCommandVisitor implements CommandVisitor {
         }
 
         // Create new player and send it to everyone
-        Player newPlayer = new Player(cmd.getName());
+        Player newPlayer = new Player(cmd.getName(), colors.get(gameView.getPlayers().size()));
         gameCtrl.addPlayer(newPlayer);
         clientHandler.setPlayer(newPlayer);
         cmdSender.sendCmd(new PlayerJoinedCmd(newPlayer), null);
@@ -83,10 +93,12 @@ public class ServerCommandVisitor implements CommandVisitor {
         Random r = new Random();
         Iterator<Player> playerIterator = players.iterator(); 
         while (!countries.isEmpty()) {
+            Logger.logdebug("Countries: " + countries.size());
             // Generate random number
             int rand = r.nextInt(countries.size());
             // Set random country to be owned by the next player
             Country c = countries.get(rand); 
+            Logger.logdebug("Country name: " + c.getName());
             c.setOwner(playerIterator.next());
             c.setTroops(1);
             // Remove Country from the 'unowned' countries list

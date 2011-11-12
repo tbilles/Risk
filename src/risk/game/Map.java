@@ -35,13 +35,13 @@ public class Map {
     private void initNorthAmerica() {
         LinkedList<Country> countries = new LinkedList<Country>();
         countries.add(new Country("Alaska"));
-        countries.add(new Country("Nortwest Territory"));
+        countries.add(new Country("Northwest Territory"));
         countries.add(new Country("Greenland"));
         countries.add(new Country("Alberta"));
         countries.add(new Country("Ontario"));
         countries.add(new Country("Eastern Canada"));
-        countries.add(new Country("Westerns United States"));
-        countries.add(new Country("Easterns United States"));
+        countries.add(new Country("Western United States"));
+        countries.add(new Country("Eastern United States"));
         countries.add(new Country("Central America"));
         
         continents.add(new Continent("North America", countries));

@@ -1,5 +1,6 @@
 package risk.game;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -80,5 +81,23 @@ public class Game implements GameView, GameController {
         for(Observer o : observers){
             o.refresh(this);
         }
+    }
+
+    @Override
+    public Color getCountryColor(String countryName) {
+        Country c = getCountry(countryName);
+        if (c != null && c.getOwner() != null) {
+            return c.getOwner().getColor();
+        }
+        return null;
+    }
+
+    @Override
+    public int getCountryTroops(String countryName) {
+        Country c = getCountry(countryName);
+        if (c != null) {
+            return c.getTroops();
+        }
+        return 0;
     }
 }

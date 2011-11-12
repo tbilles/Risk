@@ -20,7 +20,7 @@ public class GameClient extends Thread implements IOutputQueue {
 
     private NetworkClient nc;
     private ClientProtocolHandler cph;
-    private Game game;
+    private Game game = new Game();
     private QueuedSender queuedSender;
     private boolean serverIsAlive = false;
 
@@ -28,11 +28,14 @@ public class GameClient extends Thread implements IOutputQueue {
         super("ClientThread");
     }
 
+    public GameView getGameView() {
+        return game;
+    }
+    
     public void ConnectToServer() throws IOException {
         String address = Settings.getInstance().getClientConnectAddr();
         int port = Settings.getInstance().getClientConnectPort();
 
-        game = new Game();
         nc = new NetworkClient(SOCKET_INTERRUPT_TIMEOUT, false);
         nc.connect(address, port);
         Logger.logdebug("Socket established to server");

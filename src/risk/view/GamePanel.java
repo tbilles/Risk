@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
+import risk.game.GameView;
 import risk.view.client.ClientPanel;
 import risk.view.server.ServerPanel;
 
@@ -34,5 +35,9 @@ public class GamePanel extends JPanel {
 
     public void changeToClient() {
         clay.show(this, "client");
+    }
+
+    public void clientStarted(GameView gameView) {
+        gameView.registerObserver(cp);
     }
 }

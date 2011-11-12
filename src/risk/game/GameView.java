@@ -1,5 +1,6 @@
 package risk.game;
 
+import java.awt.Color;
 import java.util.Collection;
 
 import risk.game.Continent;
@@ -16,7 +17,9 @@ public interface GameView {
     
     public Collection<Continent> getContinents();
     public Collection<Country> getCountries();
-    public Country getCountry(String CountryName);
+    public Country getCountry(String countryName);
+    public Color getCountryColor(String countryName);
+    public int getCountryTroops(String countryName);
     
     public void registerObserver(Observer o);
 }

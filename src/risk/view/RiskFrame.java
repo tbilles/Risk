@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import risk.common.Logger;
 import risk.game.client.GameClient;
 import risk.game.server.GameServer;
-import risk.network.*;
 
 /**
  * @author Tamas
@@ -117,7 +116,7 @@ public class RiskFrame extends JFrame implements ActionListener {
                 if (ClientStartDialog.isCreateClient()) {
                     client = new GameClient();
                     client.start();
-                    rp.clientStarted();
+                    rp.clientStarted(client.getGameView());
                 }
             }
         }

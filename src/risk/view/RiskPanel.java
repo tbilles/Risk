@@ -3,6 +3,7 @@ package risk.view;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import risk.game.GameView;
 
 public class RiskPanel extends JPanel {
     ControlPanel cp;
@@ -21,7 +22,7 @@ public class RiskPanel extends JPanel {
         cp.serverStarted();
     }
 
-    public void clientStarted() {
-        cp.clientStarted();
+    public void clientStarted(GameView gView) {
+        cp.clientStarted(gView);
     }
 }
