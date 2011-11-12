@@ -87,9 +87,12 @@ public class RiskFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == startClient) {
             if (client == null) {
-                client = new GameClient();
-                client.start();
-                rp.clientStarted();
+                ClientStartDialog csd=new ClientStartDialog(this);
+                if(ClientStartDialog.isCreateClient()){
+                    client = new GameClient();
+                    client.start();
+                    rp.clientStarted();
+                }
             }
         }
 
