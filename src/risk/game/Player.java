@@ -16,6 +16,10 @@ public class Player implements Serializable{
      */
     private Color color;
 
+    public Color getColor() {
+        return color;
+    }
+
     public Player(String name) {
         this.name = name;
     }

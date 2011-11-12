@@ -13,6 +13,8 @@ public class Game implements GameView, GameController {
     /**
      * A list of players.
      */
+    
+    private ArrayList<Observer> observers=new ArrayList<Observer>();
     private LinkedList<Player> players = new LinkedList<Player>();
 
     public void addPlayer(Player p) {
@@ -60,4 +62,14 @@ public class Game implements GameView, GameController {
         oldCountry.setTroops(newCountry.getTroops());
     }
     
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+    
+    private void modelChanged(){
+        for(Observer o : observers){
+            o.refresh(this);
+        }
+    }
 }

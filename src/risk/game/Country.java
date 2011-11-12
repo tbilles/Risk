@@ -17,6 +17,14 @@ public class Country implements Serializable {
      */
     private Player owner;
 
+    public Player getOwner() {
+        return owner;
+    }
+
+    public int getTroops() {
+        return troops;
+    }
+
     /**
      * The number of units of soldiers stationed in this country.
      */
