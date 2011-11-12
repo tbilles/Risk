@@ -34,10 +34,6 @@ public class Country implements Serializable {
         this.name = name;
     }
     
-    public Player getOwner() {
-        return owner;
-    }
-
     public void setOwner(Player owner) {
         this.owner = owner;
     }
@@ -48,9 +44,5 @@ public class Country implements Serializable {
 
     public void setTroops(int i) {
         troops = i;
-    }
-
-    public int getTroops() {
-        return troops;
     }
 }
