@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
+import risk.view.client.ClientPanel;
+import risk.view.server.ServerPanel;
+
 public class GamePanel extends JPanel {
     private CardLayout clay = new CardLayout();
     private ClientPanel cp;

@@ -1,4 +1,4 @@
-package risk.view;
+package risk.view.client;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -14,7 +14,7 @@ import java.awt.Dimension;
 import java.util.HashMap;
 
 public class MapPanel extends JPanel {
-    ImageIcon image=new ImageIcon(getClass().getResource("/risk/view/Risk_small_names.jpg"));
+    ImageIcon image=new ImageIcon(getClass().getResource("/risk/view/client/resource/Risk_small_names.jpg"));
     JLayeredPane map= new JLayeredPane();
     HashMap<String, CountryButton> countryButtons=new HashMap<String, CountryButton>();
     /**

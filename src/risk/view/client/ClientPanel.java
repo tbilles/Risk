@@ -1,4 +1,4 @@
-package risk.view;
+package risk.view.client;
 
 import java.awt.BorderLayout;
 
