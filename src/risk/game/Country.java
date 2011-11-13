@@ -1,6 +1,8 @@
 package risk.game;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import risk.protocol.command.Command;
 
@@ -17,6 +19,14 @@ public class Country implements Serializable {
      */
     private Player owner;
     
+    /**
+     * A list of countries that are reachable from this country.
+     */
+    private LinkedList<Country> neighbours;
+    
+    /**
+     * Indicates whether the country is selected or not.
+     */
     private transient boolean selected;
 
     public Player getOwner() {
@@ -54,5 +64,17 @@ public class Country implements Serializable {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public Collection<Country> getNeighbours() {
+        return neighbours;
+    }
+
+    public void addNeighbour(Country neighbour) {
+        if (neighbours == null) {
+            neighbours = new LinkedList<Country>();
+        }
+        
+        this.neighbours.add(neighbour);
     }
 }

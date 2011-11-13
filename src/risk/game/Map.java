@@ -1,5 +1,6 @@
 package risk.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -18,6 +19,8 @@ public class Map {
         initAsia();
         initAfrica();
         initAustralia();
+        
+        setNeighbours();
     }
 
     private void initEurope() {
@@ -97,6 +100,15 @@ public class Map {
         
         continents.add(new Continent("Australia", countries));
     }
+
+    private void setNeighbours() {
+        Country center;
+        
+        center = getCountry("Alaska");
+        center.addNeighbour(getCountry("Kamchatka"));
+        center.addNeighbour(getCountry("Nothwest Territory"));
+        center.addNeighbour(getCountry("Alberta"));
+    }
     
     public Country getCountry(String countryName) {
         for(Continent c : continents) {
@@ -111,5 +123,22 @@ public class Map {
 
     public Collection<Continent> getContinents() {
         return continents;
+    }
+
+    public void selectCountry(Country c) {
+        c.setSelected(true);
+    }
+
+    public void cancelCountrySelection(Country c) {
+        c.setSelected(false);
+    }
+
+    public boolean isCountryNeighbourSelected(Country c) {
+        for (Country neighbour : c.getNeighbours()) {
+            if (neighbour.isSelected()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

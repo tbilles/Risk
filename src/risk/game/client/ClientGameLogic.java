@@ -19,6 +19,7 @@ public class ClientGameLogic implements Controller {
         if (c.isSelected()) {
             gameCtrl.cancelCountrySelection(c);
         } else if (gameView.isCountryNeighbourSelected(c)) {
+            Logger.logdebug("Action!");
             // Do something like attack or regroup
         } else {
             gameCtrl.selectCountry(c);

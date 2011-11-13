@@ -103,18 +103,16 @@ public class Game implements GameView, GameController {
 
     @Override
     public void cancelCountrySelection(Country c) {
-        // TODO: implement
-        // Also cancel neighbour countries
+        map.cancelCountrySelection(c);
     }
 
     @Override
     public void selectCountry(Country c) {
-        // Also select neighbour countries
+        map.selectCountry(c);
     }
 
     @Override
     public boolean isCountryNeighbourSelected(Country c) {
-        // TODO Auto-generated method stub
-        return false;
+        return map.isCountryNeighbourSelected(c);
     }
 }
