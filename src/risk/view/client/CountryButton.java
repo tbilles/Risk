@@ -7,6 +7,10 @@ import risk.game.GameView;
 public class CountryButton extends JButton {
     String country;
 
+    public String getCountry() {
+        return country;
+    }
+
     public CountryButton(String CountryName) {
         super("");
         country = CountryName;

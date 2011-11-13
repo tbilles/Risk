@@ -14,7 +14,8 @@ public class ClientGameLogic implements Controller {
     }
 
     @Override
-    public void onCountryClick(Country c) {
+    public void onCountryClick(String country) {
+        Country c=gameView.getCountry(country);
         Logger.logdebug("Country \"" + c.getName() + "\" clicked");
         if (c.isSelected()) {
             gameCtrl.cancelCountrySelection(c);
