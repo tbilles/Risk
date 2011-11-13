@@ -86,6 +86,7 @@ public class NetworkClient {
         try {
             oos.writeObject(cmd);
             oos.flush();
+            oos.reset();
             Logger.logdebug("Command sent");
         } catch (IOException e) {
             throw new IOException("Cannot write Command object to network", e);
