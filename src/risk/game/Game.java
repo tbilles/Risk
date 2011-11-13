@@ -106,11 +106,13 @@ public class Game implements GameView, GameController {
     @Override
     public void cancelCountrySelection(Country c) {
         map.cancelCountrySelection(c);
+        modelChanged();
     }
 
     @Override
     public void selectCountry(Country c) {
         map.selectCountry(c);
+        modelChanged();
     }
 
     @Override

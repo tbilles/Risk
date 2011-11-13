@@ -25,7 +25,6 @@ public class ClientGameLogic implements Controller {
         } else {
             gameCtrl.selectCountry(c);
         }
-        
     }
 
     @Override
