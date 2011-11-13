@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import risk.common.Logger;
 
 public class Game implements GameView, GameController {
     /**
@@ -63,6 +64,7 @@ public class Game implements GameView, GameController {
 
     @Override
     public void initCountry(Country newCountry) {
+        Logger.logdebug("Initing country: " + newCountry.getName());
         Country oldCountry = getCountry(newCountry.getName());
         Player newOwner = getPlayer(newCountry.getOwner().getName());
         oldCountry.setOwner(newOwner);
@@ -109,6 +111,23 @@ public class Game implements GameView, GameController {
     @Override
     public void selectCountry(Country c) {
         map.selectCountry(c);
+    }
+
+    @Override
+    public boolean isCountrySelected(String name) {
+        Country c = getCountry(name);
+        return isCountrySelected(c);
+    }
+
+    @Override
+    public boolean isCountryNeighbourSelected(String name) {
+        Country c = getCountry(name);
+        return isCountryNeighbourSelected(c);
+    }
+    
+    @Override
+    public boolean isCountrySelected(Country c) {
+        return map.isCountrySelected(c);
     }
 
     @Override

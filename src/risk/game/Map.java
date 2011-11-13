@@ -46,6 +46,7 @@ public class Map {
                 Country.ALASKA,
                 Country.NORTHWESTTERRITORY,
                 Country.GREENLAND,
+                Country.EASTERNCANADA,
                 Country.ALBERTA,
                 Country.ONTARIO,
                 Country.EASTERNUNITEDSTATES,
@@ -248,5 +249,9 @@ public class Map {
             }
         }
         return false;
+    }
+    
+    public boolean isCountrySelected(Country c) {
+        return c.isSelected();
     }
 }

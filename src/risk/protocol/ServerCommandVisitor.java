@@ -91,7 +91,7 @@ public class ServerCommandVisitor implements CommandVisitor {
         Collection<Player> players = gameView.getPlayers();
         
         Random r = new Random();
-        Iterator<Player> playerIterator = players.iterator(); 
+        Iterator<Player> playerIterator = players.iterator();
         while (!countries.isEmpty()) {
             Logger.logdebug("Countries: " + countries.size());
             // Generate random number

@@ -16,6 +16,11 @@ public class CountryButton extends JButton {
     public void refresh(GameView view) {
         Color c = view.getCountryColor(country);
         if (c != null) {
+            if (view.isCountrySelected(country)) {
+                c = c.darker();
+            } else if (view.isCountryNeighbourSelected(country)) {
+                c = c.brighter();
+            }
             setBackground(c);
             setText(view.getCountryTroops(country) + "");
         }
