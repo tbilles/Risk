@@ -87,6 +87,7 @@ public class RiskFrame extends JFrame implements ActionListener {
                                 "Warning!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     // the current server should be terminated correctly
+                    server.interrupt();
                     server = null;
                 }
             }
@@ -108,6 +109,7 @@ public class RiskFrame extends JFrame implements ActionListener {
                                 "Warning!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     // the current client should be terminated correctly
+                    client.interrupt();
                     client = null;
                 }
             }

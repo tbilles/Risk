@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
     private ClientPanel cp;
     private ServerPanel sp;
     private JPanel empty;
-    private Controller controller;
+    private Controller myController;
 
     public GamePanel() {
 
@@ -40,6 +40,8 @@ public class GamePanel extends JPanel {
     }
 
     public void clientStarted(Controller controller) {
-        controller.getGameView().registerObserver(cp);
+        myController=controller;
+        cp.setController(controller);
+        myController.getGameView().registerObserver(cp);
     }
 }
