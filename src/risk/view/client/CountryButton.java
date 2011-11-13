@@ -22,7 +22,11 @@ public class CountryButton extends JButton {
         if (c != null) {
             if (view.isCountrySelected(country)) {
                 c = c.darker();
+                c = c.darker();
+                c = c.darker();
             } else if (view.isCountryNeighbourSelected(country)) {
+                c = c.brighter();
+                c = c.brighter();
                 c = c.brighter();
             }
             setBackground(c);
