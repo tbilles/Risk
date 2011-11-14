@@ -155,9 +155,13 @@ public class Map {
         setNeighbours(Country.GREENLAND, Country.ICELAND);
         setNeighbours(Country.ALBERTA, Country.ONTARIO);
         setNeighbours(Country.ALBERTA, Country.WESTERNUNITEDSTATES);
+        setNeighbours(Country.ONTARIO, Country.EASTERNCANADA);
+        setNeighbours(Country.ONTARIO, Country.WESTERNUNITEDSTATES);
+        setNeighbours(Country.ONTARIO, Country.EASTERNUNITEDSTATES);
         setNeighbours(Country.EASTERNCANADA, Country.EASTERNUNITEDSTATES);
         setNeighbours(Country.WESTERNUNITEDSTATES, Country.EASTERNUNITEDSTATES);
         setNeighbours(Country.WESTERNUNITEDSTATES, Country.CENTRALAMERICA);
+        setNeighbours(Country.EASTERNUNITEDSTATES, Country.CENTRALAMERICA);
         setNeighbours(Country.CENTRALAMERICA, Country.VENEZUELA);
         setNeighbours(Country.VENEZUELA, Country.PERU);
         setNeighbours(Country.VENEZUELA, Country.BRAZIL);
@@ -174,17 +178,18 @@ public class Map {
         setNeighbours(Country.GREATBRITAIN, Country.WESTERNEUROPE);
         setNeighbours(Country.NORTHERNEUROPE, Country.SOUTHERNEUROPE);
         setNeighbours(Country.NORTHERNEUROPE, Country.RUSSIA);
+        setNeighbours(Country.NORTHERNEUROPE, Country.WESTERNEUROPE);
         setNeighbours(Country.WESTERNEUROPE, Country.SOUTHERNEUROPE);
         setNeighbours(Country.WESTERNEUROPE, Country.NORTHAFRICA);
         setNeighbours(Country.SOUTHERNEUROPE, Country.MIDDLEEAST);
-        setNeighbours(Country.SOUTHERNEUROPE, Country.NORTHAFRICA);
+        // setNeighbours(Country.SOUTHERNEUROPE, Country.NORTHAFRICA); ????
         setNeighbours(Country.NORTHAFRICA, Country.EGYPT);
         setNeighbours(Country.NORTHAFRICA, Country.EASTAFRICA);
         setNeighbours(Country.NORTHAFRICA, Country.CENTRALAFRICA);
         setNeighbours(Country.EGYPT, Country.MIDDLEEAST);
         setNeighbours(Country.EGYPT, Country.EASTAFRICA);
         setNeighbours(Country.EASTAFRICA, Country.CENTRALAFRICA);
-        setNeighbours(Country.EASTAFRICA, Country.MADAGASCAR);
+        // setNeighbours(Country.EASTAFRICA, Country.MADAGASCAR); ????
         setNeighbours(Country.CENTRALAFRICA, Country.SOUTHAFRICA);
         setNeighbours(Country.SOUTHAFRICA, Country.MADAGASCAR);
         setNeighbours(Country.RUSSIA, Country.URAL);
@@ -200,6 +205,7 @@ public class Map {
         setNeighbours(Country.YAKUTSK, Country.KAMCHATKA);
         setNeighbours(Country.YAKUTSK, Country.IRKUTSK);
         setNeighbours(Country.KAMCHATKA, Country.JAPAN);
+        setNeighbours(Country.KAMCHATKA, Country.MONGOLIA);
         setNeighbours(Country.IRKUTSK, Country.KAMCHATKA);
         setNeighbours(Country.IRKUTSK, Country.MONGOLIA);
         setNeighbours(Country.MONGOLIA, Country.JAPAN);
