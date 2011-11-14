@@ -5,7 +5,6 @@ import risk.game.*;
 import risk.network.QueuedSender;
 import risk.protocol.command.DoAttackCmd;
 import risk.protocol.command.PlaceReinforcementCmd;
-import risk.view.client.View;
 
 public class ClientGameLogic implements Controller {
     private GameView gameView;

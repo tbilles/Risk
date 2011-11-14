@@ -1,7 +1,4 @@
-package risk.view.client;
-
-import risk.game.Country;
-import risk.game.CountryPair;
+package risk.game;
 
 public interface View {
     public void showReinforcementDialog(Country to);
