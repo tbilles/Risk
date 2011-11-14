@@ -46,6 +46,8 @@ public class GameClient extends Thread implements IOutputQueue {
         Logger.logdebug("Socket established to server");
         queuedSender = new QueuedSender("ClientQueuedSenderThread", nc, SENDER_INTERRUPT_TIMEOUT);
         queuedSender.start();
+        // TODO: fix cast
+        ((ClientGameLogic)controller).setSender(queuedSender);
         cph = new ClientProtocolHandler(queuedSender);
         cph.onConnectionEstablished(Settings.getInstance().getPlayerName());
         serverIsAlive = true;

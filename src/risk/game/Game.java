@@ -22,6 +22,17 @@ public class Game implements GameView, GameController {
      */
     private ArrayList<Observer> observers=new ArrayList<Observer>();
 
+    /**
+     * Indicates in which phase the current round is.
+     * Eg. reinforcement phase, attack phase, regroup phase
+     */
+    private RoundPhase roundPhase;
+    
+    /**
+     * The number of troops that can be assigned to countries at the beginning
+     * of a new round as reinforcement.
+     */
+    private int availableReinforcement;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -124,7 +135,7 @@ public class Game implements GameView, GameController {
     @Override
     public boolean isCountryNeighbourSelected(String name) {
         Country c = getCountry(name);
-        return isCountryNeighbourSelected(c);
+        return getSelectedCountryNeighbour(c) != null;
     }
     
     @Override
@@ -133,7 +144,33 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public boolean isCountryNeighbourSelected(Country c) {
-        return map.isCountryNeighbourSelected(c);
+    public Country getSelectedCountryNeighbour(Country c) {
+        return map.getSelectedCountryNeighbour(c);
     }
+
+    @Override
+    public void cancelCountryNeighbourSelection(Country c) {
+        map.cancelCountryNeighbourSelection(c);
+    }
+
+    @Override
+    public RoundPhase getRoundPhase() {
+        return roundPhase;
+    }
+
+    public void setRoundPhase(RoundPhase roundPhase) {
+        this.roundPhase = roundPhase;
+    }
+
+    @Override
+    public int getAvailableReinforcement() {
+        return availableReinforcement;
+    }
+
+    @Override
+    public void setAvailableReinforcement(int availableReinforcement) {
+        this.availableReinforcement = availableReinforcement;
+    }
+    
+    
 }

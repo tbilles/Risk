@@ -13,4 +13,8 @@ public interface GameController {
 
     public void cancelCountrySelection(Country c);
     public void selectCountry(Country c);
+    public void cancelCountryNeighbourSelection(Country c);
+    
+    public void setRoundPhase(RoundPhase roundPhase);
+    public void setAvailableReinforcement(int availableReinforcement);
 }

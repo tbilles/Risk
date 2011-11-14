@@ -23,7 +23,10 @@ public interface GameView {
     public boolean isCountrySelected(String name);
     public boolean isCountrySelected(Country c);
     public boolean isCountryNeighbourSelected(String name);
-    public boolean isCountryNeighbourSelected(Country c);
+    public Country getSelectedCountryNeighbour(Country c);
     
     public void registerObserver(Observer o);
+    
+    public RoundPhase getRoundPhase();
+    public int getAvailableReinforcement();
 }

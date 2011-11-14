@@ -248,16 +248,25 @@ public class Map {
         c.setSelected(false);
     }
 
-    public boolean isCountryNeighbourSelected(Country c) {
+    public Country getSelectedCountryNeighbour(Country c) {
         for (Country neighbour : c.getNeighbours()) {
             if (neighbour.isSelected()) {
-                return true;
+                return neighbour;
             }
         }
-        return false;
+        return null;
     }
     
     public boolean isCountrySelected(Country c) {
         return c.isSelected();
+    }
+
+    public void cancelCountryNeighbourSelection(Country c) {
+        for (Country neighbour : c.getNeighbours()) {
+            if (neighbour.isSelected()) {
+                neighbour.setSelected(false);
+                break;
+            }
+        }
     }
 }

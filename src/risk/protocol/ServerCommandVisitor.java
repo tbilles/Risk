@@ -111,4 +111,14 @@ public class ServerCommandVisitor implements CommandVisitor {
         }
         
     }
+
+    @Override
+    public void visit(DoAttackCmd cmd) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void visit(PlaceReinforcementCmd cmd) {
+        // TODO Auto-generated method stub
+    }
 }

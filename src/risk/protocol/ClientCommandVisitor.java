@@ -50,4 +50,18 @@ public class ClientCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got GameEnded command: " + cmd.getPlayer().getName() + " has " + reason);
     }
 
+    @Override
+    public void visit(DoAttackCmd cmd) {
+        WrongCommand(cmd);
+        
+    }
+
+    @Override
+    public void visit(PlaceReinforcementCmd cmd) {
+        WrongCommand(cmd);
+    }
+    
+    private void WrongCommand(Command cmd) {
+        Logger.logwarn("Clienet shouldn't receive " + cmd.toString());
+    }
 }

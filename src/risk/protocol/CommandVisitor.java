@@ -9,4 +9,6 @@ public interface CommandVisitor {
     public void visit(NewTurnCmd cmd);
     public void visit(CountyInitCmd cmd);
     public void visit(GameEndedCmd cmd);
+    public void visit(DoAttackCmd cmd);
+    public void visit(PlaceReinforcementCmd cmd);
 }
