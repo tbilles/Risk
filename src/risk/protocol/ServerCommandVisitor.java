@@ -68,7 +68,7 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     @Override
-    public void visit(NewTurnCmd cmd) {
+    public void visit(NextRoundCmd cmd) {
         WrongCommand(cmd);
     }
 

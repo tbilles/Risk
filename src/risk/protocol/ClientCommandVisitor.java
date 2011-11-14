@@ -34,7 +34,7 @@ public class ClientCommandVisitor implements CommandVisitor {
     }
 
     @Override
-    public void visit(NewTurnCmd cmd) {
+    public void visit(NextRoundCmd cmd) {
         Logger.logdebug("New turn started for player " + cmd.getNextPlayer().getName());
     }
 
