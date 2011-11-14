@@ -9,6 +9,7 @@ public interface GameController {
     // disconnect()
 
     public void addPlayer(Player p);
+    public void setMyPlayer(Player p);
     public void initCountry(Country newCountry);
 
     public void cancelCountrySelection(Country c);

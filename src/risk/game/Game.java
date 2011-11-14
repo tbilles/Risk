@@ -34,11 +34,23 @@ public class Game implements GameView, GameController {
      */
     private int availableReinforcement;
 
+    /**
+     * The player controlled by this client
+     */
+    private Player myPlayer;
+
     public void addPlayer(Player p) {
         players.add(p);
 
         modelChanged();
     }
+    
+    @Override
+    public void setMyPlayer(Player p) {
+        myPlayer = p;
+        modelChanged();
+    }
+    
 
     public Collection<Player> getPlayers() {
         return players;
@@ -170,7 +182,5 @@ public class Game implements GameView, GameController {
     @Override
     public void setAvailableReinforcement(int availableReinforcement) {
         this.availableReinforcement = availableReinforcement;
-    }
-    
-    
+    }   
 }

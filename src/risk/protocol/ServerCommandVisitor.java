@@ -37,17 +37,19 @@ public class ServerCommandVisitor implements CommandVisitor {
     public void visit(HelloCmd cmd) {
         Logger.logdebug("Got HelloCmd!");
 
+        Player newPlayer = new Player(cmd.getName(), colors.get(gameView.getPlayers().size()));
+        clientHandler.setPlayer(newPlayer);
+        
         // Get current players and send them to the new player
         Iterable<Player> players = gameView.getPlayers();
         for (Player p : players) {
-            clientHandler.queueForSend(new PlayerJoinedCmd(p));
+            clientHandler.queuePlayerJoinedForSend(p);
         }
 
         // Create new player and send it to everyone
-        Player newPlayer = new Player(cmd.getName(), colors.get(gameView.getPlayers().size()));
+        
         gameCtrl.addPlayer(newPlayer);
-        clientHandler.setPlayer(newPlayer);
-        cmdSender.sendCmd(new PlayerJoinedCmd(newPlayer), null);
+        cmdSender.sendPlayerJoinedCmd(newPlayer);
         
         // Check if all the players are here
         if (gameView.getPlayers().size() == 2) {

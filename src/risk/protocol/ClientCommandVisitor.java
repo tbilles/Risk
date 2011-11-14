@@ -23,8 +23,9 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlayerJoinedCmd cmd) {
-        Logger.logdebug("Got PlayerJoinedCmd: " + cmd.getPlayer().getName());
+        Logger.logdebug("Got PlayerJoinedCmd: " + cmd.getPlayer().getName() + (cmd.isControlledByMe() ? " It's me!" : ""));
         gameCtrl.addPlayer(cmd.getPlayer());
+        gameCtrl.setMyPlayer(cmd.getPlayer());
     }
 
     @Override

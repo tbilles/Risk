@@ -12,6 +12,7 @@ import risk.network.QueuedSender;
 import risk.network.SocketClosedException;
 import risk.protocol.command.Command;
 import risk.protocol.command.CommandFromClient;
+import risk.protocol.command.PlayerJoinedCmd;
 
 /**
  * ClientHandler handles a client connected to the server.
@@ -71,6 +72,10 @@ public class ClientHandler extends Thread implements IOutputQueue {
         connectionAcceptor.connectionLost(this);
     }
 
+    public void queuePlayerJoinedForSend(Player p) {
+        queueForSend(new PlayerJoinedCmd(p, p.getName().compareTo(player.getName()) == 0));
+    }
+    
     @Override
     public void queueForSend(Command cmd) {
         queuedSender.queueForSend(cmd);

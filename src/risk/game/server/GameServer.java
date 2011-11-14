@@ -178,6 +178,15 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
             }
         }
     }
+    
+    @Override
+    public void sendPlayerJoinedCmd(Player p) {
+        synchronized (clientHandlerLock) {
+            for (ClientHandler ch : clientHandlers) {
+                ch.queuePlayerJoinedForSend(p);
+            }
+        }
+    }
 
     @Override
     public void connectionLost(ClientHandler ch) {
