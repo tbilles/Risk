@@ -17,6 +17,8 @@ public class ServerCommandVisitor implements CommandVisitor {
     private GameView gameView;
     private GameController gameCtrl;
     private ArrayList<Color> colors;
+    private Iterator<Player> currentPlayerIterator;
+    private RoundPhase roundPhase = null;
 
     public ServerCommandVisitor(CommandSender cmdSender, GameView gameView, GameController gameCtrl, ClientHandler clientHandler) {
         this.gameView = gameView;
@@ -87,8 +89,10 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     private void startGame() {
+        // Send game started notification
         cmdSender.sendCmd(new GameStartedCmd(), null);
         
+        // Randomly give countries to players
         ArrayList<Country> countries = new ArrayList<Country>(gameView.getCountries());
         Collection<Player> players = gameView.getPlayers();
         
@@ -112,6 +116,23 @@ public class ServerCommandVisitor implements CommandVisitor {
             }
         }
         
+        newTurn();
+    }
+    
+    private void newTurn() {
+        if (currentPlayerIterator == null || !currentPlayerIterator.hasNext()) {
+            currentPlayerIterator = gameView.getPlayers().iterator();
+        }
+        gameCtrl.setCurrentPlayer(currentPlayerIterator.next());
+        roundPhase = RoundPhase.REINFORCEMENT;
+        
+        gameCtrl.setAvailableReinforcement(getReinforcement(gameView.getCurrentPlayer()));
+        cmdSender.sendCmd(new NextRoundCmd(gameView.getCurrentPlayer(), gameView.getAvailableReinforcement()), null);
+    }
+    
+    private int getReinforcement(Player p) {
+        // TODO: get real number
+        return 5;
     }
 
     @Override
@@ -121,6 +142,24 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
-        // TODO Auto-generated method stub
+        if (cmd.getPlayer() != gameView.getCurrentPlayer()) {
+            // TODO: Error handling
+            return;
+        }
+        
+        if (cmd.getTroops() < 0 || cmd.getTroops() > gameView.getAvailableReinforcement()) {
+            // TODO: Error handling
+            return;
+        }
+        
+        if (cmd.getCountry().getOwner() != cmd.getPlayer()) {
+            // TODO: Error handling
+            return;
+        }
+        
+        gameCtrl.setAvailableReinforcement(gameView.getAvailableReinforcement() - cmd.getTroops());
+        Country country = gameView.getCountry(cmd.getCountry().getName());
+        gameCtrl.addTroopsToCountry(country, cmd.getTroops());
+        cmdSender.sendCmd(new PlaceReinforcementCmd(country, cmd.getTroops(), gameView.getCurrentPlayer()), null);
     }
 }

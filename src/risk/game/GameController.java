@@ -10,6 +10,7 @@ public interface GameController {
 
     public void addPlayer(Player p);
     public void setMyPlayer(Player p);
+    public void setCurrentPlayer(Player p);
     public void initCountry(Country newCountry);
 
     public void cancelCountrySelection(Country c);
@@ -18,4 +19,5 @@ public interface GameController {
     
     public void setRoundPhase(RoundPhase roundPhase);
     public void setAvailableReinforcement(int availableReinforcement);
+    public void addTroopsToCountry(Country country, int troops);
 }

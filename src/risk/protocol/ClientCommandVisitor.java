@@ -4,6 +4,8 @@ import risk.common.Logger;
 import risk.game.Country;
 import risk.game.GameController;
 import risk.game.GameView;
+import risk.game.Player;
+import risk.game.RoundPhase;
 import risk.protocol.command.*;
 
 public class ClientCommandVisitor implements CommandVisitor {
@@ -35,7 +37,10 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(NextRoundCmd cmd) {
-        Logger.logdebug("New turn started for player " + cmd.getNextPlayer().getName());
+        Logger.logdebug("New round started for player " + cmd.getNextPlayer().getName() + " (s)he got " + cmd.getReinforcement() + "units of reinforcement");
+        Player p = gameView.getPlayer(cmd.getNextPlayer().getName());
+        gameCtrl.setCurrentPlayer(p);
+        gameCtrl.setRoundPhase(RoundPhase.REINFORCEMENT);
     }
 
     @Override
@@ -59,7 +64,9 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
-        WrongCommand(cmd);
+        Logger.logdebug("Player " + cmd.getPlayer().getName() + " placed " + cmd.getTroops() + " units to country " + cmd.getCountry().getName());
+        gameCtrl.setAvailableReinforcement(gameView.getAvailableReinforcement() - cmd.getTroops());
+        gameCtrl.addTroopsToCountry(cmd.getCountry(), cmd.getTroops());
     }
     
     private void WrongCommand(Command cmd) {

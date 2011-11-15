@@ -14,6 +14,7 @@ public interface GameView {
 
     public Collection<Player> getPlayers();
     public Player getPlayer(String Name);
+    public Player getCurrentPlayer();
     
     public Collection<Continent> getContinents();
     public Collection<Country> getCountries();

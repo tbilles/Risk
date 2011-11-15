@@ -38,6 +38,11 @@ public class Game implements GameView, GameController {
      * The player controlled by this client
      */
     private Player myPlayer;
+    
+    /**
+     * The player currently acting. 
+     */
+    private Player currentPlayer;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -182,5 +187,23 @@ public class Game implements GameView, GameController {
     @Override
     public void setAvailableReinforcement(int availableReinforcement) {
         this.availableReinforcement = availableReinforcement;
+        modelChanged();
+    }
+
+    @Override
+    public void addTroopsToCountry(Country country, int troops) {
+        country.setTroops(country.getTroops() + troops);
+        modelChanged();
+    }
+
+    @Override
+    public void setCurrentPlayer(Player p) {
+        currentPlayer = p;
+        modelChanged();
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }   
 }

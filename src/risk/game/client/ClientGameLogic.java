@@ -73,7 +73,7 @@ public class ClientGameLogic implements Controller {
     public boolean onReinforcementDialogOK(Country c, int troops) {
         int availableReinforcement = gameView.getAvailableReinforcement();
         if (availableReinforcement <= troops) {
-            sender.queueForSend(new PlaceReinforcementCmd(c, troops));
+            sender.queueForSend(new PlaceReinforcementCmd(c, troops, null));
             return true;
         }
         return false;
