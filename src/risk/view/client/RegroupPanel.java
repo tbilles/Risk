@@ -28,6 +28,10 @@ public class RegroupPanel extends JPanel {
     String from, to;
     int fromBefore, fromAfter, toBefore, toAfter;
     ArrayList<String> regroup=new ArrayList<String>();
+    JLabel FC = new JLabel();
+    JLabel TC = new JLabel();
+    JLabel FA = new JLabel();
+    JLabel TA = new JLabel();
 
     /**
      * Create the panel.
@@ -72,14 +76,14 @@ public class RegroupPanel extends JPanel {
         JLabel label = new JLabel("Current armies:");
         panel_1.add(label);
 
-        JLabel label_1 = new JLabel(fromBefore + "");
-        panel_1.add(label_1);
+        FC.setText(fromBefore + "");
+        panel_1.add(FC);
 
         JLabel label_2 = new JLabel("Current armies:");
         panel_1.add(label_2);
 
-        JLabel label_3 = new JLabel(toBefore + "");
-        panel_1.add(label_3);
+        TC.setText(toBefore + "");
+        panel_1.add(TC);
 
         JPanel panel_2 = new JPanel();
         panel.add(panel_2);
@@ -94,6 +98,10 @@ public class RegroupPanel extends JPanel {
         amountOfRegroup.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent arg0) {
                 int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
+                fromAfter=fromBefore-delta;
+                toAfter=toBefore+delta;
+                FA.setText(fromAfter+"");
+                TA.setText(toAfter+"");
             }
         });
         amountOfRegroup.setSelectedIndex(1);
@@ -108,14 +116,15 @@ public class RegroupPanel extends JPanel {
         int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
         fromAfter=fromBefore-delta;
         toAfter=toBefore+delta;
-        JLabel label_5 = new JLabel(fromAfter+"");
-        panel_3.add(label_5);
+        
+        FA.setText(fromAfter+"");
+        panel_3.add(FA);
 
         JLabel label_6 = new JLabel("Armies after regroup:");
         panel_3.add(label_6);
 
-        JLabel label_7 = new JLabel(toAfter+"");
-        panel_3.add(label_7);
+        TA.setText(toAfter+"");
+        panel_3.add(TA);
 
         JSeparator separator_1 = new JSeparator();
         panel.add(separator_1);
