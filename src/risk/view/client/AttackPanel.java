@@ -37,23 +37,30 @@ public class AttackPanel extends JPanel {
         panel.add(panel_1);
         GridBagLayout gbl_panel_1 = new GridBagLayout();
         gbl_panel_1.columnWidths = new int[]{102, 0};
-        gbl_panel_1.rowHeights = new int[]{0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_panel_1.rowHeights = new int[]{0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
         panel_1.setLayout(gbl_panel_1);
+        
+        JLabel lblAttacker = new JLabel("attacker");
+        GridBagConstraints gbc_lblAttacker = new GridBagConstraints();
+        gbc_lblAttacker.insets = new Insets(0, 0, 5, 0);
+        gbc_lblAttacker.gridx = 0;
+        gbc_lblAttacker.gridy = 0;
+        panel_1.add(lblAttacker, gbc_lblAttacker);
         
         JLabel lblFrom_1 = new JLabel("From");
         GridBagConstraints gbc_lblFrom_1 = new GridBagConstraints();
         gbc_lblFrom_1.insets = new Insets(0, 0, 5, 0);
         gbc_lblFrom_1.gridx = 0;
-        gbc_lblFrom_1.gridy = 0;
+        gbc_lblFrom_1.gridy = 1;
         panel_1.add(lblFrom_1, gbc_lblFrom_1);
         
         JPanel panel_2 = new JPanel();
         GridBagConstraints gbc_panel_2 = new GridBagConstraints();
         gbc_panel_2.insets = new Insets(0, 0, 5, 0);
         gbc_panel_2.gridx = 0;
-        gbc_panel_2.gridy = 1;
+        gbc_panel_2.gridy = 2;
         panel_1.add(panel_2, gbc_panel_2);
         panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
@@ -67,36 +74,44 @@ public class AttackPanel extends JPanel {
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
         gbc_AThreeDice.insets = new Insets(0, 0, 5, 0);
         gbc_AThreeDice.gridx = 0;
-        gbc_AThreeDice.gridy = 2;
+        gbc_AThreeDice.gridy = 3;
         panel_1.add(AThreeDice, gbc_AThreeDice);
         
         JButton ATwoDice = new JButton("Attack with 2 dice");
         GridBagConstraints gbc_ATwoDice = new GridBagConstraints();
         gbc_ATwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_ATwoDice.gridx = 0;
-        gbc_ATwoDice.gridy = 3;
+        gbc_ATwoDice.gridy = 4;
         panel_1.add(ATwoDice, gbc_ATwoDice);
         
         JButton AOneDice = new JButton("Attack with 1 dice");
         GridBagConstraints gbc_AOneDice = new GridBagConstraints();
         gbc_AOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_AOneDice.gridx = 0;
-        gbc_AOneDice.gridy = 4;
+        gbc_AOneDice.gridy = 5;
         panel_1.add(AOneDice, gbc_AOneDice);
         
         JButton btnCancelAttack = new JButton("Cancel attack");
         GridBagConstraints gbc_btnCancelAttack = new GridBagConstraints();
         gbc_btnCancelAttack.insets = new Insets(0, 0, 5, 0);
         gbc_btnCancelAttack.gridx = 0;
-        gbc_btnCancelAttack.gridy = 5;
+        gbc_btnCancelAttack.gridy = 6;
         panel_1.add(btnCancelAttack, gbc_btnCancelAttack);
+        
+        JPanel panel_6 = new JPanel();
+        GridBagConstraints gbc_panel_6 = new GridBagConstraints();
+        gbc_panel_6.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_6.fill = GridBagConstraints.BOTH;
+        gbc_panel_6.gridx = 0;
+        gbc_panel_6.gridy = 7;
+        panel_1.add(panel_6, gbc_panel_6);
         
         JPanel panel_7 = new JPanel();
         GridBagConstraints gbc_panel_7 = new GridBagConstraints();
-        gbc_panel_7.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_7.insets = new Insets(2, 0, 5, 0);
         gbc_panel_7.fill = GridBagConstraints.BOTH;
         gbc_panel_7.gridx = 0;
-        gbc_panel_7.gridy = 6;
+        gbc_panel_7.gridy = 8;
         panel_1.add(panel_7, gbc_panel_7);
         panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
@@ -111,7 +126,7 @@ public class AttackPanel extends JPanel {
         gbc_panel_8.insets = new Insets(0, 0, 5, 0);
         gbc_panel_8.fill = GridBagConstraints.BOTH;
         gbc_panel_8.gridx = 0;
-        gbc_panel_8.gridy = 7;
+        gbc_panel_8.gridy = 9;
         panel_1.add(panel_8, gbc_panel_8);
         panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
@@ -125,25 +140,32 @@ public class AttackPanel extends JPanel {
         panel.add(panel_3);
         GridBagLayout gbl_panel_3 = new GridBagLayout();
         gbl_panel_3.columnWidths = new int[]{102, 0};
-        gbl_panel_3.rowHeights = new int[]{0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_panel_3.rowHeights = new int[]{0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_panel_3.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
         panel_3.setLayout(gbl_panel_3);
+        
+        JLabel lblDefender = new JLabel("defender");
+        GridBagConstraints gbc_lblDefender = new GridBagConstraints();
+        gbc_lblDefender.insets = new Insets(0, 0, 5, 0);
+        gbc_lblDefender.gridx = 0;
+        gbc_lblDefender.gridy = 0;
+        panel_3.add(lblDefender, gbc_lblDefender);
         
         JLabel lblTo = new JLabel("To");
         GridBagConstraints gbc_lblTo = new GridBagConstraints();
         gbc_lblTo.insets = new Insets(0, 0, 5, 0);
         gbc_lblTo.gridx = 0;
-        gbc_lblTo.gridy = 0;
+        gbc_lblTo.gridy = 1;
         panel_3.add(lblTo, gbc_lblTo);
         
         JPanel panel_5 = new JPanel();
         GridBagConstraints gbc_panel_5 = new GridBagConstraints();
         gbc_panel_5.insets = new Insets(0, 0, 5, 0);
         gbc_panel_5.gridx = 0;
-        gbc_panel_5.gridy = 1;
+        gbc_panel_5.gridy = 2;
         panel_3.add(panel_5, gbc_panel_5);
-        panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         
         JLabel label = new JLabel("Current armies:");
         panel_5.add(label);
@@ -155,21 +177,30 @@ public class AttackPanel extends JPanel {
         GridBagConstraints gbc_DTwoDice = new GridBagConstraints();
         gbc_DTwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_DTwoDice.gridx = 0;
-        gbc_DTwoDice.gridy = 2;
+        gbc_DTwoDice.gridy = 3;
         panel_3.add(DTwoDice, gbc_DTwoDice);
         
         JButton DOneDice = new JButton("Defend with 1 dice");
         GridBagConstraints gbc_DOneDice = new GridBagConstraints();
         gbc_DOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_DOneDice.gridx = 0;
-        gbc_DOneDice.gridy = 3;
+        gbc_DOneDice.gridy = 4;
         panel_3.add(DOneDice, gbc_DOneDice);
+        
+        JPanel panel_4 = new JPanel();
+        GridBagConstraints gbc_panel_4 = new GridBagConstraints();
+        gbc_panel_4.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_4.fill = GridBagConstraints.BOTH;
+        gbc_panel_4.gridx = 0;
+        gbc_panel_4.gridy = 5;
+        panel_3.add(panel_4, gbc_panel_4);
         
         JPanel panel_9 = new JPanel();
         GridBagConstraints gbc_panel_9 = new GridBagConstraints();
-        gbc_panel_9.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_9.anchor = GridBagConstraints.SOUTH;
+        gbc_panel_9.insets = new Insets(33, 0, 5, 0);
         gbc_panel_9.gridx = 0;
-        gbc_panel_9.gridy = 6;
+        gbc_panel_9.gridy = 7;
         panel_3.add(panel_9, gbc_panel_9);
         panel_9.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
@@ -181,10 +212,11 @@ public class AttackPanel extends JPanel {
         
         JPanel panel_10 = new JPanel();
         GridBagConstraints gbc_panel_10 = new GridBagConstraints();
+        gbc_panel_10.anchor = GridBagConstraints.SOUTH;
         gbc_panel_10.insets = new Insets(0, 0, 5, 0);
-        gbc_panel_10.fill = GridBagConstraints.BOTH;
+        gbc_panel_10.fill = GridBagConstraints.HORIZONTAL;
         gbc_panel_10.gridx = 0;
-        gbc_panel_10.gridy = 7;
+        gbc_panel_10.gridy = 8;
         panel_3.add(panel_10, gbc_panel_10);
         panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
