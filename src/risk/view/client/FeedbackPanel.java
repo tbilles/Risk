@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class FeedbackPanel extends JPanel {
-
+    private JTextArea messages=new JTextArea();
     private ArrayList<JLabel> players=new ArrayList<JLabel>();
     JPanel playersPanel = new JPanel();
     /**
@@ -41,6 +41,14 @@ public class FeedbackPanel extends JPanel {
         
         add(playersPanel);
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+        
+        JPanel panel = new JPanel();
+        add(panel);
+        panel.setLayout(new BorderLayout(0, 0));
+        
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(messages);
+        panel.add(scrollPane);
 
     }
 
@@ -48,7 +56,13 @@ public class FeedbackPanel extends JPanel {
         refreshPlayers(view.getPlayers());
 
     }
+    public void addMessage(Object message){
+        messages.append(message.toString()+"\n");
+    }
 
+    public void addMessage(String message){
+        messages.append(message+"\n");
+    }
     private void refreshPlayers(Collection<Player> playerCollection) {
         players.clear();
         for(Player p: playerCollection){
