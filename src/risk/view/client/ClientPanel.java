@@ -47,7 +47,7 @@ public class ClientPanel extends JPanel implements Observer, View {
 
     @Override
     public void showRegroupDialog(CountryPair cp) {
-        // TODO Auto-generated method stub
+        RegroupDialog rd=new RegroupDialog(cp);
 
     }
 

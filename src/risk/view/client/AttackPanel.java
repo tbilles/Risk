@@ -7,6 +7,9 @@ import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JButton;
+
+import risk.game.CountryPair;
+
 import java.awt.FlowLayout;
 import java.awt.Component;
 import com.jgoodies.forms.layout.FormLayout;
@@ -16,16 +19,18 @@ import com.jgoodies.forms.factories.FormFactory;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Font;
 
 public class AttackPanel extends JPanel {
-
+    private int fromCurrentArmies, toCurrentArmies; 
     /**
      * Create the panel.
      */
-    public AttackPanel() {
+    public AttackPanel(CountryPair cp) {
         setLayout(new BorderLayout(0, 0));
         
         JLabel lblAttack = new JLabel("Attack");
+        lblAttack.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblAttack.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblAttack, BorderLayout.NORTH);
         
@@ -42,19 +47,20 @@ public class AttackPanel extends JPanel {
         gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
         panel_1.setLayout(gbl_panel_1);
         
-        JLabel lblAttacker = new JLabel("attacker");
+        JLabel lblAttacker = new JLabel(cp.From.getOwner().getName());
+        lblAttacker.setForeground(cp.From.getOwner().getColor());
         GridBagConstraints gbc_lblAttacker = new GridBagConstraints();
         gbc_lblAttacker.insets = new Insets(0, 0, 5, 0);
         gbc_lblAttacker.gridx = 0;
         gbc_lblAttacker.gridy = 0;
         panel_1.add(lblAttacker, gbc_lblAttacker);
         
-        JLabel lblFrom_1 = new JLabel("From");
-        GridBagConstraints gbc_lblFrom_1 = new GridBagConstraints();
-        gbc_lblFrom_1.insets = new Insets(0, 0, 5, 0);
-        gbc_lblFrom_1.gridx = 0;
-        gbc_lblFrom_1.gridy = 1;
-        panel_1.add(lblFrom_1, gbc_lblFrom_1);
+        JLabel lblFrom = new JLabel(cp.From.getName());
+        GridBagConstraints gbc_lblFrom = new GridBagConstraints();
+        gbc_lblFrom.insets = new Insets(0, 0, 5, 0);
+        gbc_lblFrom.gridx = 0;
+        gbc_lblFrom.gridy = 1;
+        panel_1.add(lblFrom, gbc_lblFrom);
         
         JPanel panel_2 = new JPanel();
         GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -67,8 +73,8 @@ public class AttackPanel extends JPanel {
         JLabel label_2 = new JLabel("Current armies:");
         panel_2.add(label_2);
         
-        JLabel label_3 = new JLabel("26");
-        panel_2.add(label_3);
+        JLabel lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
+        panel_2.add(lblFromCurrentArmies);
         
         JButton AThreeDice = new JButton("Attack with 3 dice");
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
@@ -118,8 +124,8 @@ public class AttackPanel extends JPanel {
         JLabel label_4 = new JLabel("Thrown:");
         panel_7.add(label_4);
         
-        JLabel label_5 = new JLabel("6;3;2");
-        panel_7.add(label_5);
+        JLabel thrownAttacker = new JLabel("6;3;2");
+        panel_7.add(thrownAttacker);
         
         JPanel panel_8 = new JPanel();
         GridBagConstraints gbc_panel_8 = new GridBagConstraints();
@@ -133,8 +139,8 @@ public class AttackPanel extends JPanel {
         JLabel label_6 = new JLabel("Armies after throwing:");
         panel_8.add(label_6);
         
-        JLabel label_7 = new JLabel("26");
-        panel_8.add(label_7);
+        JLabel lblFromAfterArmies = new JLabel("?");
+        panel_8.add(lblFromAfterArmies);
         
         JPanel panel_3 = new JPanel();
         panel.add(panel_3);
@@ -145,14 +151,15 @@ public class AttackPanel extends JPanel {
         gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
         panel_3.setLayout(gbl_panel_3);
         
-        JLabel lblDefender = new JLabel("defender");
+        JLabel lblDefender = new JLabel(cp.To.getOwner().getName());
+        lblDefender.setForeground(cp.To.getOwner().getColor());
         GridBagConstraints gbc_lblDefender = new GridBagConstraints();
         gbc_lblDefender.insets = new Insets(0, 0, 5, 0);
         gbc_lblDefender.gridx = 0;
         gbc_lblDefender.gridy = 0;
         panel_3.add(lblDefender, gbc_lblDefender);
         
-        JLabel lblTo = new JLabel("To");
+        JLabel lblTo = new JLabel(cp.To.getName());
         GridBagConstraints gbc_lblTo = new GridBagConstraints();
         gbc_lblTo.insets = new Insets(0, 0, 5, 0);
         gbc_lblTo.gridx = 0;
@@ -170,8 +177,8 @@ public class AttackPanel extends JPanel {
         JLabel label = new JLabel("Current armies:");
         panel_5.add(label);
         
-        JLabel label_1 = new JLabel("26");
-        panel_5.add(label_1);
+        JLabel lblToCurrentArmies = new JLabel(cp.To.getTroops()+"");
+        panel_5.add(lblToCurrentArmies);
         
         JButton DTwoDice = new JButton("Defend with 2 dice");
         GridBagConstraints gbc_DTwoDice = new GridBagConstraints();
@@ -207,8 +214,8 @@ public class AttackPanel extends JPanel {
         JLabel label_8 = new JLabel("Thrown:");
         panel_9.add(label_8);
         
-        JLabel label_9 = new JLabel("6;3;2");
-        panel_9.add(label_9);
+        JLabel ThrownDeffender = new JLabel("6;3;2");
+        panel_9.add(ThrownDeffender);
         
         JPanel panel_10 = new JPanel();
         GridBagConstraints gbc_panel_10 = new GridBagConstraints();
@@ -223,8 +230,8 @@ public class AttackPanel extends JPanel {
         JLabel label_10 = new JLabel("Armies after throwing:");
         panel_10.add(label_10);
         
-        JLabel label_11 = new JLabel("26");
-        panel_10.add(label_11);
+        JLabel lblToAfterArmies = new JLabel("?");
+        panel_10.add(lblToAfterArmies);
 
     }
 
