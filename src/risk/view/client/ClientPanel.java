@@ -34,7 +34,7 @@ public class ClientPanel extends JPanel implements Observer, View {
     }
 
     @Override
-    public void showReinforcementDialog(Country to) {
+    public void showReinforcementDialog(Country to, int availableTroops) {
         // TODO Auto-generated method stub
 
     }
@@ -51,7 +51,7 @@ public class ClientPanel extends JPanel implements Observer, View {
     }
 
     @Override
-    public void addMessage(String msg) {
+    public void addMessage(String msg, boolean popup) {
         JOptionPane.showMessageDialog(this, msg, "Message!",
                 JOptionPane.INFORMATION_MESSAGE);
 
