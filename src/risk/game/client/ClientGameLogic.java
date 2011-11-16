@@ -34,7 +34,7 @@ public class ClientGameLogic implements Controller {
              * WARNING! The second parameter of the next method call should be
              * changed to the number of fortify units.
              */
-            view.showReinforcementDialog(c, 10);
+            view.showReinforcementDialog(c,availableReinforcementUnits);
         } else {
             Country selected;
             Logger.logdebug("Country \"" + c.getName() + "\" clicked");
