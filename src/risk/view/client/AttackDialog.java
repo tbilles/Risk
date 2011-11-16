@@ -10,24 +10,24 @@ import javax.swing.border.EmptyBorder;
 
 import risk.game.CountryPair;
 
-public class RegroupDialog extends JDialog {
-    private RegroupPanel panel;
-    private final JPanel contentPanel = new JPanel();
+public class AttackDialog extends JDialog {
 
+    private AttackPanel attackPanel;
+    private final JPanel contentPanel = new JPanel();
 
 
     /**
      * Create the dialog.
      */
-    public RegroupDialog(CountryPair cp) {
-        setBounds(100, 100, 320, 160);
-        setTitle("Regrouping...");
+    public AttackDialog(CountryPair cp) {
+        setTitle("Attacking...");
+        setBounds(100, 100, 300, 300);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        panel= new RegroupPanel(this, cp);
-        contentPanel.add(panel);
         getContentPane().add(contentPanel, BorderLayout.CENTER);
+        attackPanel= new AttackPanel(this, cp);
+        contentPanel.add(attackPanel);
     }
 
 }

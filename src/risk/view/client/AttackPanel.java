@@ -23,10 +23,12 @@ import java.awt.Font;
 
 public class AttackPanel extends JPanel {
     private int fromCurrentArmies, toCurrentArmies; 
+    private AttackDialog parent;
     /**
      * Create the panel.
      */
-    public AttackPanel(CountryPair cp) {
+    public AttackPanel(AttackDialog ad, CountryPair cp) {
+        parent=ad;
         setLayout(new BorderLayout(0, 0));
         
         JLabel lblAttack = new JLabel("Attack");

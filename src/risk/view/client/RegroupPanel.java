@@ -23,8 +23,13 @@ import javax.swing.JButton;
 import risk.game.CountryPair;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 public class RegroupPanel extends JPanel {
+    RegroupDialog parent;
+    CountryPair pair;
     String from, to;
     int fromBefore, fromAfter, toBefore, toAfter;
     ArrayList<String> regroup=new ArrayList<String>();
@@ -32,11 +37,15 @@ public class RegroupPanel extends JPanel {
     JLabel TC = new JLabel();
     JLabel FA = new JLabel();
     JLabel TA = new JLabel();
+    private final Action okAction = new OkAction();
+    private final Action cancelAction = new CancelAction();
 
     /**
      * Create the panel.
      */
-    public RegroupPanel(CountryPair cp) {
+    public RegroupPanel(RegroupDialog parent, CountryPair cp) {
+        this.parent=parent;
+        pair=cp;
         from = cp.From.getName();
         to = cp.To.getName();
         fromBefore = cp.From.getTroops();
@@ -139,12 +148,34 @@ public class RegroupPanel extends JPanel {
         flowLayout_1.setAlignment(FlowLayout.RIGHT);
         panel_4.add(panel_5);
 
-        JButton button = new JButton("ok");
-        panel_5.add(button);
+        JButton ok = new JButton("ok");
+        ok.setAction(okAction);
+        panel_5.add(ok);
 
-        JButton button_1 = new JButton("cancel");
-        panel_5.add(button_1);
+        JButton cancel = new JButton("cancel");
+        cancel.setAction(cancelAction);
+        panel_5.add(cancel);
 
     }
 
+    private class OkAction extends AbstractAction {
+        public OkAction() {
+            putValue(NAME, "Ok");
+            putValue(SHORT_DESCRIPTION, "Do the regrouping and close this dialog");
+        }
+        public void actionPerformed(ActionEvent e) {
+            pair.From.setTroops(fromAfter);
+            pair.To.setTroops(toAfter);
+            parent.dispose();
+        }
+    }
+    private class CancelAction extends AbstractAction {
+        public CancelAction() {
+            putValue(NAME, "Cancel");
+            putValue(SHORT_DESCRIPTION, "Cancel regrouping and close this dialog");
+        }
+        public void actionPerformed(ActionEvent e) {
+            parent.dispose();
+        }
+    }
 }
