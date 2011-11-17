@@ -116,10 +116,10 @@ public class ServerCommandVisitor implements CommandVisitor {
             }
         }
         
-        newTurn();
+        initNextRound();
     }
     
-    private void newTurn() {
+    private void initNextRound() {
         if (currentPlayerIterator == null || !currentPlayerIterator.hasNext()) {
             currentPlayerIterator = gameView.getPlayers().iterator();
         }
@@ -147,7 +147,7 @@ public class ServerCommandVisitor implements CommandVisitor {
     
     private void initNextPhase() {
         if (!gameCtrl.swicthToNextPhase()) {
-            // initNextRound()
+            initNextRound();
             return;
         }
         RoundPhase phase = gameView.getRoundPhase();
@@ -182,7 +182,7 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
-        if (cmd.getPlayer() != gameView.getCurrentPlayer()) {
+        if (clientHandler.getPlayer() != gameView.getCurrentPlayer()) {
             // TODO: Error handling
             return;
         }
@@ -192,7 +192,7 @@ public class ServerCommandVisitor implements CommandVisitor {
             return;
         }
         
-        if (cmd.getCountry().getOwner() != cmd.getPlayer()) {
+        if (gameView.getCountry(cmd.getCountry().getName()).getOwner() != clientHandler.getPlayer()) {
             // TODO: Error handling
             return;
         }
@@ -201,8 +201,16 @@ public class ServerCommandVisitor implements CommandVisitor {
         Country country = gameView.getCountry(cmd.getCountry().getName());
         gameCtrl.addTroopsToCountry(country, cmd.getTroops());
         cmdSender.sendCmd(new PlaceReinforcementCmd(country, cmd.getTroops(), gameView.getCurrentPlayer()), null);
+        
+        if (gameView.getAvailableReinforcement() == 0) {
+            gotoNextPlayer();
+        }
     }
     
+    private void gotoNextPlayer() {
+        
+    }
+
     @Override
     public void visit(NextPhaseCmd cmd) {
         WrongCommand(cmd);

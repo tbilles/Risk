@@ -19,6 +19,7 @@ public class ClientPanel extends JPanel implements Observer, View {
 
     public void setController(Controller controller) {
         this.controller = controller;
+        controller.setView(this);
         map.setController(controller);
     }
 

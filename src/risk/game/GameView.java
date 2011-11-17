@@ -32,4 +32,5 @@ public interface GameView {
     public int getRoundNumber();
     public Collection<RoundPhase> getRoundPhases();
     public int getAvailableReinforcement();
+    public Player getMyPlayer();
 }

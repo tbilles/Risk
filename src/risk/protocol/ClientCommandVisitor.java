@@ -27,7 +27,9 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(PlayerJoinedCmd cmd) {
         Logger.logdebug("Got PlayerJoinedCmd: " + cmd.getPlayer().getName() + (cmd.isControlledByMe() ? " It's me!" : ""));
         gameCtrl.addPlayer(cmd.getPlayer());
-        gameCtrl.setMyPlayer(cmd.getPlayer());
+        if (cmd.isControlledByMe()) {
+            gameCtrl.setMyPlayer(cmd.getPlayer());
+        }
     }
 
     @Override
@@ -79,9 +81,10 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
+        Country c = gameView.getCountry(cmd.getCountry().getName());
         Logger.logdebug("Player " + cmd.getPlayer().getName() + " placed " + cmd.getTroops() + " units to country " + cmd.getCountry().getName());
         gameCtrl.setAvailableReinforcement(gameView.getAvailableReinforcement() - cmd.getTroops());
-        gameCtrl.addTroopsToCountry(cmd.getCountry(), cmd.getTroops());
+        gameCtrl.addTroopsToCountry(c, cmd.getTroops());
     }
     
     private void WrongCommand(Command cmd) {

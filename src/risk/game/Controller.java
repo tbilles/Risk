@@ -15,4 +15,5 @@ public interface Controller {
     
     public boolean onReinforcementDialogOK(Country c, int troops);
     public boolean onAttackDialog(boolean continuing);
+    public void setView(View view);
 }

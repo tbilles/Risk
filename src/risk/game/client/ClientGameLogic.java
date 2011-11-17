@@ -26,11 +26,16 @@ public class ClientGameLogic implements Controller {
 
     @Override
     public void onCountryClick(String country) {
+        if (gameView.getCurrentPlayer() != gameView.getMyPlayer()) {
+            return;
+        }
+        
         Country c = gameView.getCountry(country);
         RoundPhase phase = gameView.getRoundPhase();
 
         if (phase == RoundPhase.REINFORCEMENT) {
             view.showReinforcementDialog(c, gameView.getAvailableReinforcement());
+            //onReinforcementDialogOK(c, 1);
         } else {
             Country selected;
             Logger.logdebug("Country \"" + c.getName() + "\" clicked");
@@ -74,7 +79,7 @@ public class ClientGameLogic implements Controller {
     @Override
     public boolean onReinforcementDialogOK(Country c, int troops) {
         int availableReinforcement = gameView.getAvailableReinforcement();
-        if (availableReinforcement <= troops) {
+        if (availableReinforcement >= troops) {
             sender.queueForSend(new PlaceReinforcementCmd(c, troops, null));
             return true;
         }

@@ -67,7 +67,11 @@ public class Game implements GameView, GameController {
         myPlayer = p;
         modelChanged();
     }
-    
+
+    @Override
+    public Player getMyPlayer() {
+        return myPlayer;
+    }
 
     public Collection<Player> getPlayers() {
         return players;
