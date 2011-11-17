@@ -37,10 +37,25 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(NextRoundCmd cmd) {
-        Logger.logdebug("New round started for player " + cmd.getNextPlayer().getName() + " (s)he got " + cmd.getReinforcement() + "units of reinforcement");
+        Logger.logdebug("New round started for player " + cmd.getNextPlayer().getName());
         Player p = gameView.getPlayer(cmd.getNextPlayer().getName());
         gameCtrl.setCurrentPlayer(p);
-        gameCtrl.setRoundPhase(RoundPhase.REINFORCEMENT);
+        gameCtrl.setRoundPhases(cmd.getRoundPhases());
+    }
+    
+    @Override
+    public void visit(NextPhaseCmd cmd) {
+        if (!gameCtrl.swicthToNextPhase()) {
+            // TODO: error handling
+            Logger.logerror("Cannot switch phase!");
+            return;
+        }
+        RoundPhase phase = gameView.getRoundPhase();
+        Logger.logdebug("Switched to phase: " + phase.toString());
+        if (phase == RoundPhase.REINFORCEMENT) {
+            gameCtrl.setAvailableReinforcement(cmd.getReinforcement());
+            Logger.logdebug("Got " + cmd.getReinforcement() + "reinforcement");
+        }
     }
 
     @Override

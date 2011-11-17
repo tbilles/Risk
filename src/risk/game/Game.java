@@ -3,6 +3,7 @@ package risk.game;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import risk.common.Logger;
 
@@ -43,6 +44,17 @@ public class Game implements GameView, GameController {
      * The player currently acting. 
      */
     private Player currentPlayer;
+    
+    /**
+     * The current round number
+     */
+    private int roundNumber;
+    
+    /**
+     * The round phases in this current round
+     */
+    private LinkedList<RoundPhase> roundPhases;
+    private Iterator<RoundPhase> roundPhasesIterator;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -175,10 +187,6 @@ public class Game implements GameView, GameController {
         return roundPhase;
     }
 
-    public void setRoundPhase(RoundPhase roundPhase) {
-        this.roundPhase = roundPhase;
-    }
-
     @Override
     public int getAvailableReinforcement() {
         return availableReinforcement;
@@ -205,5 +213,41 @@ public class Game implements GameView, GameController {
     @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }   
+    }
+
+    @Override
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    @Override
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+    
+    @Override
+    public Collection<RoundPhase> getRoundPhases() {
+        return roundPhases;
+    }
+
+    @Override
+    public void setRoundPhases(Collection<RoundPhase> roundPhases) {
+        this.roundPhases = new LinkedList<RoundPhase>(roundPhases);
+        this.roundPhase = null;
+        this.roundPhasesIterator = null;
+        modelChanged();
+    }
+    
+    @Override
+    public boolean swicthToNextPhase() {
+        if (roundPhasesIterator == null) {
+            roundPhasesIterator = roundPhases.iterator();
+        }
+        if (roundPhasesIterator.hasNext()) {
+            roundPhase = roundPhasesIterator.next();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -1,25 +1,28 @@
 package risk.protocol.command;
 
+import java.util.Collection;
+
 import risk.game.Player;
+import risk.game.RoundPhase;
 import risk.protocol.CommandVisitor;
 
 public class NextRoundCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
     private Player nextPlayer;
-    private int reinforcement;
+    private Collection<RoundPhase> phases;
     
-    public NextRoundCmd(Player nextPlayer, int reinforcement) {
+    public NextRoundCmd(Player nextPlayer, Collection<RoundPhase> phases) {
         super();
         this.nextPlayer = nextPlayer;
-        this.reinforcement = reinforcement;
+        this.phases = phases;
     }
 
     public Player getNextPlayer() {
         return nextPlayer;
     }
 
-    public int getReinforcement() {
-        return reinforcement;
+    public Collection<RoundPhase> getRoundPhases() {
+        return phases;
     }
 
     @Override

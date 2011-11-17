@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import risk.common.Logger;
@@ -18,7 +19,6 @@ public class ServerCommandVisitor implements CommandVisitor {
     private GameController gameCtrl;
     private ArrayList<Color> colors;
     private Iterator<Player> currentPlayerIterator;
-    private RoundPhase roundPhase = null;
 
     public ServerCommandVisitor(CommandSender cmdSender, GameView gameView, GameController gameCtrl, ClientHandler clientHandler) {
         this.gameView = gameView;
@@ -123,11 +123,51 @@ public class ServerCommandVisitor implements CommandVisitor {
         if (currentPlayerIterator == null || !currentPlayerIterator.hasNext()) {
             currentPlayerIterator = gameView.getPlayers().iterator();
         }
+        gameCtrl.setRoundNumber(gameView.getRoundNumber() + 1);
         gameCtrl.setCurrentPlayer(currentPlayerIterator.next());
-        roundPhase = RoundPhase.REINFORCEMENT;
-        
+        LinkedList<RoundPhase> phases = new LinkedList<RoundPhase>();
+        switch (gameView.getRoundNumber()) {
+        case 1:
+            phases.add(RoundPhase.REINFORCEMENT);
+            break;
+        case 2:
+            phases.add(RoundPhase.REGROUP);
+            break;
+        default:
+            phases.add(RoundPhase.REINFORCEMENT);
+            phases.add(RoundPhase.ATTACK);
+            phases.add(RoundPhase.REGROUP);
+            break;
+        }
+        gameCtrl.setRoundPhases(phases);
         gameCtrl.setAvailableReinforcement(getReinforcement(gameView.getCurrentPlayer()));
-        cmdSender.sendCmd(new NextRoundCmd(gameView.getCurrentPlayer(), gameView.getAvailableReinforcement()), null);
+        cmdSender.sendCmd(new NextRoundCmd(gameView.getCurrentPlayer(), gameView.getRoundPhases()), null);
+        initNextPhase();
+    }
+    
+    private void initNextPhase() {
+        if (!gameCtrl.swicthToNextPhase()) {
+            // initNextRound()
+            return;
+        }
+        RoundPhase phase = gameView.getRoundPhase();
+        switch (phase) {
+        case REINFORCEMENT:
+            Player p = gameView.getCurrentPlayer();
+            int reinforcement = getReinforcement(p);
+            gameCtrl.setAvailableReinforcement(reinforcement);
+            cmdSender.sendCmd(new NextPhaseCmd(reinforcement), null);
+            break;
+        case ATTACK:
+            cmdSender.sendCmd(new NextPhaseCmd(0), null);
+            break;
+        case REGROUP:
+            cmdSender.sendCmd(new NextPhaseCmd(0), null);
+            break;
+        default:
+            Logger.logerror("INVALID round phase!!");
+            break;
+        }
     }
     
     private int getReinforcement(Player p) {
@@ -162,4 +202,10 @@ public class ServerCommandVisitor implements CommandVisitor {
         gameCtrl.addTroopsToCountry(country, cmd.getTroops());
         cmdSender.sendCmd(new PlaceReinforcementCmd(country, cmd.getTroops(), gameView.getCurrentPlayer()), null);
     }
+    
+    @Override
+    public void visit(NextPhaseCmd cmd) {
+        WrongCommand(cmd);
+    }
+
 }

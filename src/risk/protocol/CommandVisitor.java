@@ -11,4 +11,5 @@ public interface CommandVisitor {
     public void visit(GameEndedCmd cmd);
     public void visit(DoAttackCmd cmd);
     public void visit(PlaceReinforcementCmd cmd);
+    public void visit(NextPhaseCmd cmd);
 }
