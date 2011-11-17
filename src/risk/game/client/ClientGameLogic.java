@@ -30,11 +30,7 @@ public class ClientGameLogic implements Controller {
         RoundPhase phase = gameView.getRoundPhase();
 
         if (phase == RoundPhase.REINFORCEMENT) {
-            /*
-             * WARNING! The second parameter of the next method call should be
-             * changed to the number of fortify units.
-             */
-            view.showReinforcementDialog(c,availableReinforcementUnits);
+            view.showReinforcementDialog(c, gameView.getAvailableReinforcement());
         } else {
             Country selected;
             Logger.logdebug("Country \"" + c.getName() + "\" clicked");
