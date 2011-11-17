@@ -23,16 +23,29 @@ import javax.swing.JButton;
 import risk.game.CountryPair;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 public class RegroupPanel extends JPanel {
+    RegroupDialog parent;
+    CountryPair pair;
     String from, to;
     int fromBefore, fromAfter, toBefore, toAfter;
     ArrayList<String> regroup=new ArrayList<String>();
+    JLabel FC = new JLabel();
+    JLabel TC = new JLabel();
+    JLabel FA = new JLabel();
+    JLabel TA = new JLabel();
+    private final Action okAction = new OkAction();
+    private final Action cancelAction = new CancelAction();
 
     /**
      * Create the panel.
      */
-    public RegroupPanel(CountryPair cp) {
+    public RegroupPanel(RegroupDialog parent, CountryPair cp) {
+        this.parent=parent;
+        pair=cp;
         from = cp.From.getName();
         to = cp.To.getName();
         fromBefore = cp.From.getTroops();
@@ -72,14 +85,14 @@ public class RegroupPanel extends JPanel {
         JLabel label = new JLabel("Current armies:");
         panel_1.add(label);
 
-        JLabel label_1 = new JLabel(fromBefore + "");
-        panel_1.add(label_1);
+        FC.setText(fromBefore + "");
+        panel_1.add(FC);
 
         JLabel label_2 = new JLabel("Current armies:");
         panel_1.add(label_2);
 
-        JLabel label_3 = new JLabel(toBefore + "");
-        panel_1.add(label_3);
+        TC.setText(toBefore + "");
+        panel_1.add(TC);
 
         JPanel panel_2 = new JPanel();
         panel.add(panel_2);
@@ -94,6 +107,10 @@ public class RegroupPanel extends JPanel {
         amountOfRegroup.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent arg0) {
                 int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
+                fromAfter=fromBefore-delta;
+                toAfter=toBefore+delta;
+                FA.setText(fromAfter+"");
+                TA.setText(toAfter+"");
             }
         });
         amountOfRegroup.setSelectedIndex(1);
@@ -108,14 +125,15 @@ public class RegroupPanel extends JPanel {
         int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
         fromAfter=fromBefore-delta;
         toAfter=toBefore+delta;
-        JLabel label_5 = new JLabel(fromAfter+"");
-        panel_3.add(label_5);
+        
+        FA.setText(fromAfter+"");
+        panel_3.add(FA);
 
         JLabel label_6 = new JLabel("Armies after regroup:");
         panel_3.add(label_6);
 
-        JLabel label_7 = new JLabel(toAfter+"");
-        panel_3.add(label_7);
+        TA.setText(toAfter+"");
+        panel_3.add(TA);
 
         JSeparator separator_1 = new JSeparator();
         panel.add(separator_1);
@@ -130,12 +148,34 @@ public class RegroupPanel extends JPanel {
         flowLayout_1.setAlignment(FlowLayout.RIGHT);
         panel_4.add(panel_5);
 
-        JButton button = new JButton("ok");
-        panel_5.add(button);
+        JButton ok = new JButton("ok");
+        ok.setAction(okAction);
+        panel_5.add(ok);
 
-        JButton button_1 = new JButton("cancel");
-        panel_5.add(button_1);
+        JButton cancel = new JButton("cancel");
+        cancel.setAction(cancelAction);
+        panel_5.add(cancel);
 
     }
 
+    private class OkAction extends AbstractAction {
+        public OkAction() {
+            putValue(NAME, "Ok");
+            putValue(SHORT_DESCRIPTION, "Do the regrouping and close this dialog");
+        }
+        public void actionPerformed(ActionEvent e) {
+            pair.From.setTroops(fromAfter);
+            pair.To.setTroops(toAfter);
+            parent.dispose();
+        }
+    }
+    private class CancelAction extends AbstractAction {
+        public CancelAction() {
+            putValue(NAME, "Cancel");
+            putValue(SHORT_DESCRIPTION, "Cancel regrouping and close this dialog");
+        }
+        public void actionPerformed(ActionEvent e) {
+            parent.dispose();
+        }
+    }
 }

@@ -34,27 +34,28 @@ public class ClientPanel extends JPanel implements Observer, View {
     }
 
     @Override
-    public void showReinforcementDialog(Country to) {
-        // TODO Auto-generated method stub
+    public void showReinforcementDialog(Country to, int availableTroops) {
+        ReinforcementDialog rd = new ReinforcementDialog(to, availableTroops);
 
     }
 
     @Override
     public void showAttackDialog(CountryPair cp) {
-        // TODO Auto-generated method stub
-
+        AttackDialog ad = new AttackDialog(cp);
     }
 
     @Override
     public void showRegroupDialog(CountryPair cp) {
-        // TODO Auto-generated method stub
+        RegroupDialog rd = new RegroupDialog(cp);
 
     }
 
     @Override
-    public void addMessage(String msg) {
-        JOptionPane.showMessageDialog(this, msg, "Message!",
-                JOptionPane.INFORMATION_MESSAGE);
-
+    public void addMessage(String msg, boolean popup) {
+        if (popup) {
+            JOptionPane.showMessageDialog(this, msg, "Message!",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        fbp.addMessage(msg);
     }
 }
