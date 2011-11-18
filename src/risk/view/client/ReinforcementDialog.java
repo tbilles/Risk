@@ -1,6 +1,7 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ public class ReinforcementDialog extends JDialog {
      * Create the dialog.
      */
     public ReinforcementDialog(Country c, int availableTroops) {
+        setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         this.c=c;
         setTitle("Fortify");
         setBounds(100, 100, 448, 106);
@@ -64,6 +66,7 @@ public class ReinforcementDialog extends JDialog {
                 cancelButton.setAction(cancelAction);
                 buttonPane.add(cancelButton);
             }
+            setVisible(true);
         }
     }
     public int getSelectedTroopsNumber(){
@@ -79,6 +82,7 @@ public class ReinforcementDialog extends JDialog {
 
         public void actionPerformed(ActionEvent e) {
             c.setTroops(getSelectedTroopsNumber());
+            setVisible(false);
             dispose();
         }
     }
@@ -91,6 +95,7 @@ public class ReinforcementDialog extends JDialog {
         }
 
         public void actionPerformed(ActionEvent e) {
+            setVisible(false);
             dispose();
         }
     }

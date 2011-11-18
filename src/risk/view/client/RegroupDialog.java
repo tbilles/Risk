@@ -1,6 +1,7 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ public class RegroupDialog extends JDialog {
      * Create the dialog.
      */
     public RegroupDialog(CountryPair cp) {
+        setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         setBounds(100, 100, 320, 160);
         setTitle("Regrouping...");
         getContentPane().setLayout(new BorderLayout());
@@ -28,6 +30,7 @@ public class RegroupDialog extends JDialog {
         panel= new RegroupPanel(this, cp);
         contentPanel.add(panel);
         getContentPane().add(contentPanel, BorderLayout.CENTER);
+        setVisible(true);
     }
 
 }
