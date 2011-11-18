@@ -29,6 +29,7 @@ public interface GameView {
     public void registerObserver(Observer o);
     
     public RoundPhase getRoundPhase();
+    public RoundPhase getNextRoundPhase();
     public int getRoundNumber();
     public Collection<RoundPhase> getRoundPhases();
     public int getAvailableReinforcement();

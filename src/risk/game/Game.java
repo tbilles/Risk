@@ -24,10 +24,15 @@ public class Game implements GameView, GameController {
     private ArrayList<Observer> observers=new ArrayList<Observer>();
 
     /**
-     * Indicates in which phase the current round is.
+     * Indicates in which phase the current round is. May be null.
      * Eg. reinforcement phase, attack phase, regroup phase
      */
-    private RoundPhase roundPhase;
+    private RoundPhase currentRoundPhase;
+    
+    /**
+     * Indicates the next RoundPhase. May be null.
+     */
+    private RoundPhase nextRoundPhase;
     
     /**
      * The number of troops that can be assigned to countries at the beginning
@@ -188,7 +193,12 @@ public class Game implements GameView, GameController {
 
     @Override
     public RoundPhase getRoundPhase() {
-        return roundPhase;
+        return currentRoundPhase;
+    }
+    
+    @Override
+    public RoundPhase getNextRoundPhase() {
+        return nextRoundPhase;
     }
 
     @Override
@@ -237,7 +247,7 @@ public class Game implements GameView, GameController {
     @Override
     public void setRoundPhases(Collection<RoundPhase> roundPhases) {
         this.roundPhases = new LinkedList<RoundPhase>(roundPhases);
-        this.roundPhase = null;
+        this.currentRoundPhase = null;
         this.roundPhasesIterator = null;
         modelChanged();
     }
@@ -246,12 +256,16 @@ public class Game implements GameView, GameController {
     public boolean swicthToNextPhase() {
         if (roundPhasesIterator == null) {
             roundPhasesIterator = roundPhases.iterator();
+            if (roundPhasesIterator.hasNext()) {
+                nextRoundPhase = roundPhasesIterator.next();
+            } else {
+                nextRoundPhase = null;
+            }
         }
+        currentRoundPhase = nextRoundPhase;
         if (roundPhasesIterator.hasNext()) {
-            roundPhase = roundPhasesIterator.next();
-            return true;
-        } else {
-            return false;
+            nextRoundPhase = roundPhasesIterator.next();
         }
+        return currentRoundPhase != null;
     }
 }
