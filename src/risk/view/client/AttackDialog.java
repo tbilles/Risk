@@ -1,6 +1,7 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -20,7 +21,9 @@ public class AttackDialog extends JDialog {
      * Create the dialog.
      */
     public AttackDialog(CountryPair cp) {
+        setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         setTitle("Attacking...");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBounds(100, 100, 300, 300);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
@@ -28,6 +31,7 @@ public class AttackDialog extends JDialog {
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         attackPanel= new AttackPanel(this, cp);
         contentPanel.add(attackPanel);
+        setVisible(true);
     }
 
 }

@@ -30,6 +30,7 @@ public class FeedbackPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JTextArea temp = RiskIO.getClientTextArea();
+        temp.setEditable(false);
         temp.setRows(5);
         JScrollPane sp = new JScrollPane(temp);
         JPanel debugPanel = new JPanel();
@@ -48,6 +49,7 @@ public class FeedbackPanel extends JPanel {
         
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(messages);
+        messages.setEditable(false);
         panel.add(scrollPane);
 
     }

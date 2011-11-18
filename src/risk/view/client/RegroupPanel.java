@@ -166,6 +166,7 @@ public class RegroupPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             pair.From.setTroops(fromAfter);
             pair.To.setTroops(toAfter);
+            parent.setVisible(false);
             parent.dispose();
         }
     }
@@ -175,6 +176,7 @@ public class RegroupPanel extends JPanel {
             putValue(SHORT_DESCRIPTION, "Cancel regrouping and close this dialog");
         }
         public void actionPerformed(ActionEvent e) {
+            parent.setVisible(false);
             parent.dispose();
         }
     }
