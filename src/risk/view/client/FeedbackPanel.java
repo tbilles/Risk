@@ -16,6 +16,14 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import java.awt.Label;
+import java.awt.FlowLayout;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Component;
 
 public class FeedbackPanel extends JPanel {
     private JTextArea messages=new JTextArea();
@@ -37,11 +45,6 @@ public class FeedbackPanel extends JPanel {
         add(debugPanel);
         debugPanel.setLayout(new BorderLayout());
         debugPanel.add(sp, BorderLayout.CENTER);
-        playersPanel.setPreferredSize(new Dimension(128, 100));
-
-        
-        add(playersPanel);
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         
         JPanel panel = new JPanel();
         add(panel);
@@ -51,6 +54,37 @@ public class FeedbackPanel extends JPanel {
         scrollPane.setViewportView(messages);
         messages.setEditable(false);
         panel.add(scrollPane);
+        playersPanel.setPreferredSize(new Dimension(128, 100));
+
+        
+        add(playersPanel);
+        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+        
+        JPanel myCardsPanel = new JPanel();
+        add(myCardsPanel);
+        myCardsPanel.setLayout(new MigLayout("", "[44px][5px][47px]", "[22px][14px][14px][14px]"));
+        
+        Label label = new Label("My risk cards:");
+        label.setFont(new Font("Dialog", Font.BOLD, 12));
+        myCardsPanel.add(label, "cell 0 0 3 1,alignx center,aligny top");
+        
+        JLabel lblNewLabel = new JLabel("Infantry:");
+        myCardsPanel.add(lblNewLabel, "cell 0 1,alignx left,aligny top");
+        
+        JLabel lblNewLabel_2 = new JLabel("0");
+        myCardsPanel.add(lblNewLabel_2, "cell 2 1,alignx left,aligny top");
+        
+        JLabel lblNewLabel_1 = new JLabel("Cavalry:");
+        myCardsPanel.add(lblNewLabel_1, "cell 0 2,alignx center,aligny top");
+        
+        JLabel lblNewLabel_3 = new JLabel("0");
+        myCardsPanel.add(lblNewLabel_3, "cell 2 2,alignx left,aligny top");
+        
+        JLabel lblA = new JLabel("Artillery:");
+        myCardsPanel.add(lblA, "cell 0 3,alignx center,aligny top");
+        
+        JLabel lblNewLabel_4 = new JLabel("0");
+        myCardsPanel.add(lblNewLabel_4, "cell 2 3,alignx left,aligny top");
 
     }
 

@@ -19,7 +19,7 @@ public class Game implements GameView, GameController {
     private LinkedList<Player> players = new LinkedList<Player>();
 
     /**
-     * A list of obersvers for the Observer design pattern.
+     * A list of observers for the Observer design pattern.
      */
     private ArrayList<Observer> observers=new ArrayList<Observer>();
 
