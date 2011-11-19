@@ -32,7 +32,7 @@ import javax.swing.Action;
 public class AttackPanel extends JPanel {
     private int fromCurrentArmies, toCurrentArmies; 
     private AttackDialog parent;
-    private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies, lblToAfterArmies;
+    private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies, lblToAfterArmies, lblFromCurrentArmies, lblToCurrentArmies;
     private JButton aThreeDice, aTwoDice, aOneDice, btnCancelAttack, dTwoDice, dOneDice;
     private Controller controller;
     private int viewerType;
@@ -100,7 +100,7 @@ public class AttackPanel extends JPanel {
         JLabel label_2 = new JLabel("Current armies:");
         panel_2.add(label_2);
         
-        JLabel lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
+        lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
         panel_2.add(lblFromCurrentArmies);
         
         JButton aThreeDice = new JButton("Attack with 3 dice");
@@ -167,7 +167,7 @@ public class AttackPanel extends JPanel {
         panel_1.add(panel_8, gbc_panel_8);
         panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JLabel label_6 = new JLabel("Armies after throwing:");
+        JLabel label_6 = new JLabel("Died in last throw:");
         panel_8.add(label_6);
         
         lblFromAfterArmies = new JLabel("?");
@@ -208,7 +208,7 @@ public class AttackPanel extends JPanel {
         JLabel label = new JLabel("Current armies:");
         panel_5.add(label);
         
-        JLabel lblToCurrentArmies = new JLabel(cp.To.getTroops()+"");
+        lblToCurrentArmies = new JLabel(cp.To.getTroops()+"");
         panel_5.add(lblToCurrentArmies);
         
         dTwoDice = new JButton("Defend with 2 dice");
@@ -260,7 +260,7 @@ public class AttackPanel extends JPanel {
         panel_3.add(panel_10, gbc_panel_10);
         panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JLabel label_10 = new JLabel("Armies after throwing:");
+        JLabel label_10 = new JLabel("Died in last throw:");
         panel_10.add(label_10);
         
         lblToAfterArmies = new JLabel("?");
@@ -286,7 +286,10 @@ public class AttackPanel extends JPanel {
         thrownDefender.setText(tempS);
         int deltaA=0, deltaD=0;
         attack.calcLosses(deltaA, deltaD);
-        //lblToAfterArmies=
+        lblFromCurrentArmies.setText(attack.getCountryPair().From.getTroops()+"");
+        lblToCurrentArmies.setText(attack.getCountryPair().To.getTroops()+"");
+        lblFromAfterArmies.setText(deltaA+"");
+        lblToAfterArmies.setText(deltaD+"");
         
     }
     private void disableAllButtons(){
