@@ -16,6 +16,11 @@ public class Attack {
         this.countryPair = countryPair;
     }
 
+    public void resetDice() {
+        attackerDice = -1;
+        defenderDice = -1;
+    }
+    
     public int getAttackerDice() {
         return attackerDice;
     }

@@ -351,12 +351,16 @@ public class ServerCommandVisitor implements CommandVisitor {
         
         LinkedList<Integer> aDice = new LinkedList<Integer>();
         for (int i = 0; i < attack.getAttackerDice(); i++) {
-            aDice.add(r.nextInt(6) + 1);
+            int rand = r.nextInt(6) + 1; 
+            aDice.add(rand);
+            Logger.logdebug("Attacker thrown " + rand);
         }
         
         LinkedList<Integer> dDice = new LinkedList<Integer>();
         for (int i = 0; i < attack.getDefenderDice(); i++) {
-            dDice.add(r.nextInt(6) + 1);
+            int rand = r.nextInt(6) + 1; 
+            dDice.add(rand);
+            Logger.logdebug("Defender thrown " + rand);
         }
         
         Integer aLosses = new Integer(0);
