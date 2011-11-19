@@ -354,4 +354,15 @@ public class Game implements GameView, GameController {
     public void clearAttack() {
         attack = null;
     }
+
+    @Override
+    public void setAttackRoundResults(Collection<Integer> aDiceResults, Collection<Integer> dDiceResults) {
+        if (attack == null) {
+            Logger.logerror("Adding dice results when no attack is in progress");
+            return;
+        }
+        attack.setaDiceResults(aDiceResults);
+        attack.setdDiceResults(dDiceResults);
+        modelChanged();
+    }
 }

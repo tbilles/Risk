@@ -19,7 +19,7 @@ public class AttackRoundResultCmd extends Command {
         return aDiceResults;
     }
 
-    public Collection<Integer> getDiceResults() {
+    public Collection<Integer> getDDiceResults() {
         return dDiceResults;
     }
 

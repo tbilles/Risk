@@ -113,26 +113,27 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(AttackStartCmd cmd) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void visit(AttackSetADiceCmd cmd) {
-        // TODO Auto-generated method stub
-        
+        int dice = cmd.getADice();
+        Logger.logdebug("Got attackSetADiceCmd: " + dice);
+        gameCtrl.setAttackADice(dice);
     }
 
     @Override
     public void visit(AttackSetDDiceCmd cmd) {
-        // TODO Auto-generated method stub
-        
+        int dice = cmd.getDDice();
+        Logger.logdebug("Got attackSetDDiceCmd: " + dice);
+        gameCtrl.setAttackDDice(dice);        
     }
 
     @Override
     public void visit(AttackRoundResultCmd cmd) {
-        // TODO Auto-generated method stub
-        
+        Logger.logdebug("Got AttackResultCmd");
+        gameCtrl.setAttackRoundResults(cmd.getADiceResults(), cmd.getDDiceResults());
     }
 
     @Override
