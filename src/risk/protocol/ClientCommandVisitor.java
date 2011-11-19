@@ -138,6 +138,9 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(AttackRoundResultCmd cmd) {
         Logger.logdebug("Got AttackResultCmd");
         gameCtrl.setAttackRoundResults(cmd.getADiceResults(), cmd.getDDiceResults());
+        Attack attack = gameView.getAttack();
+        int[] losses = attack.calcLosses();
+        gameCtrl.accountAttackLosses(losses[0], losses[1]);
     }
 
     @Override
