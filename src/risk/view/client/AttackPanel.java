@@ -265,7 +265,6 @@ public class AttackPanel extends JPanel {
         
         lblToAfterArmies = new JLabel("?");
         panel_10.add(lblToAfterArmies);
-        setButtonsStatus();
 
         setButtonsStatus();
     }
