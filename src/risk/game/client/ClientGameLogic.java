@@ -55,7 +55,6 @@ public class ClientGameLogic implements Controller {
                     }
                     currentAttack = new CountryPair(selected, c);
                     Logger.logdebug("Attacking from " + selected.getName() + " to " + c.getName());
-                    view.showAttackDialog(currentAttack);
                     sender.queueForSend(new DoAttackCmd(currentAttack.From, currentAttack.To));
                 } else if ((phase == RoundPhase.REGROUP || nextPhase == RoundPhase.REGROUP) && c.getOwner() == gameView.getMyPlayer()) {
                     // If second click is on my country, then regroup

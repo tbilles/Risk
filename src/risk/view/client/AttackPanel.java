@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 
+import risk.game.Attack;
 import risk.game.CountryPair;
 
 import java.awt.FlowLayout;
@@ -24,11 +25,18 @@ import java.awt.Font;
 public class AttackPanel extends JPanel {
     private int fromCurrentArmies, toCurrentArmies; 
     private AttackDialog parent;
+    private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies, lblToAfterArmies;
+    private JButton aThreeDice, aTwoDice, aOneDice, btnCancelAttack, dTwoDice, dOneDice;
     /**
      * Create the panel.
+     * viewerType==0: all buttons disabled
+     * viewerType==1: defender buttons disabled (attacker mode)
+     * viewerType==2: attacker buttons disabled (defender mode)
      */
-    public AttackPanel(AttackDialog ad, CountryPair cp) {
+    public AttackPanel(AttackDialog ad, Attack a, int viewerType) {
+        CountryPair cp=a.getCountryPair();
         parent=ad;
+        setButtonsStatus(viewerType);
         setLayout(new BorderLayout(0, 0));
         
         JLabel lblAttack = new JLabel("Attack");
@@ -78,28 +86,28 @@ public class AttackPanel extends JPanel {
         JLabel lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
         panel_2.add(lblFromCurrentArmies);
         
-        JButton AThreeDice = new JButton("Attack with 3 dice");
+        JButton aThreeDice = new JButton("Attack with 3 dice");
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
         gbc_AThreeDice.insets = new Insets(0, 0, 5, 0);
         gbc_AThreeDice.gridx = 0;
         gbc_AThreeDice.gridy = 3;
-        panel_1.add(AThreeDice, gbc_AThreeDice);
+        panel_1.add(aThreeDice, gbc_AThreeDice);
         
-        JButton ATwoDice = new JButton("Attack with 2 dice");
+        aTwoDice = new JButton("Attack with 2 dice");
         GridBagConstraints gbc_ATwoDice = new GridBagConstraints();
         gbc_ATwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_ATwoDice.gridx = 0;
         gbc_ATwoDice.gridy = 4;
-        panel_1.add(ATwoDice, gbc_ATwoDice);
+        panel_1.add(aTwoDice, gbc_ATwoDice);
         
-        JButton AOneDice = new JButton("Attack with 1 dice");
+        aOneDice = new JButton("Attack with 1 dice");
         GridBagConstraints gbc_AOneDice = new GridBagConstraints();
         gbc_AOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_AOneDice.gridx = 0;
         gbc_AOneDice.gridy = 5;
-        panel_1.add(AOneDice, gbc_AOneDice);
+        panel_1.add(aOneDice, gbc_AOneDice);
         
-        JButton btnCancelAttack = new JButton("Cancel attack");
+        btnCancelAttack = new JButton("Cancel attack");
         GridBagConstraints gbc_btnCancelAttack = new GridBagConstraints();
         gbc_btnCancelAttack.insets = new Insets(0, 0, 5, 0);
         gbc_btnCancelAttack.gridx = 0;
@@ -126,7 +134,7 @@ public class AttackPanel extends JPanel {
         JLabel label_4 = new JLabel("Thrown:");
         panel_7.add(label_4);
         
-        JLabel thrownAttacker = new JLabel("6;3;2");
+        thrownAttacker = new JLabel("6;3;2");
         panel_7.add(thrownAttacker);
         
         JPanel panel_8 = new JPanel();
@@ -141,7 +149,7 @@ public class AttackPanel extends JPanel {
         JLabel label_6 = new JLabel("Armies after throwing:");
         panel_8.add(label_6);
         
-        JLabel lblFromAfterArmies = new JLabel("?");
+        lblFromAfterArmies = new JLabel("?");
         panel_8.add(lblFromAfterArmies);
         
         JPanel panel_3 = new JPanel();
@@ -182,19 +190,19 @@ public class AttackPanel extends JPanel {
         JLabel lblToCurrentArmies = new JLabel(cp.To.getTroops()+"");
         panel_5.add(lblToCurrentArmies);
         
-        JButton DTwoDice = new JButton("Defend with 2 dice");
+        dTwoDice = new JButton("Defend with 2 dice");
         GridBagConstraints gbc_DTwoDice = new GridBagConstraints();
         gbc_DTwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_DTwoDice.gridx = 0;
         gbc_DTwoDice.gridy = 3;
-        panel_3.add(DTwoDice, gbc_DTwoDice);
+        panel_3.add(dTwoDice, gbc_DTwoDice);
         
-        JButton DOneDice = new JButton("Defend with 1 dice");
+        dOneDice = new JButton("Defend with 1 dice");
         GridBagConstraints gbc_DOneDice = new GridBagConstraints();
         gbc_DOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_DOneDice.gridx = 0;
         gbc_DOneDice.gridy = 4;
-        panel_3.add(DOneDice, gbc_DOneDice);
+        panel_3.add(dOneDice, gbc_DOneDice);
         
         JPanel panel_4 = new JPanel();
         GridBagConstraints gbc_panel_4 = new GridBagConstraints();
@@ -216,8 +224,8 @@ public class AttackPanel extends JPanel {
         JLabel label_8 = new JLabel("Thrown:");
         panel_9.add(label_8);
         
-        JLabel ThrownDeffender = new JLabel("6;3;2");
-        panel_9.add(ThrownDeffender);
+        thrownDefender = new JLabel("6;3;2");
+        panel_9.add(thrownDefender);
         
         JPanel panel_10 = new JPanel();
         GridBagConstraints gbc_panel_10 = new GridBagConstraints();
@@ -232,9 +240,15 @@ public class AttackPanel extends JPanel {
         JLabel label_10 = new JLabel("Armies after throwing:");
         panel_10.add(label_10);
         
-        JLabel lblToAfterArmies = new JLabel("?");
+        lblToAfterArmies = new JLabel("?");
         panel_10.add(lblToAfterArmies);
 
     }
-
+    
+    public void refresh(Attack attack){
+        thrownAttacker.setText("");       
+    }
+    private void setButtonsStatus(int viewerType){
+        
+    }
 }

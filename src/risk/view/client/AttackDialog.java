@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import risk.game.Attack;
 import risk.game.Controller;
 import risk.game.CountryPair;
 
@@ -22,7 +23,7 @@ public class AttackDialog extends JDialog {
     /**
      * Create the dialog.
      */
-    public AttackDialog(CountryPair cp, Controller controller) {
+    public AttackDialog(Attack a, Controller controller, int viewerType) {
         this.controller=controller;
         setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         setTitle("Attacking...");
@@ -32,9 +33,12 @@ public class AttackDialog extends JDialog {
         contentPanel.setLayout(new FlowLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
-        attackPanel= new AttackPanel(this, cp);
+        attackPanel= new AttackPanel(this, a, viewerType);
         contentPanel.add(attackPanel);
         setVisible(true);
+    }
+    public void refresh(Attack attack){
+        attackPanel.refresh(attack);
     }
 
 }
