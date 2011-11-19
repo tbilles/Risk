@@ -23,7 +23,9 @@ public interface GameController {
     
     public void setRoundNumber(int roundNumber);
     public void setRoundPhases(Collection<RoundPhase> roundPhases);
+    public void resetPhases();
     public boolean swicthToNextPhase();
     public void setAvailableReinforcement(int availableReinforcement);
     public void addTroopsToCountry(Country country, int troops);
+    public void regroup(CountryPair countryPair, int troops);
 }

@@ -2,6 +2,7 @@ package risk.protocol;
 
 import risk.common.Logger;
 import risk.game.Country;
+import risk.game.CountryPair;
 import risk.game.GameController;
 import risk.game.GameView;
 import risk.game.Player;
@@ -98,5 +99,15 @@ public class ClientCommandVisitor implements CommandVisitor {
             Logger.logerror("No more player in NextPlayerCmd handler!");
         }
         Logger.logdebug("Current player is: " + gameView.getCurrentPlayer().getName());
+        gameCtrl.resetPhases();
+    }
+
+    @Override
+    public void visit(RegroupCmd cmd) {
+        Country from = gameView.getCountry(cmd.getCountryPair().From.getName());
+        Country to = gameView.getCountry(cmd.getCountryPair().To.getName());
+        Logger.logdebug("Got regroup command " + from.getName() + " -> " + to.getName() + " : " + cmd.getTroops());
+        CountryPair cp = new CountryPair(from, to);
+        gameCtrl.regroup(cp, cmd.getTroops());
     }
 }

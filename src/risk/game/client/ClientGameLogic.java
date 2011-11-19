@@ -5,6 +5,7 @@ import risk.game.*;
 import risk.network.QueuedSender;
 import risk.protocol.command.DoAttackCmd;
 import risk.protocol.command.PlaceReinforcementCmd;
+import risk.protocol.command.RegroupCmd;
 
 public class ClientGameLogic implements Controller {
     private GameView gameView;
@@ -56,6 +57,7 @@ public class ClientGameLogic implements Controller {
                     }
                     currentAttack = new CountryPair(selected, c);
                     Logger.logdebug("Attacking from " + selected.getName() + " to " + c.getName());
+                    view.showAttackDialog(currentAttack);
                     sender.queueForSend(new DoAttackCmd(currentAttack.From, currentAttack.To));
                 } else if ((phase == RoundPhase.REGROUP || nextPhase == RoundPhase.REGROUP) && c.getOwner() == gameView.getMyPlayer()) {
                     // If second click is on my country, then regroup
@@ -102,10 +104,18 @@ public class ClientGameLogic implements Controller {
         }
         if (continuing) {
             Logger.logdebug("Continuing attack");
-            sender.queueForSend(new DoAttackCmd(currentAttack.From,
-                    currentAttack.To));
+            sender.queueForSend(new DoAttackCmd(currentAttack.From, currentAttack.To));
         } else {
             currentAttack = null;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onRegroupDialogOk(CountryPair cp, int troops) {
+        if (troops > 0 && troops < cp.From.getTroops()) {
+            sender.queueForSend(new RegroupCmd(cp, troops));
+            return false;
         }
         return true;
     }
