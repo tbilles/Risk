@@ -36,11 +36,12 @@ public class Attack {
         return countryPair;
     }
     
-    public void calcLosses(Collection<Integer> aDice, Collection<Integer> dDice, Integer aLosses, Integer dLosses) {
-        Iterator<Integer> aIterator = aDice.iterator();
-        Iterator<Integer> dIterator = dDice.iterator();
+    public void calcLosses(Integer aLosses, Integer dLosses) {
         aLosses = 0;
         dLosses = 0;
+        if(aDiceResults==null || dDiceResults==null) return;
+        Iterator<Integer> aIterator = aDiceResults.iterator();
+        Iterator<Integer> dIterator = dDiceResults.iterator();
         
         while (aIterator.hasNext() && dIterator.hasNext()) {
             if (aIterator.next() > dIterator.next()) {
