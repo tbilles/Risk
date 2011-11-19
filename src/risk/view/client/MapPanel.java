@@ -22,6 +22,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.Action;
 
 public class MapPanel extends JPanel {
+    private ClientPanel parent;
     private ImageIcon image = new ImageIcon(getClass().getResource(
             "/risk/view/client/resource/Risk_small_names.jpg"));
     ImagePanel backGround;
@@ -37,7 +38,8 @@ public class MapPanel extends JPanel {
     /**
      * Create the panel.
      */
-    public MapPanel() {
+    public MapPanel(ClientPanel cp) {
+        parent=cp;
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -327,7 +329,10 @@ public class MapPanel extends JPanel {
         }
     }
     private void resizeRiskBoard(int height, int width){
+        parent.resize();
         Dimension d=backGround.resizeImage(height, width);
+        this.setPreferredSize(d);
+        repaint();
         for(CountryButton c: countryButtons.values()){
             c.setCurrentPosition(d.width, d.height);
         }

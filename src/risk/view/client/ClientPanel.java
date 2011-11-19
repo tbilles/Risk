@@ -1,6 +1,7 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import risk.game.Controller;
 import risk.game.Country;
@@ -13,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
 public class ClientPanel extends JPanel implements Observer, View {
-    private MapPanel map = new MapPanel();
+    private MapPanel map = new MapPanel(this);
     private FeedbackPanel fbp = new FeedbackPanel();
     private Controller controller;
     private AttackDialog ad;
@@ -54,6 +55,17 @@ public class ClientPanel extends JPanel implements Observer, View {
             else
                 ad.refresh(view.getAttack());
         }
+    }
+    public void resize(){
+        Dimension mapSize, temp, temp2;
+        mapSize=map.getPreferredSize();
+        temp=fbp.getSize();
+        temp2=new Dimension();
+        temp2.width=Math.min((int)(this.getSize().getWidth()-mapSize.getWidth()),200);
+        temp2.height=(int)temp.getHeight();
+        fbp.setSize(temp2);
+        fbp.setPreferredSize(temp2);
+        repaint();
     }
 
     @Override
