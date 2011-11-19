@@ -182,7 +182,61 @@ public class ServerCommandVisitor implements CommandVisitor {
     
     private int getReinforcement(Player p) {
         // TODO: get real number
-        return 5;
+        if (gameView.getRoundNumber() == 1) {
+            int playerno = gameView.getPlayers().size() - 2;
+            if (playerno > 4) {
+                playerno = 4;
+            }
+            return 40 - playerno*5;
+        } else {
+            Collection<Country> countries = gameView.getCountries();
+            int countryno = 0;
+            // Count owned territorry
+            for (Country c : countries) {
+                if (c.getOwner() == gameView.getCurrentPlayer()) {
+                    countryno++;
+                }
+            }
+            int reinforcement = countryno / 3;
+            
+            // Count continents
+            Collection<Continent> continents = gameView.getContinents();
+            Player myPlayer = gameView.getMyPlayer();
+            for (Continent continent : continents) {
+                boolean ownedEveryCountry = true;
+                Collection<Country> contCountries = continent.getCountries();
+                for (Country c : contCountries) {
+                    if (c.getOwner() != myPlayer) {
+                        ownedEveryCountry = false;
+                        break;
+                    }
+                }
+                if (ownedEveryCountry) {
+                    reinforcement += getContinentReinforcement(continent);
+                }
+            }
+            if (reinforcement < 3) {
+                reinforcement = 3;
+            }
+            return reinforcement;
+        }
+    }
+
+    private int getContinentReinforcement(Continent continent) {
+        if (continent.getName() == Continent.ASIA) {
+            return 7;
+        } else if (continent.getName() == Continent.AFRICA) {
+            return 3;
+        } else if (continent.getName() == Continent.EUROPE) {
+            return 5;
+        } else if (continent.getName() == Continent.AUSTRALIA) {
+            return 2;
+        } else if (continent.getName() == Continent.NORTHAMERICA) {
+            return 5;
+        } else if (continent.getName() == Continent.SOUTHAMERICA) {
+            return 2;
+        } 
+        return 0;
     }
 
     @Override
