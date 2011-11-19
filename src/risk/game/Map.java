@@ -68,10 +68,6 @@ public class Map {
                 Country.PERU,
                 Country.ARGENTINA,
         };
-        countries.add(new Country("Venezuela"));
-        countries.add(new Country("Brazil"));
-        countries.add(new Country("Peru"));
-        countries.add(new Country("Argentina"));
 
         for (String n : names) {
             countries.add(new Country(n));
@@ -93,7 +89,7 @@ public class Map {
         for (String n : names) {
             countries.add(new Country(n));
         }
-        continents.add(new Continent("Africa America", countries));
+        continents.add(new Continent("Africa", countries));
     }
     
     private void initAsia() {
