@@ -1,6 +1,7 @@
 package risk.protocol;
 
 import risk.common.Logger;
+import risk.game.Attack;
 import risk.game.Country;
 import risk.game.CountryPair;
 import risk.game.GameController;
@@ -113,7 +114,10 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(AttackStartCmd cmd) {
-        
+        Country from = gameView.getCountry(cmd.getCountryPair().From.getName());
+        Country to = gameView.getCountry(cmd.getCountryPair().To.getName());
+        Logger.logdebug("Got AttackStartCmd " + from.getName() + " -> " + to.getName());
+        gameCtrl.setAttack(new Attack(new CountryPair(from, to)));
     }
 
     @Override
