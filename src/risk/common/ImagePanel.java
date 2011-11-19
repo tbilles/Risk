@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
     private Image img;
+    int originalHeight, originalWidth;
 
     public ImagePanel(String img) {
       this(new ImageIcon(img).getImage());
@@ -22,6 +23,15 @@ public class ImagePanel extends JPanel {
       setMaximumSize(size);
       setSize(size);
       setLayout(null);
+      originalWidth=img.getWidth(null);
+      originalHeight=img.getHeight(null);
+    }
+    public void resizeImage(int height, int width){
+        
+    }
+    public Dimension getOriginalSize(){
+        Dimension size = new Dimension(originalWidth, originalHeight);
+        return size;
     }
 
     public void paintComponent(Graphics g) {

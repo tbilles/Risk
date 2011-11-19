@@ -16,11 +16,15 @@ import java.awt.Dimension;
 import java.util.HashMap;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import javax.swing.Action;
 
 public class MapPanel extends JPanel {
     private ImageIcon image = new ImageIcon(getClass().getResource(
             "/risk/view/client/resource/Risk_small_names.jpg"));
+    ImagePanel backGround;
     private JLayeredPane map = new JLayeredPane();
     private HashMap<String, CountryButton> countryButtons = new HashMap<String, CountryButton>();
     private Controller controller;
@@ -34,18 +38,24 @@ public class MapPanel extends JPanel {
      * Create the panel.
      */
     public MapPanel() {
-        setMaximumSize(new Dimension(1152, 648));
-        setPreferredSize(new Dimension(1152, 648));
-        setMinimumSize(new Dimension(1152, 648));
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                int height=e.getComponent().getHeight();
+                int width=e.getComponent().getWidth();
+                resizeRiskBoard(height, width);
+            }
+        });
+        backGround = new ImagePanel(image.getImage());
+        setPreferredSize(backGround.getOriginalSize());
 
         setLayout(new BorderLayout());
-        map.setPreferredSize(new Dimension(1152, 648));
-        map.setMaximumSize(new Dimension(1152, 648));
-        map.setMinimumSize(new Dimension(1152, 648));
+        map.setPreferredSize(backGround.getOriginalSize());
+        map.setMaximumSize(backGround.getOriginalSize());
+        map.setMinimumSize(backGround.getOriginalSize());
         add(map, BorderLayout.CENTER);
-
-        ImagePanel backGround = new ImagePanel(image.getImage());
-        backGround.setBounds(0, 0, 1152, 648);
+        
         map.add(backGround);
 
         JPanel buttonPanel = new JPanel();
@@ -312,6 +322,10 @@ public class MapPanel extends JPanel {
         for (CountryButton cb : countryButtons.values()) {
             cb.refresh(view);
         }
+    }
+    private void resizeRiskBoard(int height, int width){
+        backGround.resizeImage(height, width);
+        
     }
 
     private class SwingAction extends AbstractAction {

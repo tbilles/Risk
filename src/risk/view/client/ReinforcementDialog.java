@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 
+import risk.game.Controller;
 import risk.game.Country;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
@@ -24,12 +25,14 @@ public class ReinforcementDialog extends JDialog {
     private final Action okAction = new SwingAction();
     private final Action cancelAction = new SwingAction_1();
     private Country c;
+    private Controller controller;
     private JComboBox numFortify;
 
     /**
      * Create the dialog.
      */
-    public ReinforcementDialog(Country c, int availableTroops) {
+    public ReinforcementDialog(Country c, int availableTroops, Controller controller) {
+        this.controller=controller;
         setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         this.c=c;
         setTitle("Fortify");
@@ -81,7 +84,8 @@ public class ReinforcementDialog extends JDialog {
         }
 
         public void actionPerformed(ActionEvent e) {
-            c.setTroops(getSelectedTroopsNumber());
+            int temp=Integer.parseInt(numFortify.getSelectedItem().toString());
+            controller.onReinforcementDialogOK(c,temp);
             setVisible(false);
             dispose();
         }
