@@ -29,8 +29,8 @@ public class AttackDialog extends JDialog {
     public AttackDialog(Attack a, Controller controller, int viewerType) {
         this.controller = controller;
         this.viewerType = viewerType;
-        setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         setTitle("Attacking...");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
