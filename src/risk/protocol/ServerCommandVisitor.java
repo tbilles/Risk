@@ -323,4 +323,9 @@ public class ServerCommandVisitor implements CommandVisitor {
         gameCtrl.clearAttack();
         cmdSender.sendCmd(new AttackRetreatCmd(), null);
     }
+
+    @Override
+    public void visit(EndTurnCmd cmd) {
+        gotoNextPlayer();
+    }
 }

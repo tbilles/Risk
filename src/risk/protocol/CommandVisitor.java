@@ -19,4 +19,5 @@ public interface CommandVisitor {
     public void visit(AttackSetDDiceCmd cmd);
     public void visit(AttackRoundResultCmd cmd);
     public void visit(AttackRetreatCmd cmd);
+    public void visit(EndTurnCmd cmd);
 }

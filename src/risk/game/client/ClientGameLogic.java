@@ -3,9 +3,7 @@ package risk.game.client;
 import risk.common.Logger;
 import risk.game.*;
 import risk.network.QueuedSender;
-import risk.protocol.command.DoAttackCmd;
-import risk.protocol.command.PlaceReinforcementCmd;
-import risk.protocol.command.RegroupCmd;
+import risk.protocol.command.*;
 
 public class ClientGameLogic implements Controller {
     private GameView gameView;
@@ -120,4 +118,13 @@ public class ClientGameLogic implements Controller {
         return true;
     }
 
+    @Override
+    public void onEndTurnClick() {
+        if (gameView.getCurrentPlayer() != gameView.getMyPlayer() || gameView.getAvailableReinforcement() > 0) {
+            // TODO: error handling
+            Logger.logdebug("Cannot end turn right now");
+            return;
+        }
+        sender.queueForSend(new EndTurnCmd());
+    }
 }

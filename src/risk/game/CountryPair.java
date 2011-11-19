@@ -1,6 +1,11 @@
 package risk.game;
 
-public class CountryPair {
+import java.io.Serializable;
+import risk.protocol.command.Command;
+
+public class CountryPair implements Serializable {
+    private static final long serialVersionUID = Command.serialVersionUID;
+
     public Country From;
     public Country To;
     

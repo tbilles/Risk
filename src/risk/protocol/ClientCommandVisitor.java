@@ -138,7 +138,11 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(AttackRetreatCmd cmd) {
-        // TODO Auto-generated method stub
-        
+        gameCtrl.clearAttack();
+    }
+
+    @Override
+    public void visit(EndTurnCmd cmd) {
+        WrongCommand(cmd);
     }
 }
