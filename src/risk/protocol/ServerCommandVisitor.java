@@ -334,7 +334,7 @@ public class ServerCommandVisitor implements CommandVisitor {
         int dice = cmd.getDDice();
         Logger.logdebug("Got attackSetDDiceCmd: " + dice);
         Country to = gameView.getAttack().getCountryPair().To;
-        if (!(dice >= 1 && dice <=2 && dice < to.getTroops())) {
+        if (!(dice >= 1 && dice <=2 && dice <= to.getTroops())) {
             // TODO: error handling
             Logger.logdebug("Too many ddice!");
             return;
@@ -378,6 +378,7 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(AttackRetreatCmd cmd) {
+        Logger.logdebug("Got AttackRetreat command");
         gameCtrl.clearAttack();
         cmdSender.sendCmd(new AttackRetreatCmd(), null);
     }

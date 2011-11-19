@@ -345,7 +345,7 @@ public class Game implements GameView, GameController {
             Logger.logerror("Adding adice when no attack is in progress");
             return;
         }
-        attack.setAttackerDice(dice);
+        attack.setDefenderDice(dice);
     }
 
     @Override
@@ -354,7 +354,7 @@ public class Game implements GameView, GameController {
             Logger.logerror("Adding ddice when no attack is in progress");
             return;
         }
-        attack.setDefenderDice(dice);
+        attack.setAttackerDice(dice);
     }
 
     @Override
