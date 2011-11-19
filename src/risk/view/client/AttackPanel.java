@@ -54,7 +54,6 @@ public class AttackPanel extends JPanel {
         this.viewerType=viewerType;
         cp=a.getCountryPair();
         parent=ad;
-        setButtonsStatus();
         setLayout(new BorderLayout(0, 0));
         
         JLabel lblAttack = new JLabel("Attack");
@@ -267,6 +266,7 @@ public class AttackPanel extends JPanel {
         lblToAfterArmies = new JLabel("?");
         panel_10.add(lblToAfterArmies);
 
+        setButtonsStatus();
     }
     
     public void refresh(Attack attack){

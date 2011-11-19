@@ -311,6 +311,7 @@ public class Game implements GameView, GameController {
     @Override
     public void setAttack(Attack attack) {
         this.attack = attack;
+        modelChanged();
     }
     
     @Override
