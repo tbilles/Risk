@@ -15,7 +15,9 @@ public interface Controller {
      */
     
     public boolean onReinforcementDialogOK(Country c, int troops);
-    public boolean onAttackDialog(boolean continuing);
     public boolean onRegroupDialogOk(CountryPair cp, int troops);
+    public boolean onAttackRetreat();
+    public boolean onAttack_AttackerChose(int attackerDice);
+    public boolean onAttack_DefenderChose(int defenderDice);
     public void setView(View view);
 }

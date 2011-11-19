@@ -11,8 +11,6 @@ public class ClientGameLogic implements Controller {
     private View view;
     private QueuedSender sender;
 
-    private CountryPair currentAttack;
-
     public ClientGameLogic(GameView gameView, GameController gameCtrl) {
         super();
         this.gameView = gameView;
@@ -50,12 +48,12 @@ public class ClientGameLogic implements Controller {
                 Logger.logdebug("Action needed, current round phase: " + phase.toString());
                 // If the selected country is enemy, then attack
                 if (phase == RoundPhase.ATTACK && c.getOwner() != gameView.getMyPlayer()) {
-                    if (currentAttack != null) {
+                    if (gameView.getAttack() != null) {
                         Logger.logerror("CurrentAttack not null, when initiating new attack!");
                     }
-                    currentAttack = new CountryPair(selected, c);
+                    CountryPair cp = new CountryPair(selected, c);
                     Logger.logdebug("Attacking from " + selected.getName() + " to " + c.getName());
-                    sender.queueForSend(new DoAttackCmd(currentAttack.From, currentAttack.To));
+                    sender.queueForSend(new AttackStartCmd(cp));
                 } else if ((phase == RoundPhase.REGROUP || nextPhase == RoundPhase.REGROUP) && c.getOwner() == gameView.getMyPlayer()) {
                     // If second click is on my country, then regroup
                     Logger.logdebug("Regrouping from " + selected.getName() + " to " + c.getName());
@@ -94,21 +92,6 @@ public class ClientGameLogic implements Controller {
     }
 
     @Override
-    public boolean onAttackDialog(boolean continuing) {
-        if (currentAttack == null) {
-            Logger.logerror("CurrentAttack is null, when attackdialog was OKd");
-            return true;
-        }
-        if (continuing) {
-            Logger.logdebug("Continuing attack");
-            sender.queueForSend(new DoAttackCmd(currentAttack.From, currentAttack.To));
-        } else {
-            currentAttack = null;
-        }
-        return true;
-    }
-
-    @Override
     public boolean onRegroupDialogOk(CountryPair cp, int troops) {
         if (troops > 0 && troops < cp.From.getTroops()) {
             sender.queueForSend(new RegroupCmd(cp, troops));
@@ -125,5 +108,47 @@ public class ClientGameLogic implements Controller {
             return;
         }
         sender.queueForSend(new EndTurnCmd());
+    }
+
+    @Override
+    public boolean onAttackRetreat() {
+        Attack attack = gameView.getAttack();
+        if (attack.getCountryPair().From.getOwner() != gameView.getMyPlayer() || attack.getAttackerDice() > 0) {
+            // TODO error handling
+            Logger.logdebug("Attack etreat not possible");
+            return true;
+        }
+        sender.queueForSend(new AttackRetreatCmd());
+        return false;
+    }
+
+    @Override
+    public boolean onAttack_AttackerChose(int attackerDice) {
+        Attack attack = gameView.getAttack();
+        Country from = attack.getCountryPair().From;
+        if (from.getOwner() != gameView.getMyPlayer() || from.getTroops() <= attackerDice ||
+                attackerDice > 3 || attackerDice < 1)
+        {
+            // TODO error handling
+            Logger.logdebug("Attack etreat not possible");
+            return true;
+        }
+        sender.queueForSend(new AttackSetADiceCmd(attackerDice));
+        return false;
+    }
+
+    @Override
+    public boolean onAttack_DefenderChose(int defenderDice) {
+        Attack attack = gameView.getAttack();
+        Country to = attack.getCountryPair().To;
+        if (to.getOwner() != gameView.getMyPlayer() || to.getTroops() < defenderDice ||
+                defenderDice > 2 || defenderDice < 1)
+        {
+            // TODO error handling
+            Logger.logdebug("Attack etreat not possible");
+            return true;
+        }
+        sender.queueForSend(new AttackSetADiceCmd(defenderDice));
+        return false;
     }
 }
