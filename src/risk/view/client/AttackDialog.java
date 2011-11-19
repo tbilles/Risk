@@ -34,7 +34,6 @@ public class AttackDialog extends JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
                 showWarning();
             }
         });
@@ -55,10 +54,11 @@ public class AttackDialog extends JDialog {
     private void showWarning() {
         if (viewerType == 0) {
             JOptionPane.showMessageDialog(this, "Figyelem!",
-                    "Bocs, de ezt neked is végig kell nézne...", JOptionPane.PLAIN_MESSAGE);
+                    "Bocs, de ezt neked is végig kell nézni...", JOptionPane.PLAIN_MESSAGE);
         }
         if (viewerType == 1) {
             controller.onAttackRetreat();
+            this.dispose();
         }
         if (viewerType == 2) {
             JOptionPane.showMessageDialog(this, "Küzdj és bízva bízzál!",
