@@ -8,17 +8,17 @@ import risk.protocol.CommandVisitor;
 
 public class NextRoundCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
-    private Player nextPlayer;
+    private Collection<Player> players;
     private Collection<RoundPhase> phases;
     
-    public NextRoundCmd(Player nextPlayer, Collection<RoundPhase> phases) {
+    public NextRoundCmd(Collection<Player> players, Collection<RoundPhase> phases) {
         super();
-        this.nextPlayer = nextPlayer;
+        this.players = players;
         this.phases = phases;
     }
 
-    public Player getNextPlayer() {
-        return nextPlayer;
+    public Collection<Player> getPlayers() {
+        return players;
     }
 
     public Collection<RoundPhase> getRoundPhases() {

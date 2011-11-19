@@ -18,7 +18,6 @@ public class ServerCommandVisitor implements CommandVisitor {
     private GameView gameView;
     private GameController gameCtrl;
     private ArrayList<Color> colors;
-    private Iterator<Player> currentPlayerIterator;
 
     public ServerCommandVisitor(CommandSender cmdSender, GameView gameView, GameController gameCtrl, ClientHandler clientHandler) {
         this.gameView = gameView;
@@ -120,11 +119,9 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
     
     private void initNextRound() {
-        if (currentPlayerIterator == null || !currentPlayerIterator.hasNext()) {
-            currentPlayerIterator = gameView.getPlayers().iterator();
-        }
+        Logger.logdebug("Initing next round");
+        gameCtrl.setRoundPlayers(gameView.getPlayers());
         gameCtrl.setRoundNumber(gameView.getRoundNumber() + 1);
-        gameCtrl.setCurrentPlayer(currentPlayerIterator.next());
         LinkedList<RoundPhase> phases = new LinkedList<RoundPhase>();
         switch (gameView.getRoundNumber()) {
         case 1:
@@ -140,14 +137,15 @@ public class ServerCommandVisitor implements CommandVisitor {
             break;
         }
         gameCtrl.setRoundPhases(phases);
-        gameCtrl.setAvailableReinforcement(getReinforcement(gameView.getCurrentPlayer()));
-        cmdSender.sendCmd(new NextRoundCmd(gameView.getCurrentPlayer(), gameView.getRoundPhases()), null);
-        initNextPhase();
+        cmdSender.sendCmd(new NextRoundCmd(gameView.getPlayers(), gameView.getRoundPhases()), null);
+        gotoNextPlayer();
     }
     
     private void initNextPhase() {
+        Logger.logdebug("Initing next phase");
         if (!gameCtrl.swicthToNextPhase()) {
-            initNextRound();
+            Logger.logdebug("After last phase");
+            gotoNextPlayer();
             return;
         }
         RoundPhase phase = gameView.getRoundPhase();
@@ -168,6 +166,17 @@ public class ServerCommandVisitor implements CommandVisitor {
             Logger.logerror("INVALID round phase!!");
             break;
         }
+    }
+    
+    private void gotoNextPlayer() {
+        Logger.logdebug("Initing next player");
+        if (!gameCtrl.switchToNextPlayer()) {
+            Logger.logdebug("After last player");
+            initNextRound();
+            return;
+        }
+        cmdSender.sendCmd(new NextPlayerCmd(), null);
+        initNextPhase();
     }
     
     private int getReinforcement(Player p) {
@@ -203,16 +212,17 @@ public class ServerCommandVisitor implements CommandVisitor {
         cmdSender.sendCmd(new PlaceReinforcementCmd(country, cmd.getTroops(), gameView.getCurrentPlayer()), null);
         
         if (gameView.getAvailableReinforcement() == 0) {
-            gotoNextPlayer();
+            initNextPhase();
         }
-    }
-    
-    private void gotoNextPlayer() {
-        
     }
 
     @Override
     public void visit(NextPhaseCmd cmd) {
+        WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(NextPlayerCmd cmd) {
         WrongCommand(cmd);
     }
 

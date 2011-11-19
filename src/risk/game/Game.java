@@ -17,6 +17,8 @@ public class Game implements GameView, GameController {
      * A list of players.
      */
     private LinkedList<Player> players = new LinkedList<Player>();
+    private Iterator<Player> currentPlayerIterator;
+    private LinkedList<Player> roundPlayers;
 
     /**
      * A list of obersvers for the Observer design pattern.
@@ -86,6 +88,15 @@ public class Game implements GameView, GameController {
         return null;
     }
 
+    @Override
+    public void setRoundPlayers(Collection<Player> players) {
+        this.currentPlayerIterator = null;
+        this.roundPlayers = new LinkedList<Player>();
+        for (Player p : players) {
+            this.roundPlayers.add(getPlayer(p.getName()));
+        }
+    }
+    
     @Override
     public Country getCountry(String countryName) {      
         return map.getCountry(countryName);
@@ -209,9 +220,17 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public void setCurrentPlayer(Player p) {
-        currentPlayer = p;
+    public boolean switchToNextPlayer() {
+        if (currentPlayerIterator == null) {
+            currentPlayerIterator = roundPlayers.iterator();
+        }
+        if (currentPlayerIterator.hasNext()) {
+            currentPlayer = currentPlayerIterator.next();
+        } else {
+            currentPlayer = null;
+        }
         modelChanged();
+        return currentPlayer != null;
     }
 
     @Override
