@@ -277,6 +277,7 @@ public class AttackPanel extends JPanel {
             tempS+=i+";";
         }
         if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
+        tempS="";
         thrownAttacker.setText(tempS); 
         temp=attack.getdDiceResults();
         for(Integer i: temp){
@@ -301,6 +302,12 @@ public class AttackPanel extends JPanel {
         btnCancelAttack.setEnabled(false);
     }
     private void setButtonsStatus(){
+        dOneDice.setEnabled(true);
+        dTwoDice.setEnabled(true);
+        aOneDice.setEnabled(true);
+        aTwoDice.setEnabled(true);
+        aThreeDice.setEnabled(true);
+        btnCancelAttack.setEnabled(true);
         if(viewerType==0){
             dOneDice.setEnabled(false);
             dTwoDice.setEnabled(false);
