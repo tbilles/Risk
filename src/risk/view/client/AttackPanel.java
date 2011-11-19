@@ -369,7 +369,7 @@ public class AttackPanel extends JPanel {
     private class SwingAction_4 extends AbstractAction {
         public SwingAction_4() {
             putValue(NAME, "Defend with 2 dice");
-            putValue(SHORT_DESCRIPTION, "Defend with 1 dice");
+            putValue(SHORT_DESCRIPTION, "Defend with 2 dice");
         }
         public void actionPerformed(ActionEvent e) {
             disableAllButtons();
