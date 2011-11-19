@@ -103,7 +103,7 @@ public class AttackPanel extends JPanel {
         lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
         panel_2.add(lblFromCurrentArmies);
         
-        JButton aThreeDice = new JButton("Attack with 3 dice");
+        aThreeDice = new JButton("Attack with 3 dice");
         aThreeDice.setAction(a3);
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
         gbc_AThreeDice.insets = new Insets(0, 0, 5, 0);
