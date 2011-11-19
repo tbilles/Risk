@@ -277,8 +277,8 @@ public class AttackPanel extends JPanel {
             tempS+=i+";";
         }
         if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
+        thrownAttacker.setText(tempS);
         tempS="";
-        thrownAttacker.setText(tempS); 
         temp=attack.getdDiceResults();
         for(Integer i: temp){
             tempS+=i+";";
