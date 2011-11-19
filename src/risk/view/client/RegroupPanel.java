@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 
+import risk.game.Controller;
 import risk.game.CountryPair;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
@@ -37,14 +38,17 @@ public class RegroupPanel extends JPanel {
     JLabel TC = new JLabel();
     JLabel FA = new JLabel();
     JLabel TA = new JLabel();
+    Controller controller;
+    final JComboBox amountOfRegroup;
     private final Action okAction = new OkAction();
     private final Action cancelAction = new CancelAction();
 
     /**
      * Create the panel.
      */
-    public RegroupPanel(RegroupDialog parent, CountryPair cp) {
+    public RegroupPanel(RegroupDialog parent, CountryPair cp, Controller controller) {
         this.parent=parent;
+        this.controller=controller;
         pair=cp;
         from = cp.From.getName();
         to = cp.To.getName();
@@ -103,10 +107,10 @@ public class RegroupPanel extends JPanel {
         for (int i = 1; i < fromBefore; i++) {
             regroup.add(i+"");
         }
-        final JComboBox amountOfRegroup = new JComboBox(regroup.toArray());
+        amountOfRegroup = new JComboBox(regroup.toArray());
         amountOfRegroup.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent arg0) {
-                int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
+                int delta=getDelta();
                 fromAfter=fromBefore-delta;
                 toAfter=toBefore+delta;
                 FA.setText(fromAfter+"");
@@ -157,6 +161,9 @@ public class RegroupPanel extends JPanel {
         panel_5.add(cancel);
 
     }
+    public int getDelta(){
+        return Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
+    }
 
     private class OkAction extends AbstractAction {
         public OkAction() {
@@ -164,8 +171,7 @@ public class RegroupPanel extends JPanel {
             putValue(SHORT_DESCRIPTION, "Do the regrouping and close this dialog");
         }
         public void actionPerformed(ActionEvent e) {
-            pair.From.setTroops(fromAfter);
-            pair.To.setTroops(toAfter);
+            controller.onRegroupDialogOk(pair,getDelta());
             parent.setVisible(false);
             parent.dispose();
         }

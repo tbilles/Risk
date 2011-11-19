@@ -9,18 +9,21 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import risk.game.Controller;
 import risk.game.CountryPair;
 
 public class AttackDialog extends JDialog {
 
     private AttackPanel attackPanel;
     private final JPanel contentPanel = new JPanel();
+    private Controller controller;
 
 
     /**
      * Create the dialog.
      */
-    public AttackDialog(CountryPair cp) {
+    public AttackDialog(CountryPair cp, Controller controller) {
+        this.controller=controller;
         setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         setTitle("Attacking...");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -41,12 +41,12 @@ public class ClientPanel extends JPanel implements Observer, View {
 
     @Override
     public void showAttackDialog(CountryPair cp) {
-        AttackDialog ad = new AttackDialog(cp);
+        AttackDialog ad = new AttackDialog(cp , controller);
     }
 
     @Override
     public void showRegroupDialog(CountryPair cp) {
-        RegroupDialog rd = new RegroupDialog(cp);
+        RegroupDialog rd = new RegroupDialog(cp, controller);
 
     }
 
