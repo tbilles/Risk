@@ -117,7 +117,6 @@ public class RegroupPanel extends JPanel {
                 TA.setText(toAfter+"");
             }
         });
-        amountOfRegroup.setSelectedIndex(1);
         panel_2.add(amountOfRegroup);
 
         JPanel panel_3 = new JPanel();

@@ -16,6 +16,7 @@ public class ClientPanel extends JPanel implements Observer, View {
     private MapPanel map = new MapPanel();
     private FeedbackPanel fbp = new FeedbackPanel();
     private Controller controller;
+    private AttackDialog ad;
 
     public void setController(Controller controller) {
         this.controller = controller;
@@ -32,16 +33,32 @@ public class ClientPanel extends JPanel implements Observer, View {
     public void refresh(GameView view) {
         map.refresh(view);
         fbp.refresh(view);
+        if (view.getAttack() == null) {
+            if (ad != null) {
+                ad.dispose();
+                ad = null;
+            }
+        } else {
+            if (ad == null) {
+                int viewerType=0;
+                if(view.getMyPlayer().equals(view.getAttack().getCountryPair().From.getOwner())){
+                    viewerType=1;
+                }
+                if(view.getMyPlayer().equals(view.getAttack().getCountryPair().To.getOwner())){
+                    viewerType=2;
+                }
+                ad = new AttackDialog(view.getAttack(), controller, viewerType);
+            }
+
+            else
+                ad.refresh(view.getAttack());
+        }
     }
 
     @Override
     public void showReinforcementDialog(Country to, int availableTroops) {
-        ReinforcementDialog rd = new ReinforcementDialog(to, availableTroops, controller);
-    }
-
-    @Override
-    public void showAttackDialog(CountryPair cp) {
-        AttackDialog ad = new AttackDialog(cp , controller);
+        ReinforcementDialog rd = new ReinforcementDialog(to, availableTroops,
+                controller);
     }
 
     @Override
