@@ -267,6 +267,7 @@ public class AttackPanel extends JPanel {
         panel_10.add(lblToAfterArmies);
         setButtonsStatus();
 
+        setButtonsStatus();
     }
     
     public void refresh(Attack attack){
