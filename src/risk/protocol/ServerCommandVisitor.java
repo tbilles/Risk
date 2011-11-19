@@ -239,7 +239,8 @@ public class ServerCommandVisitor implements CommandVisitor {
             return;
         }
         CountryPair cp = new CountryPair(from, to);
-        gameCtrl.regroup(cp, cmd.getTroops());        
+        gameCtrl.regroup(cp, cmd.getTroops()); 
+        cmdSender.sendCmd(new RegroupCmd(cp, cmd.getTroops()), null);
     }
 
 }
