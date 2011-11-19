@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 
 import risk.game.Attack;
+import risk.game.Controller;
 import risk.game.CountryPair;
 
 import java.awt.FlowLayout;
@@ -21,22 +22,39 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.Action;
 
 public class AttackPanel extends JPanel {
     private int fromCurrentArmies, toCurrentArmies; 
     private AttackDialog parent;
     private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies, lblToAfterArmies;
     private JButton aThreeDice, aTwoDice, aOneDice, btnCancelAttack, dTwoDice, dOneDice;
+    private Controller controller;
+    private int viewerType;
+    private CountryPair cp;
+    private final Action a3 = new SwingAction();
+    private final Action a2 = new SwingAction_1();
+    private final Action a1 = new SwingAction_2();
+    private final Action aCancel = new SwingAction_3();
+    private final Action d2 = new SwingAction_4();
+    private final Action d1 = new SwingAction_5();
     /**
      * Create the panel.
      * viewerType==0: all buttons disabled
      * viewerType==1: defender buttons disabled (attacker mode)
      * viewerType==2: attacker buttons disabled (defender mode)
      */
-    public AttackPanel(AttackDialog ad, Attack a, int viewerType) {
-        CountryPair cp=a.getCountryPair();
+    public AttackPanel(AttackDialog ad, Attack a, int viewerType, Controller controller) {
+        this.controller=controller;
+        this.viewerType=viewerType;
+        cp=a.getCountryPair();
         parent=ad;
-        setButtonsStatus(viewerType);
+        setButtonsStatus();
         setLayout(new BorderLayout(0, 0));
         
         JLabel lblAttack = new JLabel("Attack");
@@ -87,6 +105,7 @@ public class AttackPanel extends JPanel {
         panel_2.add(lblFromCurrentArmies);
         
         JButton aThreeDice = new JButton("Attack with 3 dice");
+        aThreeDice.setAction(a3);
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
         gbc_AThreeDice.insets = new Insets(0, 0, 5, 0);
         gbc_AThreeDice.gridx = 0;
@@ -94,6 +113,7 @@ public class AttackPanel extends JPanel {
         panel_1.add(aThreeDice, gbc_AThreeDice);
         
         aTwoDice = new JButton("Attack with 2 dice");
+        aTwoDice.setAction(a2);
         GridBagConstraints gbc_ATwoDice = new GridBagConstraints();
         gbc_ATwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_ATwoDice.gridx = 0;
@@ -101,6 +121,7 @@ public class AttackPanel extends JPanel {
         panel_1.add(aTwoDice, gbc_ATwoDice);
         
         aOneDice = new JButton("Attack with 1 dice");
+        aOneDice.setAction(a1);
         GridBagConstraints gbc_AOneDice = new GridBagConstraints();
         gbc_AOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_AOneDice.gridx = 0;
@@ -108,6 +129,7 @@ public class AttackPanel extends JPanel {
         panel_1.add(aOneDice, gbc_AOneDice);
         
         btnCancelAttack = new JButton("Cancel attack");
+        btnCancelAttack.setAction(aCancel);
         GridBagConstraints gbc_btnCancelAttack = new GridBagConstraints();
         gbc_btnCancelAttack.insets = new Insets(0, 0, 5, 0);
         gbc_btnCancelAttack.gridx = 0;
@@ -134,7 +156,7 @@ public class AttackPanel extends JPanel {
         JLabel label_4 = new JLabel("Thrown:");
         panel_7.add(label_4);
         
-        thrownAttacker = new JLabel("6;3;2");
+        thrownAttacker = new JLabel("");
         panel_7.add(thrownAttacker);
         
         JPanel panel_8 = new JPanel();
@@ -191,6 +213,7 @@ public class AttackPanel extends JPanel {
         panel_5.add(lblToCurrentArmies);
         
         dTwoDice = new JButton("Defend with 2 dice");
+        dTwoDice.setAction(d2);
         GridBagConstraints gbc_DTwoDice = new GridBagConstraints();
         gbc_DTwoDice.insets = new Insets(0, 0, 5, 0);
         gbc_DTwoDice.gridx = 0;
@@ -198,6 +221,7 @@ public class AttackPanel extends JPanel {
         panel_3.add(dTwoDice, gbc_DTwoDice);
         
         dOneDice = new JButton("Defend with 1 dice");
+        dOneDice.setAction(d1);
         GridBagConstraints gbc_DOneDice = new GridBagConstraints();
         gbc_DOneDice.insets = new Insets(0, 0, 5, 0);
         gbc_DOneDice.gridx = 0;
@@ -246,9 +270,117 @@ public class AttackPanel extends JPanel {
     }
     
     public void refresh(Attack attack){
-        thrownAttacker.setText("");       
-    }
-    private void setButtonsStatus(int viewerType){
+        setButtonsStatus();
+        Collection<Integer> temp=attack.getaDiceResults();
+        String tempS="";
+        for(Integer i: temp){
+            tempS+=i+";";
+        }
+        if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
+        thrownAttacker.setText(tempS); 
+        temp=attack.getdDiceResults();
+        for(Integer i: temp){
+            tempS+=i+";";
+        }
+        if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
+        thrownDefender.setText(tempS);
+        int deltaA=0, deltaD=0;
+        attack.calcLosses(deltaA, deltaD);
+        //lblToAfterArmies=
         
+    }
+    private void disableAllButtons(){
+        dOneDice.setEnabled(false);
+        dTwoDice.setEnabled(false);
+        aOneDice.setEnabled(false);
+        aTwoDice.setEnabled(false);
+        aThreeDice.setEnabled(false);
+        btnCancelAttack.setEnabled(false);
+    }
+    private void setButtonsStatus(){
+        if(viewerType==0){
+            dOneDice.setEnabled(false);
+            dTwoDice.setEnabled(false);
+            aOneDice.setEnabled(false);
+            aTwoDice.setEnabled(false);
+            aThreeDice.setEnabled(false);
+            btnCancelAttack.setEnabled(false);
+        }
+        if (viewerType==1){
+            if(cp.From.getTroops()<4) aThreeDice.setEnabled(false);
+            if(cp.From.getTroops()<3) aTwoDice.setEnabled(false);
+            if(cp.From.getTroops()<2) aOneDice.setEnabled(false);
+            dOneDice.setEnabled(false);
+            dTwoDice.setEnabled(false);
+        }
+        if(viewerType==2){
+            if(cp.From.getTroops()<2) dTwoDice.setEnabled(false);
+            if(cp.From.getTroops()<1) dOneDice.setEnabled(false);
+            aOneDice.setEnabled(false);
+            aTwoDice.setEnabled(false);
+            aThreeDice.setEnabled(false);
+            btnCancelAttack.setEnabled(false);
+        }
+        
+    }
+    private class SwingAction extends AbstractAction {
+        public SwingAction() {
+            putValue(NAME, "Attack with 3 dice");
+            putValue(SHORT_DESCRIPTION, "Attack with 3 dice");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttack_AttackerChose(3);
+        }
+    }
+    private class SwingAction_1 extends AbstractAction {
+        public SwingAction_1() {
+            putValue(NAME, "Attack with 2 dice");
+            putValue(SHORT_DESCRIPTION, "Attack with 2 dice");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttack_AttackerChose(2);
+        }
+    }
+    private class SwingAction_2 extends AbstractAction {
+        public SwingAction_2() {
+            putValue(NAME, "Attack with 1 dice");
+            putValue(SHORT_DESCRIPTION, "Attack with 1 dice");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttack_AttackerChose(1);
+        }
+    }
+    private class SwingAction_3 extends AbstractAction {
+        public SwingAction_3() {
+            putValue(NAME, "Cancel attack");
+            putValue(SHORT_DESCRIPTION, "Cancel attack");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttackRetreat();
+        }
+    }
+    private class SwingAction_4 extends AbstractAction {
+        public SwingAction_4() {
+            putValue(NAME, "Defend with 2 dice");
+            putValue(SHORT_DESCRIPTION, "Defend with 1 dice");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttack_DefenderChose(2);
+        }
+    }
+    private class SwingAction_5 extends AbstractAction {
+        public SwingAction_5() {
+            putValue(NAME, "Defend with 1 dice");
+            putValue(SHORT_DESCRIPTION, "Defend with 1 dice");
+        }
+        public void actionPerformed(ActionEvent e) {
+            disableAllButtons();
+            controller.onAttack_DefenderChose(1);
+        }
     }
 }

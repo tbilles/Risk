@@ -125,7 +125,8 @@ public class RegroupPanel extends JPanel {
         JLabel label_4 = new JLabel("Armies after regroup:");
         panel_3.add(label_4);
 
-        int delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
+        int delta=0;
+        if(amountOfRegroup.getSelectedItem()!=null)delta=Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
         fromAfter=fromBefore-delta;
         toAfter=toBefore+delta;
         

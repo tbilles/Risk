@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import risk.common.RiskIO;
+import risk.game.Controller;
 import risk.game.GameView;
 import risk.game.Player;
 
@@ -24,11 +25,21 @@ import java.awt.Label;
 import java.awt.FlowLayout;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 public class FeedbackPanel extends JPanel {
     private JTextArea messages=new JTextArea();
     private ArrayList<JLabel> players=new ArrayList<JLabel>();
     JPanel playersPanel = new JPanel();
+    private Controller controller;
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    private final Action action = new SwingAction();
     /**
      * Create the panel.
      */
@@ -61,6 +72,7 @@ public class FeedbackPanel extends JPanel {
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         
         JPanel myCardsPanel = new JPanel();
+        myCardsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(myCardsPanel);
         myCardsPanel.setLayout(new MigLayout("", "[44px][5px][47px]", "[22px][14px][14px][14px]"));
         
@@ -85,6 +97,10 @@ public class FeedbackPanel extends JPanel {
         
         JLabel lblNewLabel_4 = new JLabel("0");
         myCardsPanel.add(lblNewLabel_4, "cell 2 3,alignx left,aligny top");
+        
+        JButton btnFinishedMyTurn = new JButton("Finished my turn");
+        btnFinishedMyTurn.setAction(action);
+        add(btnFinishedMyTurn);
 
     }
 
@@ -112,4 +128,13 @@ public class FeedbackPanel extends JPanel {
         }
     }
 
+    private class SwingAction extends AbstractAction {
+        public SwingAction() {
+            putValue(NAME, "Finished");
+            putValue(SHORT_DESCRIPTION, "Click this button, if you have finished your turn");
+        }
+        public void actionPerformed(ActionEvent e) {
+            if(controller!=null)controller.onEndTurnClick();
+        }
+    }
 }
