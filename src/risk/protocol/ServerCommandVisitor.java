@@ -191,6 +191,7 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
+        Logger.logdebug("Got PlaceReinforcement command to " + cmd.getCountry().getName() + " (" + cmd.getTroops() + ")");
         if (clientHandler.getPlayer() != gameView.getCurrentPlayer()) {
             // TODO: Error handling
             return;
