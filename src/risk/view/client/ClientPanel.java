@@ -37,7 +37,6 @@ public class ClientPanel extends JPanel implements Observer, View {
     @Override
     public void showReinforcementDialog(Country to, int availableTroops) {
         ReinforcementDialog rd = new ReinforcementDialog(to, availableTroops);
-
     }
 
     @Override
