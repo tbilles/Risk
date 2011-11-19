@@ -326,10 +326,17 @@ public class Game implements GameView, GameController {
         }
         Country from = attack.getCountryPair().From;
         Country to = attack.getCountryPair().To;
-        
+
         from.setTroops(from.getTroops() - aLosses);
         to.setTroops(to.getTroops() - dLosses);
-        modelChanged();
+        
+        if (to.getTroops() < 1) {
+            to.setOwner(from.getOwner());
+            to.setTroops(attack.getAttackerDice());
+            clearAttack();
+        } else {
+            modelChanged();            
+        }
     }
 
     @Override
