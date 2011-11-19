@@ -148,7 +148,7 @@ public class ClientGameLogic implements Controller {
             Logger.logdebug("Attack etreat not possible");
             return true;
         }
-        sender.queueForSend(new AttackSetADiceCmd(defenderDice));
+        sender.queueForSend(new AttackSetDDiceCmd(defenderDice));
         return false;
     }
 }
