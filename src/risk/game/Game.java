@@ -62,6 +62,8 @@ public class Game implements GameView, GameController {
      */
     private LinkedList<RoundPhase> roundPhases;
     private Iterator<RoundPhase> roundPhasesIterator;
+    
+    private Attack attack;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -304,5 +306,52 @@ public class Game implements GameView, GameController {
         from.setTroops(from.getTroops() - troops);
         to.setTroops(to.getTroops() + troops);
         modelChanged();
+    }
+
+    @Override
+    public void setAttack(Attack attack) {
+        this.attack = attack;
+    }
+    
+    @Override
+    public Attack getAttack() {
+        return attack;
+    }
+
+    @Override
+    public void accountAttackLosses(int aLosses, int dLosses) {
+        if (attack == null) {
+            Logger.logerror("Accounting attack losses when no attack is in progress");
+            return;
+        }
+        Country from = attack.getCountryPair().From;
+        Country to = attack.getCountryPair().To;
+        
+        from.setTroops(from.getTroops() - aLosses);
+        to.setTroops(to.getTroops() - dLosses);
+        modelChanged();
+    }
+
+    @Override
+    public void setAttackDDice(int dice) {
+        if (attack == null) {
+            Logger.logerror("Adding adice when no attack is in progress");
+            return;
+        }
+        attack.setAttackerDice(dice);
+    }
+
+    @Override
+    public void setAttackADice(int dice) {
+        if (attack == null) {
+            Logger.logerror("Adding ddice when no attack is in progress");
+            return;
+        }
+        attack.setDefenderDice(dice);
+    }
+
+    @Override
+    public void clearAttack() {
+        attack = null;
     }
 }

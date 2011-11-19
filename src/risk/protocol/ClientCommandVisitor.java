@@ -110,4 +110,34 @@ public class ClientCommandVisitor implements CommandVisitor {
         CountryPair cp = new CountryPair(from, to);
         gameCtrl.regroup(cp, cmd.getTroops());
     }
+
+    @Override
+    public void visit(AttackStartCmd cmd) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void visit(AttackSetADiceCmd cmd) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void visit(AttackSetDDiceCmd cmd) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void visit(AttackRoundResultCmd cmd) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void visit(AttackRetreatCmd cmd) {
+        // TODO Auto-generated method stub
+        
+    }
 }

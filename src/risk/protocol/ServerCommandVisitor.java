@@ -239,7 +239,87 @@ public class ServerCommandVisitor implements CommandVisitor {
             return;
         }
         CountryPair cp = new CountryPair(from, to);
-        gameCtrl.regroup(cp, cmd.getTroops());        
+        gameCtrl.regroup(cp, cmd.getTroops());
     }
 
+    @Override
+    public void visit(AttackStartCmd cmd) {
+        Country from = gameView.getCountry(cmd.getCountryPair().From.getName());
+        Country to = gameView.getCountry(cmd.getCountryPair().To.getName());
+        
+        Logger.logdebug("Got AttackStart command " + from.getName() + " -> " + to.getName());
+        
+        if (from.getOwner() != clientHandler.getPlayer() || to.getOwner() == clientHandler.getPlayer()) {
+            // TODO: error handling
+            Logger.logdebug("Wrong countries in attack");
+            return ;
+        }
+        
+        CountryPair cp = new CountryPair(from, to);
+        gameCtrl.setAttack(new Attack(cp));
+        cmdSender.sendCmd(new AttackStartCmd(cp), null);
+    }
+
+    @Override
+    public void visit(AttackSetADiceCmd cmd) {
+        int dice = cmd.getADice();
+        Logger.logdebug("Got attackSetADiceCmd: " + dice);
+        Country from = gameView.getAttack().getCountryPair().From;
+        if (!(dice >= 1 && dice <= 3 && dice < from.getTroops())) {
+            // TODO: error handling
+            Logger.logdebug("Too many adice!");
+            return;
+        }
+        gameCtrl.setAttackADice(dice);
+        cmdSender.sendCmd(new AttackSetADiceCmd(dice), null);
+    }
+
+    @Override
+    public void visit(AttackSetDDiceCmd cmd) {
+        int dice = cmd.getDDice();
+        Logger.logdebug("Got attackSetDDiceCmd: " + dice);
+        Country to = gameView.getAttack().getCountryPair().To;
+        if (!(dice >= 1 && dice <=2 && dice < to.getTroops())) {
+            // TODO: error handling
+            Logger.logdebug("Too many ddice!");
+            return;
+        }
+        gameCtrl.setAttackDDice(dice);
+        cmdSender.sendCmd(new AttackSetDDiceCmd(dice), null);
+        doAttack();
+    }
+
+    private void doAttack() {
+        Logger.logdebug("Doing attack");
+        Attack attack = gameView.getAttack();
+        Random r = new Random();
+        
+        LinkedList<Integer> aDice = new LinkedList<Integer>();
+        for (int i = 0; i < attack.getAttackerDice(); i++) {
+            aDice.add(r.nextInt(6) + 1);
+        }
+        
+        LinkedList<Integer> dDice = new LinkedList<Integer>();
+        for (int i = 0; i < attack.getDefenderDice(); i++) {
+            dDice.add(r.nextInt(6) + 1);
+        }
+        
+        Integer aLosses = new Integer(0);
+        Integer dLosses = new Integer(0);
+        attack.calcLosses(aDice, dDice, aLosses, dLosses);
+        
+        gameCtrl.accountAttackLosses(aLosses.intValue(), dLosses.intValue());
+        cmdSender.sendCmd(new AttackRoundResultCmd(aDice, dDice), null);
+    }
+
+    @Override
+    public void visit(AttackRoundResultCmd cmd) {
+        WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(AttackRetreatCmd cmd) {
+        gameCtrl.clearAttack();
+        cmdSender.sendCmd(new AttackRetreatCmd(), null);
+    }
 }

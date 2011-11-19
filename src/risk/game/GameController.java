@@ -28,4 +28,9 @@ public interface GameController {
     public void setAvailableReinforcement(int availableReinforcement);
     public void addTroopsToCountry(Country country, int troops);
     public void regroup(CountryPair countryPair, int troops);
+    public void setAttack(Attack attack);
+    public void accountAttackLosses(int aLosses, int dLosses);
+    public void setAttackDDice(int dice);
+    public void setAttackADice(int dice);
+    public void clearAttack();
 }

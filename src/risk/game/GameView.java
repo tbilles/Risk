@@ -35,4 +35,6 @@ public interface GameView {
     public Collection<RoundPhase> getRoundPhases();
     public int getAvailableReinforcement();
     public Player getMyPlayer();
+    
+    public Attack getAttack();
 }
