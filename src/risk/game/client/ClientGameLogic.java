@@ -130,7 +130,7 @@ public class ClientGameLogic implements Controller {
                 attackerDice > 3 || attackerDice < 1)
         {
             // TODO error handling
-            Logger.logdebug("Attack etreat not possible");
+            Logger.logdebug("Attacking not possible");
             return true;
         }
         sender.queueForSend(new AttackSetADiceCmd(attackerDice));
@@ -145,7 +145,7 @@ public class ClientGameLogic implements Controller {
                 defenderDice > 2 || defenderDice < 1)
         {
             // TODO error handling
-            Logger.logdebug("Attack etreat not possible");
+            Logger.logdebug("Defending not possible");
             return true;
         }
         sender.queueForSend(new AttackSetDDiceCmd(defenderDice));
