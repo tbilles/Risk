@@ -40,9 +40,8 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(NextRoundCmd cmd) {
-        Logger.logdebug("New round started for player " + cmd.getNextPlayer().getName());
-        Player p = gameView.getPlayer(cmd.getNextPlayer().getName());
-        gameCtrl.setCurrentPlayer(p);
+        Logger.logdebug("New round started");
+        gameCtrl.setRoundPlayers(cmd.getPlayers());
         gameCtrl.setRoundPhases(cmd.getRoundPhases());
     }
     
@@ -90,5 +89,14 @@ public class ClientCommandVisitor implements CommandVisitor {
     
     private void WrongCommand(Command cmd) {
         Logger.logwarn("Clienet shouldn't receive " + cmd.toString());
+    }
+
+    @Override
+    public void visit(NextPlayerCmd nextPlayerCmd) {
+        Logger.logdebug("Got NextPlayerCmd!");
+        if (!gameCtrl.switchToNextPlayer()) {
+            Logger.logerror("No more player in NextPlayerCmd handler!");
+        }
+        Logger.logdebug("Current player is: " + gameView.getCurrentPlayer().getName());
     }
 }

@@ -1,6 +1,7 @@
 package risk.game;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public interface GameController {
     // Will be filled with methods that control the game, give orders, take
@@ -12,7 +13,8 @@ public interface GameController {
 
     public void addPlayer(Player p);
     public void setMyPlayer(Player p);
-    public void setCurrentPlayer(Player p);
+    public boolean switchToNextPlayer();
+    public void setRoundPlayers(Collection<Player> players);
     public void initCountry(Country newCountry);
 
     public void cancelCountrySelection(Country c);
