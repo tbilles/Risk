@@ -175,6 +175,7 @@ public class ServerCommandVisitor implements CommandVisitor {
             initNextRound();
             return;
         }
+        gameCtrl.resetPhases();
         cmdSender.sendCmd(new NextPlayerCmd(), null);
         initNextPhase();
     }
@@ -191,6 +192,7 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
+        Logger.logdebug("Got PlaceReinforcement command to " + cmd.getCountry().getName() + " (" + cmd.getTroops() + ")");
         if (clientHandler.getPlayer() != gameView.getCurrentPlayer()) {
             // TODO: Error handling
             return;
@@ -224,6 +226,20 @@ public class ServerCommandVisitor implements CommandVisitor {
     @Override
     public void visit(NextPlayerCmd cmd) {
         WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(RegroupCmd cmd) {
+        Country from = gameView.getCountry(cmd.getCountryPair().From.getName());
+        Country to = gameView.getCountry(cmd.getCountryPair().To.getName());
+        Logger.logdebug("Got regroup command " + from.getName() + " -> " + to.getName() + " : " + cmd.getTroops());
+        if (from.getOwner() != to.getOwner() || from.getOwner() != clientHandler.getPlayer()) {
+            // TODO: error handling
+            Logger.logerror("Invalid regroup command");
+            return;
+        }
+        CountryPair cp = new CountryPair(from, to);
+        gameCtrl.regroup(cp, cmd.getTroops());        
     }
 
 }

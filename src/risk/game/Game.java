@@ -256,6 +256,7 @@ public class Game implements GameView, GameController {
     @Override
     public void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;
+        modelChanged();
     }
     
     @Override
@@ -272,6 +273,11 @@ public class Game implements GameView, GameController {
     }
     
     @Override
+    public void resetPhases() {
+        roundPhasesIterator = null;
+    }
+    
+    @Override
     public boolean swicthToNextPhase() {
         if (roundPhasesIterator == null) {
             roundPhasesIterator = roundPhases.iterator();
@@ -284,7 +290,19 @@ public class Game implements GameView, GameController {
         currentRoundPhase = nextRoundPhase;
         if (roundPhasesIterator.hasNext()) {
             nextRoundPhase = roundPhasesIterator.next();
+        } else {
+            nextRoundPhase = null;
         }
+        modelChanged();
         return currentRoundPhase != null;
+    }
+
+    @Override
+    public void regroup(CountryPair countryPair, int troops) {
+        Country from = countryPair.From;
+        Country to = countryPair.To;
+        from.setTroops(from.getTroops() - troops);
+        to.setTroops(to.getTroops() + troops);
+        modelChanged();
     }
 }
