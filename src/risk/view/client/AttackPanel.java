@@ -285,8 +285,9 @@ public class AttackPanel extends JPanel {
         }
         if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
         thrownDefender.setText(tempS);
-        int deltaA=0, deltaD=0;
-        attack.calcLosses(deltaA, deltaD);
+        int[] deltas = attack.calcLosses();
+        int deltaA = deltas[0];
+        int deltaD = deltas[1];
         lblFromCurrentArmies.setText(attack.getCountryPair().From.getTroops()+"");
         lblToCurrentArmies.setText(attack.getCountryPair().To.getTroops()+"");
         lblFromAfterArmies.setText(deltaA+"");

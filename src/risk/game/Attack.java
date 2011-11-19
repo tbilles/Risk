@@ -41,20 +41,26 @@ public class Attack {
         return countryPair;
     }
     
-    public void calcLosses(Integer aLosses, Integer dLosses) {
-        aLosses = 0;
-        dLosses = 0;
-        if(aDiceResults==null || dDiceResults==null) return;
+    public int[] calcLosses() {
+        int[] losses = new int[2];
+        losses[0] = 0;
+        losses[1] = 0;
+        
+        if (aDiceResults==null || dDiceResults==null)
+            return losses;
+        
         Iterator<Integer> aIterator = aDiceResults.iterator();
         Iterator<Integer> dIterator = dDiceResults.iterator();
         
         while (aIterator.hasNext() && dIterator.hasNext()) {
             if (aIterator.next() > dIterator.next()) {
-                dLosses++;
+                losses[1]++;
             } else {
-                aLosses++;
+                losses[0]++;
             }
         }
+        
+        return losses;
     }
 
     public Collection<Integer> getaDiceResults() {

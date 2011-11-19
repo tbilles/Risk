@@ -363,12 +363,9 @@ public class ServerCommandVisitor implements CommandVisitor {
             Logger.logdebug("Defender thrown " + rand);
         }
         
-        Integer aLosses = new Integer(0);
-        Integer dLosses = new Integer(0);
-
         gameCtrl.setAttackRoundResults(aDice, dDice);
-        attack.calcLosses(aLosses, dLosses);
-        gameCtrl.accountAttackLosses(aLosses.intValue(), dLosses.intValue());
+        int[] losses = attack.calcLosses();
+        gameCtrl.accountAttackLosses(losses[0], losses[1]);
         cmdSender.sendCmd(new AttackRoundResultCmd(aDice, dDice), null);
     }
 
