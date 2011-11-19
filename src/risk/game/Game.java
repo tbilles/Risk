@@ -125,12 +125,11 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public void initCountry(Country newCountry) {
-        Logger.logdebug("Initing country: " + newCountry.getName());
-        Country oldCountry = getCountry(newCountry.getName());
-        Player newOwner = getPlayer(newCountry.getOwner().getName());
-        oldCountry.setOwner(newOwner);
-        oldCountry.setTroops(newCountry.getTroops());
+    public void initCountry(String countryName, String ownerName, int troops) {
+        Country c = getCountry(countryName);
+        Player newOwner = getPlayer(ownerName);
+        c.setOwner(newOwner);
+        c.setTroops(troops);
         
         modelChanged();
     }

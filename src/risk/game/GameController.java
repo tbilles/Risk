@@ -15,7 +15,7 @@ public interface GameController {
     public void setMyPlayer(Player p);
     public boolean switchToNextPlayer();
     public void setRoundPlayers(Collection<Player> players);
-    public void initCountry(Country newCountry);
+    public void initCountry(String countryName, String ownerName, int troops);
 
     public void cancelCountrySelection(Country c);
     public void selectCountry(Country c);

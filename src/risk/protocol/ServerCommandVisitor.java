@@ -102,12 +102,12 @@ public class ServerCommandVisitor implements CommandVisitor {
             // Generate random number
             int rand = r.nextInt(countries.size());
             // Set random country to be owned by the next player
-            Country c = countries.get(rand); 
-            Logger.logdebug("Country name: " + c.getName());
+            Country c = countries.get(rand);
             c.setOwner(playerIterator.next());
+            Logger.logdebug("Country name: " + c.getName() + " to " + c.getOwner().getName());
             c.setTroops(1);
-            // Remove Country from the 'unowned' countries list
             cmdSender.sendCmd(new CountyInitCmd(c), null);
+            // Remove Country from the 'unowned' countries list
             countries.remove(rand);
             // If the iterator has ended, reset it to start.
             if (!playerIterator.hasNext()) {

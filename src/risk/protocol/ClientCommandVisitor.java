@@ -64,9 +64,9 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(CountyInitCmd cmd) {
-        Logger.logdebug("Got CountryInitCmd!");
-        Country newCountry = cmd.getCountry();
-        gameCtrl.initCountry(newCountry);
+        Logger.logdebug("Got CountryInitCmd: " + cmd.getCountry().getName() + " to " + cmd.getCountry().getOwner().getName());
+        Country c = cmd.getCountry();
+        gameCtrl.initCountry(c.getName(), c.getOwner().getName(), c.getTroops());
     }
 
     @Override
