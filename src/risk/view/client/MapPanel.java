@@ -316,6 +316,9 @@ public class MapPanel extends JPanel {
         btnE_Australia.setBounds(920, 506, 50, 20);
         buttonPanel.add(btnE_Australia);
         countryButtons.put(Country.EASTERNAUSTRALIA, btnE_Australia);
+        for(CountryButton c: countryButtons.values()){
+            c.setRelativePosition();
+        }
     }
 
     public void refresh(GameView view) {
@@ -324,8 +327,10 @@ public class MapPanel extends JPanel {
         }
     }
     private void resizeRiskBoard(int height, int width){
-        backGround.resizeImage(height, width);
-        
+        Dimension d=backGround.resizeImage(height, width);
+        for(CountryButton c: countryButtons.values()){
+            c.setCurrentPosition(d.width, d.height);
+        }
     }
 
     private class SwingAction extends AbstractAction {
