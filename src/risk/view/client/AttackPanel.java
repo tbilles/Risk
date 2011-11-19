@@ -317,8 +317,8 @@ public class AttackPanel extends JPanel {
             dTwoDice.setEnabled(false);
         }
         if(viewerType==2){
-            if(cp.From.getTroops()<2) dTwoDice.setEnabled(false);
-            if(cp.From.getTroops()<1) dOneDice.setEnabled(false);
+            if(cp.To.getTroops()<2) dTwoDice.setEnabled(false);
+            if(cp.To.getTroops()<1) dOneDice.setEnabled(false);
             aOneDice.setEnabled(false);
             aTwoDice.setEnabled(false);
             aThreeDice.setEnabled(false);
