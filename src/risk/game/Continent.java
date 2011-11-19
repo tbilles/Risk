@@ -4,6 +4,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Continent {
+    public static final String ASIA = "Asia";
+    public static final String AFRICA = "Africa";
+    public static final String AUSTRALIA = "Australia";
+    public static final String NORTHAMERICA = "North America";
+    public static final String SOUTHAMERICA = "South America";
+    public static final String EUROPE = "Europe";
+    
     /**
      * A list of countries in the continent.
      */
@@ -27,5 +34,9 @@ public class Continent {
     
     public Collection<Country> getCountries() {
         return countries;
+    }
+    
+    public String getName() {
+        return name;
     }
 }
