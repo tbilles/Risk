@@ -2,6 +2,8 @@ package risk.view.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import risk.game.Controller;
 import risk.game.Country;
@@ -30,6 +32,16 @@ public class ClientPanel extends JPanel implements Observer, View {
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
         add(fbp, BorderLayout.EAST);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                int height = e.getComponent().getHeight();
+                int width = e.getComponent().getWidth();
+                resizeClient(height, width);
+            }
+        });
+        resizeClient(getHeight(), getWidth());
     }
 
     public void refresh(GameView view) {
@@ -42,12 +54,14 @@ public class ClientPanel extends JPanel implements Observer, View {
             }
         } else {
             if (ad == null) {
-                int viewerType=0;
-                if(view.getMyPlayer().equals(view.getAttack().getCountryPair().From.getOwner())){
-                    viewerType=1;
+                int viewerType = 0;
+                if (view.getMyPlayer().equals(
+                        view.getAttack().getCountryPair().From.getOwner())) {
+                    viewerType = 1;
                 }
-                if(view.getMyPlayer().equals(view.getAttack().getCountryPair().To.getOwner())){
-                    viewerType=2;
+                if (view.getMyPlayer().equals(
+                        view.getAttack().getCountryPair().To.getOwner())) {
+                    viewerType = 2;
                 }
                 ad = new AttackDialog(view.getAttack(), controller, viewerType);
             }
@@ -56,16 +70,21 @@ public class ClientPanel extends JPanel implements Observer, View {
                 ad.refresh(view.getAttack());
         }
     }
-    public void resize(){
-        Dimension mapSize, temp, temp2;
-        mapSize=map.getPreferredSize();
-        temp=fbp.getSize();
-        temp2=new Dimension();
-        temp2.width=Math.min((int)(this.getSize().getWidth()-mapSize.getWidth()),200);
-        temp2.height=(int)temp.getHeight();
-        fbp.setSize(temp2);
-        fbp.setPreferredSize(temp2);
-        repaint();
+
+    public void resizeClient(int height, int width) {
+        if (height > 0 && width > 200) {
+            Dimension mapSize, temp, temp2;
+            mapSize = map.resizeRiskBoard(height, width - 200);
+            temp = fbp.getSize();
+            temp2 = new Dimension();
+            temp2.width = Math
+                    .max((int) (this.getSize().getWidth() - mapSize.getWidth()),
+                            200);
+            temp2.height = (int) temp.getHeight();
+            fbp.setSize(temp2);
+            fbp.setPreferredSize(temp2);
+            repaint();
+        }
     }
 
     @Override

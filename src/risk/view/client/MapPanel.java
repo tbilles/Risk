@@ -40,15 +40,6 @@ public class MapPanel extends JPanel {
      */
     public MapPanel(ClientPanel cp) {
         parent=cp;
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                int height=e.getComponent().getHeight();
-                int width=e.getComponent().getWidth();
-                resizeRiskBoard(height, width);
-            }
-        });
         backGround = new ImagePanel(image.getImage());
         setPreferredSize(backGround.getOriginalSize());
 
@@ -328,14 +319,14 @@ public class MapPanel extends JPanel {
             cb.refresh(view);
         }
     }
-    private void resizeRiskBoard(int height, int width){
-        parent.resize();
+    public Dimension resizeRiskBoard(int height, int width){
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
         repaint();
         for(CountryButton c: countryButtons.values()){
             c.setCurrentPosition(d.width, d.height);
         }
+        return d;
     }
 
     private class SwingAction extends AbstractAction {
