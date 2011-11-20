@@ -149,4 +149,25 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(EndTurnCmd cmd) {
         WrongCommand(cmd);
     }
+
+    @Override
+    public void visit(ErrorCmd cmd) {
+        String s = "Server error: ";
+        switch (cmd.getErrorCode()) {
+        case ErrorCmd.ILLEGAL_ARGUMENT:
+            s = s + "Illegal argument";
+            break;
+        case ErrorCmd.INVALID_PHASE:
+            s = s + "Invalid phase";
+            break;
+        case ErrorCmd.NAME_ALREADY_USED:
+            s = s + "Name is already in use";
+            break;
+        default:
+            s = s + "Unknown";
+            break;
+        }
+        
+        Logger.logerror(s);
+    }
 }

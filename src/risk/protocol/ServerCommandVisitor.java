@@ -36,8 +36,15 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(HelloCmd cmd) {
-        Logger.logdebug("Got HelloCmd!");
+        Logger.logdebug("Got HelloCmd from " + cmd.getName());
 
+        if (gameView.getPlayer(cmd.getName()) != null) {
+            // A player with this name is connectected
+            Logger.logwarn("Name is already in use");
+            sendError(ErrorCmd.NAME_ALREADY_USED);
+            return;
+        }
+        
         Player newPlayer = new Player(cmd.getName(), colors.get(gameView.getPlayers().size()));
         clientHandler.setPlayer(newPlayer);
         
@@ -56,6 +63,10 @@ public class ServerCommandVisitor implements CommandVisitor {
         if (gameView.getPlayers().size() == 2) {
             startGame();
         }
+    }
+
+    private void sendError(int errorCode) {
+        cmdSender.sendCmd(new ErrorCmd(errorCode), clientHandler.getPlayer());
     }
 
     @Override
@@ -181,7 +192,6 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
     
     private int getReinforcement(Player p) {
-        // TODO: get real number
         if (gameView.getRoundNumber() == 1) {
             int playerno = gameView.getPlayers().size() - 2;
             if (playerno > 4) {
@@ -246,24 +256,27 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(PlaceReinforcementCmd cmd) {
-        Logger.logdebug("Got PlaceReinforcement command to " + cmd.getCountry().getName() + " (" + cmd.getTroops() + ")");
+        Country country = gameView.getCountry(cmd.getCountry().getName());
+        Logger.logdebug("Got PlaceReinforcement command to " + country.getName() + " (" + cmd.getTroops() + ")");
         if (clientHandler.getPlayer() != gameView.getCurrentPlayer()) {
-            // TODO: Error handling
+            Logger.logwarn(clientHandler.getPlayer().getName() + " is trying to place reinforcement in someone else's turn " + gameView.getCurrentPlayer().getName());
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         
         if (cmd.getTroops() < 0 || cmd.getTroops() > gameView.getAvailableReinforcement()) {
-            // TODO: Error handling
+            Logger.logwarn(clientHandler.getPlayer().getName() + " is trying to place " + cmd.getTroops() + " reinforcement, available is " + gameView.getAvailableReinforcement());
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         
         if (gameView.getCountry(cmd.getCountry().getName()).getOwner() != clientHandler.getPlayer()) {
-            // TODO: Error handling
+            Logger.logwarn(clientHandler.getPlayer().getName() + " is trying to place reinforcement to " + country.getName() + " (" + country.getOwner().getName() + ")");
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         
         gameCtrl.setAvailableReinforcement(gameView.getAvailableReinforcement() - cmd.getTroops());
-        Country country = gameView.getCountry(cmd.getCountry().getName());
         gameCtrl.addTroopsToCountry(country, cmd.getTroops());
         cmdSender.sendCmd(new PlaceReinforcementCmd(country, cmd.getTroops(), gameView.getCurrentPlayer()), null);
         
@@ -288,15 +301,15 @@ public class ServerCommandVisitor implements CommandVisitor {
         Country to = gameView.getCountry(cmd.getCountryPair().To.getName());
         Logger.logdebug("Got regroup command " + from.getName() + " -> " + to.getName() + " : " + cmd.getTroops());
         if (from.getOwner() != to.getOwner() || from.getOwner() != clientHandler.getPlayer()) {
-            // TODO: error handling
-            Logger.logerror("Invalid regroup command");
+            Logger.logerror("Invalid regroup command, owners do not match");
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         if (!((gameView.getRoundPhase() == RoundPhase.ATTACK && gameView.getNextRoundPhase() == RoundPhase.REGROUP) ||
                 gameView.getRoundPhase() == RoundPhase.REGROUP))
         {
-            // TODO: error handling
             Logger.logerror("Regroup in wrong game phase!");
+            sendError(ErrorCmd.INVALID_PHASE);
             return;
         }
         Attack lastAttack = gameView.getLastAttack();
@@ -318,14 +331,14 @@ public class ServerCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got AttackStart command " + from.getName() + " -> " + to.getName());
         
         if (from.getOwner() != clientHandler.getPlayer() || to.getOwner() == clientHandler.getPlayer()) {
-            // TODO: error handling
-            Logger.logdebug("Wrong countries in attack");
+            Logger.logdebug("The owner of From or To countries are wrong");
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return ;
         }
         
         if (gameView.getRoundPhase() != RoundPhase.ATTACK) {
-            // TODO: error handling
             Logger.logerror("Attack start in wrong phase! (" + gameView.getRoundPhase() + ")");
+            sendError(ErrorCmd.INVALID_PHASE);
             return;
         }
         
@@ -340,8 +353,8 @@ public class ServerCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got attackSetADiceCmd: " + dice);
         Country from = gameView.getAttack().getCountryPair().From;
         if (!(dice >= 1 && dice <= 3 && dice < from.getTroops())) {
-            // TODO: error handling
-            Logger.logdebug("Too many adice!");
+            Logger.logdebug("Too many (" + dice + ") adice! (troops: " + from.getTroops() + ")");
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         gameCtrl.setAttackADice(dice);
@@ -354,15 +367,15 @@ public class ServerCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got attackSetDDiceCmd: " + dice);
         
         if (gameView.getAttack().getAttackerDice() < 1) {
-            // TODO: error handling
             Logger.logerror("Defender cannot choose dice number before attacker does!");
+            sendError(ErrorCmd.INVALID_PHASE);
             return;
         }
         
         Country to = gameView.getAttack().getCountryPair().To;
         if (!(dice >= 1 && dice <=2 && dice <= to.getTroops())) {
-            // TODO: error handling
-            Logger.logdebug("Too many ddice!");
+            Logger.logdebug("Too many (" + dice + ") ddice! (troops: " + to.getTroops() + ")");
+            sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
         gameCtrl.setAttackDDice(dice);
@@ -410,5 +423,11 @@ public class ServerCommandVisitor implements CommandVisitor {
     @Override
     public void visit(EndTurnCmd cmd) {
         gotoNextPlayer();
+    }
+
+    @Override
+    public void visit(ErrorCmd cmd) {
+        // Client errors ignored yet
+        WrongCommand(cmd);
     }
 }
