@@ -1,15 +1,17 @@
 package risk.game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Attack {
     private CountryPair countryPair;
     private int attackerDice;
     private int defenderDice;
-    private Collection<Integer> aDiceResults;
-    private Collection<Integer> dDiceResults;
+    private ArrayList<Integer> aDiceResults;
+    private ArrayList<Integer> dDiceResults;
     
     public Attack(CountryPair countryPair) {
         super();
@@ -67,15 +69,17 @@ public class Attack {
         return aDiceResults;
     }
 
-    public void setaDiceResults(Collection<Integer> aDiceResults) {
+    public void setaDiceResults(ArrayList<Integer> aDiceResults) {
         this.aDiceResults = aDiceResults;
+        Collections.sort(aDiceResults, Collections.reverseOrder());
     }
 
     public Collection<Integer> getdDiceResults() {
         return dDiceResults;
     }
 
-    public void setdDiceResults(Collection<Integer> dDiceResults) {
+    public void setdDiceResults(ArrayList<Integer> dDiceResults) {
         this.dDiceResults = dDiceResults;
+        Collections.sort(dDiceResults, Collections.reverseOrder());
     }
 }

@@ -1,5 +1,6 @@
 package risk.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -32,5 +33,5 @@ public interface GameController {
     public void setAttackDDice(int dice);
     public void setAttackADice(int dice);
     public void clearAttack();
-    public void setAttackRoundResults(Collection<Integer> aDiceResults, Collection<Integer> dDiceResults);
+    public void setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults);
 }

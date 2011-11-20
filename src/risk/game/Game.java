@@ -368,7 +368,7 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public void setAttackRoundResults(Collection<Integer> aDiceResults, Collection<Integer> dDiceResults) {
+    public void setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults) {
         if (attack == null) {
             Logger.logerror("Adding dice results when no attack is in progress");
             return;

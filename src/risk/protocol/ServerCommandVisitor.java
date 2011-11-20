@@ -333,6 +333,13 @@ public class ServerCommandVisitor implements CommandVisitor {
     public void visit(AttackSetDDiceCmd cmd) {
         int dice = cmd.getDDice();
         Logger.logdebug("Got attackSetDDiceCmd: " + dice);
+        
+        if (gameView.getAttack().getAttackerDice() < 1) {
+            // TODO: error handling
+            Logger.logerror("Defender cannot choose dice number before attacker does!");
+            return;
+        }
+        
         Country to = gameView.getAttack().getCountryPair().To;
         if (!(dice >= 1 && dice <=2 && dice <= to.getTroops())) {
             // TODO: error handling
@@ -349,16 +356,16 @@ public class ServerCommandVisitor implements CommandVisitor {
         Attack attack = gameView.getAttack();
         Random r = new Random();
         
-        LinkedList<Integer> aDice = new LinkedList<Integer>();
+        ArrayList<Integer> aDice = new ArrayList<Integer>();
         for (int i = 0; i < attack.getAttackerDice(); i++) {
-            int rand = r.nextInt(6) + 1; 
+            Integer rand = r.nextInt(6) + 1; 
             aDice.add(rand);
             Logger.logdebug("Attacker thrown " + rand);
         }
         
-        LinkedList<Integer> dDice = new LinkedList<Integer>();
+        ArrayList<Integer> dDice = new ArrayList<Integer>();
         for (int i = 0; i < attack.getDefenderDice(); i++) {
-            int rand = r.nextInt(6) + 1; 
+            Integer rand = r.nextInt(6) + 1; 
             dDice.add(rand);
             Logger.logdebug("Defender thrown " + rand);
         }
