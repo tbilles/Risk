@@ -1,17 +1,19 @@
 package risk.protocol.command;
 
-import risk.game.Country;
 import risk.protocol.CommandVisitor;
 
-public class DoAttackCmd extends Command {
+public class NextPhaseCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;
-    private Country from;
-    private Country to;
 
-    public DoAttackCmd(Country from, Country to) {
+    private int reinforcement;
+    
+    public NextPhaseCmd(int reinforcement) {
         super();
-        this.from = from;
-        this.to = to;
+        this.reinforcement = reinforcement;
+    }
+
+    public int getReinforcement() {
+        return reinforcement;
     }
 
     @Override

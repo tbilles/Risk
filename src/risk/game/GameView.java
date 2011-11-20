@@ -37,4 +37,5 @@ public interface GameView {
     public Player getMyPlayer();
     
     public Attack getAttack();
+    public Attack getLastAttack();
 }

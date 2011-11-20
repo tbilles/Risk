@@ -32,7 +32,6 @@ public class ClientCommandVisitor implements CommandVisitor {
         if (cmd.isControlledByMe()) {
             gameCtrl.setMyPlayer(cmd.getPlayer());
         }
-        
     }
 
     @Override
@@ -73,12 +72,6 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(GameEndedCmd cmd) {
         String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
         Logger.logdebug("Got GameEnded command: " + cmd.getPlayer().getName() + " has " + reason);
-    }
-
-    @Override
-    public void visit(DoAttackCmd cmd) {
-        WrongCommand(cmd);
-        
     }
 
     @Override
@@ -149,5 +142,26 @@ public class ClientCommandVisitor implements CommandVisitor {
     @Override
     public void visit(EndTurnCmd cmd) {
         WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(ErrorCmd cmd) {
+        String s = "Server error: ";
+        switch (cmd.getErrorCode()) {
+        case ErrorCmd.ILLEGAL_ARGUMENT:
+            s = s + "Illegal argument";
+            break;
+        case ErrorCmd.INVALID_PHASE:
+            s = s + "Invalid phase";
+            break;
+        case ErrorCmd.NAME_ALREADY_USED:
+            s = s + "Name is already in use";
+            break;
+        default:
+            s = s + "Unknown";
+            break;
+        }
+        
+        Logger.logerror(s);
     }
 }

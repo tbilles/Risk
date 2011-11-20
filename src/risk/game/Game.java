@@ -64,6 +64,7 @@ public class Game implements GameView, GameController {
     private Iterator<RoundPhase> roundPhasesIterator;
     
     private Attack attack;
+    private Attack lastAttack;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -317,6 +318,11 @@ public class Game implements GameView, GameController {
     public Attack getAttack() {
         return attack;
     }
+    
+    @Override
+    public Attack getLastAttack() {
+        return lastAttack;
+    }
 
     private void accountAttackLosses() {
         if (attack == null) {
@@ -363,12 +369,13 @@ public class Game implements GameView, GameController {
 
     @Override
     public void clearAttack() {
+        lastAttack = attack;
         attack = null;
         modelChanged();
     }
 
     @Override
-    public void setAttackRoundResults(Collection<Integer> aDiceResults, Collection<Integer> dDiceResults) {
+    public void setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults) {
         if (attack == null) {
             Logger.logerror("Adding dice results when no attack is in progress");
             return;
