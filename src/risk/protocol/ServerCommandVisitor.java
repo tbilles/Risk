@@ -66,7 +66,7 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     private void sendError(int errorCode) {
-        cmdSender.sendCmd(new ErrorCmd(errorCode), clientHandler.getPlayer());
+        clientHandler.queueForSend(new ErrorCmd(errorCode));
     }
 
     @Override
