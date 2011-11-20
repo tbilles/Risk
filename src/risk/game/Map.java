@@ -178,6 +178,7 @@ public class Map {
         setNeighbours(Country.WESTERNEUROPE, Country.SOUTHERNEUROPE);
         setNeighbours(Country.WESTERNEUROPE, Country.NORTHAFRICA);
         setNeighbours(Country.SOUTHERNEUROPE, Country.MIDDLEEAST);
+        setNeighbours(Country.SOUTHERNEUROPE, Country.RUSSIA);
         // setNeighbours(Country.SOUTHERNEUROPE, Country.NORTHAFRICA); ????
         setNeighbours(Country.NORTHAFRICA, Country.EGYPT);
         setNeighbours(Country.NORTHAFRICA, Country.EASTAFRICA);
