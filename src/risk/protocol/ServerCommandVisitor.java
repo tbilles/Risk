@@ -292,6 +292,19 @@ public class ServerCommandVisitor implements CommandVisitor {
             Logger.logerror("Invalid regroup command");
             return;
         }
+        if (!((gameView.getRoundPhase() == RoundPhase.ATTACK && gameView.getNextRoundPhase() == RoundPhase.REGROUP) ||
+                gameView.getRoundPhase() == RoundPhase.REGROUP))
+        {
+            // TODO: error handling
+            Logger.logerror("Regroup in wrong game phase!");
+            return;
+        }
+        Attack lastAttack = gameView.getLastAttack();
+        if ((from != lastAttack.getCountryPair().From || to != lastAttack.getCountryPair().To) &&
+                gameView.getRoundPhase() != RoundPhase.REGROUP)
+        {
+            initNextPhase();
+        }
         CountryPair cp = new CountryPair(from, to);
         gameCtrl.regroup(cp, cmd.getTroops());
         cmdSender.sendCmd(new RegroupCmd(cp, cmd.getTroops()), null);
@@ -308,6 +321,12 @@ public class ServerCommandVisitor implements CommandVisitor {
             // TODO: error handling
             Logger.logdebug("Wrong countries in attack");
             return ;
+        }
+        
+        if (gameView.getRoundPhase() != RoundPhase.ATTACK) {
+            // TODO: error handling
+            Logger.logerror("Attack start in wrong phase! (" + gameView.getRoundPhase() + ")");
+            return;
         }
         
         CountryPair cp = new CountryPair(from, to);
