@@ -250,11 +250,6 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     @Override
-    public void visit(DoAttackCmd cmd) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void visit(PlaceReinforcementCmd cmd) {
         Country country = gameView.getCountry(cmd.getCountry().getName());
         Logger.logdebug("Got PlaceReinforcement command to " + country.getName() + " (" + cmd.getTroops() + ")");

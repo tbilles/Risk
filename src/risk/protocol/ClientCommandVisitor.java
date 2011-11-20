@@ -75,12 +75,6 @@ public class ClientCommandVisitor implements CommandVisitor {
     }
 
     @Override
-    public void visit(DoAttackCmd cmd) {
-        WrongCommand(cmd);
-        
-    }
-
-    @Override
     public void visit(PlaceReinforcementCmd cmd) {
         Country c = gameView.getCountry(cmd.getCountry().getName());
         Logger.logdebug("Player " + cmd.getPlayer().getName() + " placed " + cmd.getTroops() + " units to country " + cmd.getCountry().getName());
