@@ -1,6 +1,6 @@
-package risk.protocol;
+package risk.protocol.command;
 
-import risk.protocol.command.Command;
+import risk.protocol.CommandVisitor;
 
 public class NextPlayerCmd extends Command {
     private static final long serialVersionUID = Command.serialVersionUID;

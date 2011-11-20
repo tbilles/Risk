@@ -32,7 +32,6 @@ public class ClientCommandVisitor implements CommandVisitor {
         if (cmd.isControlledByMe()) {
             gameCtrl.setMyPlayer(cmd.getPlayer());
         }
-        
     }
 
     @Override
