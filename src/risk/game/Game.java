@@ -364,6 +364,7 @@ public class Game implements GameView, GameController {
     @Override
     public void clearAttack() {
         attack = null;
+        modelChanged();
     }
 
     @Override
@@ -374,8 +375,10 @@ public class Game implements GameView, GameController {
         }
         attack.setaDiceResults(aDiceResults);
         attack.setdDiceResults(dDiceResults);
-        attack.resetDice();
         accountAttackLosses();
+        if (attack != null) {
+            attack.resetDice();
+        }
         modelChanged();
     }
 }

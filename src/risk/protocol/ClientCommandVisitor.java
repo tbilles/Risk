@@ -142,6 +142,7 @@ public class ClientCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(AttackRetreatCmd cmd) {
+        Logger.logdebug("Got AttackretreatCmd");
         gameCtrl.clearAttack();
     }
 
