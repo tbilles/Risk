@@ -113,6 +113,10 @@ public class ClientGameLogic implements Controller {
     @Override
     public boolean onAttackRetreat() {
         Attack attack = gameView.getAttack();
+        if (attack == null) {
+            Logger.logerror("Attacker retreat but no attack in progress..");
+            return true;
+        }
         if (attack.getCountryPair().From.getOwner() != gameView.getMyPlayer() || attack.getAttackerDice() > 0) {
             // TODO error handling
             Logger.logdebug("Attack etreat not possible");
@@ -125,6 +129,10 @@ public class ClientGameLogic implements Controller {
     @Override
     public boolean onAttack_AttackerChose(int attackerDice) {
         Attack attack = gameView.getAttack();
+        if (attack == null) {
+            Logger.logerror("Attacker chose but no attack in progress..");
+            return true;
+        }
         Country from = attack.getCountryPair().From;
         if (from.getOwner() != gameView.getMyPlayer() || from.getTroops() <= attackerDice ||
                 attackerDice > 3 || attackerDice < 1)
@@ -140,6 +148,10 @@ public class ClientGameLogic implements Controller {
     @Override
     public boolean onAttack_DefenderChose(int defenderDice) {
         Attack attack = gameView.getAttack();
+        if (attack == null) {
+            Logger.logerror("Defender chose but no attack in progress..");
+            return true;
+        }
         Country to = attack.getCountryPair().To;
         if (to.getOwner() != gameView.getMyPlayer() || to.getTroops() < defenderDice ||
                 defenderDice > 2 || defenderDice < 1)

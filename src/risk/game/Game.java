@@ -318,8 +318,7 @@ public class Game implements GameView, GameController {
         return attack;
     }
 
-    @Override
-    public void accountAttackLosses(int aLosses, int dLosses) {
+    private void accountAttackLosses() {
         if (attack == null) {
             Logger.logerror("Accounting attack losses when no attack is in progress");
             return;
@@ -327,6 +326,10 @@ public class Game implements GameView, GameController {
         Country from = attack.getCountryPair().From;
         Country to = attack.getCountryPair().To;
 
+        int[] losses = attack.calcLosses();
+        int aLosses = losses[0];
+        int dLosses = losses[1];
+        
         from.setTroops(from.getTroops() - aLosses);
         to.setTroops(to.getTroops() - dLosses);
         
@@ -334,8 +337,9 @@ public class Game implements GameView, GameController {
             to.setOwner(from.getOwner());
             to.setTroops(attack.getAttackerDice());
             clearAttack();
-        } else {
-            modelChanged();            
+        }
+        if (from.getTroops() < 2) {
+            clearAttack();
         }
     }
 
@@ -370,6 +374,8 @@ public class Game implements GameView, GameController {
         }
         attack.setaDiceResults(aDiceResults);
         attack.setdDiceResults(dDiceResults);
+        attack.resetDice();
+        accountAttackLosses();
         modelChanged();
     }
 }
