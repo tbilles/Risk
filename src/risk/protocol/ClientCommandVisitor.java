@@ -71,7 +71,8 @@ public class ClientCommandVisitor implements CommandVisitor {
     @Override
     public void visit(GameEndedCmd cmd) {
         String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
-        Logger.logdebug("Got GameEnded command: " + cmd.getPlayer().getName() + " has " + reason);
+        String player = cmd.getPlayer() == null ? "" : cmd.getPlayer().getName();
+        Logger.logdebug("Got GameEnded command: " + player + " has " + reason);
     }
 
     @Override
