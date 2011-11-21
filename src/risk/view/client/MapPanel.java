@@ -46,8 +46,6 @@ public class MapPanel extends JPanel {
 
         setLayout(new BorderLayout());
         map.setPreferredSize(backGround.getOriginalSize());
-        map.setMaximumSize(backGround.getOriginalSize());
-        map.setMinimumSize(backGround.getOriginalSize());
         add(map, BorderLayout.CENTER);
         
         map.add(backGround);
@@ -324,6 +322,7 @@ public class MapPanel extends JPanel {
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
         map.setPreferredSize(d);
+        
         buttonPanel.setPreferredSize(d);
         backGround.setPreferredSize(d);
         repaint();
