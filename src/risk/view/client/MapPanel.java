@@ -25,7 +25,8 @@ public class MapPanel extends JPanel {
     private ClientPanel parent;
     private ImageIcon image = new ImageIcon(getClass().getResource(
             "/risk/view/client/resource/Risk_small_names.jpg"));
-    ImagePanel backGround;
+    private ImagePanel backGround;
+    private JPanel buttonPanel;
     private JLayeredPane map = new JLayeredPane();
     private HashMap<String, CountryButton> countryButtons = new HashMap<String, CountryButton>();
     private Controller controller;
@@ -51,7 +52,7 @@ public class MapPanel extends JPanel {
         
         map.add(backGround);
 
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         map.setLayer(buttonPanel, 1);
         buttonPanel.setBounds(0, 0, 1152, 648);
@@ -322,6 +323,8 @@ public class MapPanel extends JPanel {
     public Dimension resizeRiskBoard(int height, int width){
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
+        buttonPanel.setPreferredSize(d);
+        backGround.setPreferredSize(d);
         repaint();
         for(CountryButton c: countryButtons.values()){
             c.setCurrentPosition(d.width, d.height);
