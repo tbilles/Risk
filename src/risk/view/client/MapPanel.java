@@ -323,6 +323,7 @@ public class MapPanel extends JPanel {
     public Dimension resizeRiskBoard(int height, int width){
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
+        map.setPreferredSize(d);
         buttonPanel.setPreferredSize(d);
         backGround.setPreferredSize(d);
         repaint();
