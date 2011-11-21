@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import risk.common.Logger;
 import risk.game.Controller;
 import risk.game.Country;
 import risk.game.CountryPair;
@@ -81,8 +82,11 @@ public class ClientPanel extends JPanel implements Observer, View {
                     .max((int) (this.getSize().getWidth() - mapSize.getWidth()),
                             200);
             temp2.height = (int) temp.getHeight();
+            fbp.setMinimumSize(temp2);
+            fbp.setMaximumSize(temp2);
             fbp.setSize(temp2);
             fbp.setPreferredSize(temp2);
+            fbp.setBounds(mapSize.width, 0, temp2.width, temp2.height);
             repaint();
         }
     }

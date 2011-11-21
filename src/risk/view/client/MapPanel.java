@@ -1,12 +1,14 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import risk.common.ImagePanel;
+import risk.common.Logger;
 import risk.game.Controller;
 import risk.game.Country;
 import risk.game.GameView;
@@ -321,10 +323,23 @@ public class MapPanel extends JPanel {
     public Dimension resizeRiskBoard(int height, int width){
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
+        this.setMinimumSize(d);
+        this.setMaximumSize(d);
+        this.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
         map.setPreferredSize(d);
-        
+        map.setMinimumSize(d);
+        map.setMaximumSize(d);
+        map.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+
         buttonPanel.setPreferredSize(d);
+        buttonPanel.setMinimumSize(d);
+        buttonPanel.setMaximumSize(d);
+        buttonPanel.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
         backGround.setPreferredSize(d);
+        backGround.setMinimumSize(d);
+        backGround.setMaximumSize(d);
+        backGround.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+        
         repaint();
         for(CountryButton c: countryButtons.values()){
             c.setCurrentPosition(d.width, d.height);
