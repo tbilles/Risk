@@ -1,12 +1,14 @@
 package risk.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import risk.common.ImagePanel;
+import risk.common.Logger;
 import risk.game.Controller;
 import risk.game.Country;
 import risk.game.GameView;
@@ -25,7 +27,8 @@ public class MapPanel extends JPanel {
     private ClientPanel parent;
     private ImageIcon image = new ImageIcon(getClass().getResource(
             "/risk/view/client/resource/Risk_small_names.jpg"));
-    ImagePanel backGround;
+    private ImagePanel backGround;
+    private JPanel buttonPanel;
     private JLayeredPane map = new JLayeredPane();
     private HashMap<String, CountryButton> countryButtons = new HashMap<String, CountryButton>();
     private Controller controller;
@@ -40,27 +43,16 @@ public class MapPanel extends JPanel {
      */
     public MapPanel(ClientPanel cp) {
         parent=cp;
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                int height=e.getComponent().getHeight();
-                int width=e.getComponent().getWidth();
-                resizeRiskBoard(height, width);
-            }
-        });
         backGround = new ImagePanel(image.getImage());
         setPreferredSize(backGround.getOriginalSize());
 
         setLayout(new BorderLayout());
         map.setPreferredSize(backGround.getOriginalSize());
-        map.setMaximumSize(backGround.getOriginalSize());
-        map.setMinimumSize(backGround.getOriginalSize());
         add(map, BorderLayout.CENTER);
         
         map.add(backGround);
 
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         map.setLayer(buttonPanel, 1);
         buttonPanel.setBounds(0, 0, 1152, 648);
@@ -328,14 +320,31 @@ public class MapPanel extends JPanel {
             cb.refresh(view);
         }
     }
-    private void resizeRiskBoard(int height, int width){
-        parent.resize();
+    public Dimension resizeRiskBoard(int height, int width){
         Dimension d=backGround.resizeImage(height, width);
         this.setPreferredSize(d);
+        this.setMinimumSize(d);
+        this.setMaximumSize(d);
+        this.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+        map.setPreferredSize(d);
+        map.setMinimumSize(d);
+        map.setMaximumSize(d);
+        map.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+
+        buttonPanel.setPreferredSize(d);
+        buttonPanel.setMinimumSize(d);
+        buttonPanel.setMaximumSize(d);
+        buttonPanel.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+        backGround.setPreferredSize(d);
+        backGround.setMinimumSize(d);
+        backGround.setMaximumSize(d);
+        backGround.setBounds(0, 0, (int)d.getWidth(), (int)d.getHeight());
+        
         repaint();
         for(CountryButton c: countryButtons.values()){
             c.setCurrentPosition(d.width, d.height);
         }
+        return d;
     }
 
     private class SwingAction extends AbstractAction {
