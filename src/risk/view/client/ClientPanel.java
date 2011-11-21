@@ -87,7 +87,7 @@ public class ClientPanel extends JPanel implements Observer, View {
             fbp.setSize(temp2);
             fbp.setPreferredSize(temp2);
             fbp.setBounds(mapSize.width, 0, temp2.width, temp2.height);
-            repaint();
+            revalidate();
         }
     }
 
