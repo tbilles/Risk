@@ -179,14 +179,16 @@ public class Map {
         setNeighbours(Country.WESTERNEUROPE, Country.NORTHAFRICA);
         setNeighbours(Country.SOUTHERNEUROPE, Country.MIDDLEEAST);
         setNeighbours(Country.SOUTHERNEUROPE, Country.RUSSIA);
-        // setNeighbours(Country.SOUTHERNEUROPE, Country.NORTHAFRICA); ????
+        setNeighbours(Country.SOUTHERNEUROPE, Country.NORTHAFRICA);
+        setNeighbours(Country.SOUTHERNEUROPE, Country.EGYPT);
         setNeighbours(Country.NORTHAFRICA, Country.EGYPT);
         setNeighbours(Country.NORTHAFRICA, Country.EASTAFRICA);
         setNeighbours(Country.NORTHAFRICA, Country.CENTRALAFRICA);
         setNeighbours(Country.EGYPT, Country.MIDDLEEAST);
         setNeighbours(Country.EGYPT, Country.EASTAFRICA);
         setNeighbours(Country.EASTAFRICA, Country.CENTRALAFRICA);
-        // setNeighbours(Country.EASTAFRICA, Country.MADAGASCAR); ????
+        setNeighbours(Country.EASTAFRICA, Country.SOUTHAFRICA);
+        setNeighbours(Country.EASTAFRICA, Country.MADAGASCAR);
         setNeighbours(Country.CENTRALAFRICA, Country.SOUTHAFRICA);
         setNeighbours(Country.SOUTHAFRICA, Country.MADAGASCAR);
         setNeighbours(Country.RUSSIA, Country.URAL);
@@ -213,13 +215,14 @@ public class Map {
         setNeighbours(Country.CHINA, Country.INDIA);
         setNeighbours(Country.CHINA, Country.SIAM);
         setNeighbours(Country.MIDDLEEAST, Country.INDIA);
+        setNeighbours(Country.MIDDLEEAST, Country.EASTAFRICA);
         setNeighbours(Country.INDIA, Country.SIAM);
         setNeighbours(Country.SIAM, Country.INDONESIA);
         setNeighbours(Country.INDONESIA, Country.NEWGUINEA);
         setNeighbours(Country.INDONESIA, Country.WESTERNAUSTRALIA);
-        setNeighbours(Country.INDONESIA, Country.EASTERNAUSTRALIA);
         setNeighbours(Country.NEWGUINEA, Country.EASTERNAUSTRALIA);
         setNeighbours(Country.WESTERNAUSTRALIA, Country.EASTERNAUSTRALIA);
+        setNeighbours(Country.WESTERNAUSTRALIA, Country.NEWGUINEA);
     }
     
     public Country getCountry(String countryName) {
