@@ -29,6 +29,9 @@ import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class FeedbackPanel extends JPanel {
     private JTextArea messages=new JTextArea();
@@ -44,21 +47,36 @@ public class FeedbackPanel extends JPanel {
      * Create the panel.
      */
     public FeedbackPanel() {
-        setPreferredSize(new Dimension(128, 648));
+        setPreferredSize(new Dimension(354, 667));
         setMinimumSize(new Dimension(128, 648));
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JTextArea temp = RiskIO.getClientTextArea();
         temp.setEditable(false);
         temp.setRows(5);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{128, 0};
+        gridBagLayout.rowHeights = new int[]{87, 78, 100, 91, 23, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.5, 0.5, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        setLayout(gridBagLayout);
         JScrollPane sp = new JScrollPane(temp);
         JPanel debugPanel = new JPanel();
-        add(debugPanel);
+        GridBagConstraints gbc_debugPanel = new GridBagConstraints();
+        gbc_debugPanel.fill=GridBagConstraints.BOTH;
+        gbc_debugPanel.insets = new Insets(0, 0, 5, 0);
+        gbc_debugPanel.gridx = 0;
+        gbc_debugPanel.gridy = 0;
+        add(debugPanel, gbc_debugPanel);
         debugPanel.setLayout(new BorderLayout());
         debugPanel.add(sp, BorderLayout.CENTER);
         
         JPanel panel = new JPanel();
-        add(panel);
+        GridBagConstraints gbc_panel = new GridBagConstraints();
+        gbc_panel.fill=GridBagConstraints.BOTH;
+        gbc_panel.insets = new Insets(0, 0, 5, 0);
+        gbc_panel.gridx = 0;
+        gbc_panel.gridy = 1;
+        add(panel, gbc_panel);
         panel.setLayout(new BorderLayout(0, 0));
         
         JScrollPane scrollPane = new JScrollPane();
@@ -66,14 +84,23 @@ public class FeedbackPanel extends JPanel {
         messages.setEditable(false);
         panel.add(scrollPane);
         playersPanel.setPreferredSize(new Dimension(128, 100));
-
         
-        add(playersPanel);
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+                
+                GridBagConstraints gbc_playersPanel = new GridBagConstraints();
+                gbc_playersPanel.insets = new Insets(0, 0, 5, 0);
+                gbc_playersPanel.gridx = 0;
+                gbc_playersPanel.gridy = 2;
+                add(playersPanel, gbc_playersPanel);
+                playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         
         JPanel myCardsPanel = new JPanel();
         myCardsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(myCardsPanel);
+        GridBagConstraints gbc_myCardsPanel = new GridBagConstraints();
+        gbc_myCardsPanel.anchor = GridBagConstraints.CENTER;
+        gbc_myCardsPanel.insets = new Insets(0, 0, 5, 0);
+        gbc_myCardsPanel.gridx = 0;
+        gbc_myCardsPanel.gridy = 3;
+        add(myCardsPanel, gbc_myCardsPanel);
         myCardsPanel.setLayout(new MigLayout("", "[44px][5px][47px]", "[22px][14px][14px][14px]"));
         
         Label label = new Label("My risk cards:");
@@ -100,7 +127,11 @@ public class FeedbackPanel extends JPanel {
         
         JButton btnFinishedMyTurn = new JButton("Finished my turn");
         btnFinishedMyTurn.setAction(action);
-        add(btnFinishedMyTurn);
+        GridBagConstraints gbc_btnFinishedMyTurn = new GridBagConstraints();
+        gbc_btnFinishedMyTurn.anchor = GridBagConstraints.CENTER;
+        gbc_btnFinishedMyTurn.gridx = 0;
+        gbc_btnFinishedMyTurn.gridy = 4;
+        add(btnFinishedMyTurn, gbc_btnFinishedMyTurn);
 
     }
 
