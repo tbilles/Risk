@@ -29,20 +29,26 @@ import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 public class FeedbackPanel extends JPanel {
-    private JTextArea messages=new JTextArea();
-    private ArrayList<JLabel> players=new ArrayList<JLabel>();
-    JPanel playersPanel = new JPanel();
+    private JTextArea messages = new JTextArea();
+    private ArrayList<JLabel> players = new ArrayList<JLabel>();
+    private JPanel playersPanel = new JPanel();
     private Controller controller;
+    private JButton btnFinishedMyTurn;
+    boolean gameStarted = false;
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
     private final Action action = new SwingAction();
+
     /**
      * Create the panel.
      */
@@ -54,78 +60,47 @@ public class FeedbackPanel extends JPanel {
         temp.setEditable(false);
         temp.setRows(5);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{128, 0};
-        gridBagLayout.rowHeights = new int[]{87, 78, 100, 91, 23, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.5, 0.5, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.columnWidths = new int[] { 128, 0 };
+        gridBagLayout.rowHeights = new int[] { 87, 78, 100, 91, 23, 0 };
+        gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 0.5, 0.5, 0.0, 0.0, 0.0,
+                Double.MIN_VALUE };
         setLayout(gridBagLayout);
         JScrollPane sp = new JScrollPane(temp);
         JPanel debugPanel = new JPanel();
         GridBagConstraints gbc_debugPanel = new GridBagConstraints();
-        gbc_debugPanel.fill=GridBagConstraints.BOTH;
+        gbc_debugPanel.fill = GridBagConstraints.BOTH;
         gbc_debugPanel.insets = new Insets(0, 0, 5, 0);
         gbc_debugPanel.gridx = 0;
         gbc_debugPanel.gridy = 0;
         add(debugPanel, gbc_debugPanel);
         debugPanel.setLayout(new BorderLayout());
         debugPanel.add(sp, BorderLayout.CENTER);
-        
+
         JPanel panel = new JPanel();
         GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.fill=GridBagConstraints.BOTH;
+        gbc_panel.fill = GridBagConstraints.BOTH;
         gbc_panel.insets = new Insets(0, 0, 5, 0);
         gbc_panel.gridx = 0;
         gbc_panel.gridy = 1;
         add(panel, gbc_panel);
         panel.setLayout(new BorderLayout(0, 0));
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(messages);
         messages.setEditable(false);
         panel.add(scrollPane);
         playersPanel.setPreferredSize(new Dimension(128, 100));
-        
-                
-                GridBagConstraints gbc_playersPanel = new GridBagConstraints();
-                gbc_playersPanel.insets = new Insets(0, 0, 5, 0);
-                gbc_playersPanel.gridx = 0;
-                gbc_playersPanel.gridy = 2;
-                add(playersPanel, gbc_playersPanel);
-                playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
-        
-        JPanel myCardsPanel = new JPanel();
-        myCardsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        GridBagConstraints gbc_myCardsPanel = new GridBagConstraints();
-        gbc_myCardsPanel.anchor = GridBagConstraints.CENTER;
-        gbc_myCardsPanel.insets = new Insets(0, 0, 5, 0);
-        gbc_myCardsPanel.gridx = 0;
-        gbc_myCardsPanel.gridy = 3;
-        add(myCardsPanel, gbc_myCardsPanel);
-        myCardsPanel.setLayout(new MigLayout("", "[44px][5px][47px]", "[22px][14px][14px][14px]"));
-        
-        Label label = new Label("My risk cards:");
-        label.setFont(new Font("Dialog", Font.BOLD, 12));
-        myCardsPanel.add(label, "cell 0 0 3 1,alignx center,aligny top");
-        
-        JLabel lblNewLabel = new JLabel("Infantry:");
-        myCardsPanel.add(lblNewLabel, "cell 0 1,alignx left,aligny top");
-        
-        JLabel lblNewLabel_2 = new JLabel("0");
-        myCardsPanel.add(lblNewLabel_2, "cell 2 1,alignx left,aligny top");
-        
-        JLabel lblNewLabel_1 = new JLabel("Cavalry:");
-        myCardsPanel.add(lblNewLabel_1, "cell 0 2,alignx center,aligny top");
-        
-        JLabel lblNewLabel_3 = new JLabel("0");
-        myCardsPanel.add(lblNewLabel_3, "cell 2 2,alignx left,aligny top");
-        
-        JLabel lblA = new JLabel("Artillery:");
-        myCardsPanel.add(lblA, "cell 0 3,alignx center,aligny top");
-        
-        JLabel lblNewLabel_4 = new JLabel("0");
-        myCardsPanel.add(lblNewLabel_4, "cell 2 3,alignx left,aligny top");
-        
-        JButton btnFinishedMyTurn = new JButton("Finished my turn");
+
+        GridBagConstraints gbc_playersPanel = new GridBagConstraints();
+        gbc_playersPanel.fill=GridBagConstraints.BOTH;
+        gbc_playersPanel.insets = new Insets(0, 0, 5, 0);
+        gbc_playersPanel.gridx = 0;
+        gbc_playersPanel.gridy = 2;
+        add(playersPanel, gbc_playersPanel);
+        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+
+        btnFinishedMyTurn = new JButton("Start Game");
         btnFinishedMyTurn.setAction(action);
         GridBagConstraints gbc_btnFinishedMyTurn = new GridBagConstraints();
         gbc_btnFinishedMyTurn.anchor = GridBagConstraints.CENTER;
@@ -136,36 +111,69 @@ public class FeedbackPanel extends JPanel {
     }
 
     public void refresh(GameView view) {
-        refreshPlayers(view.getPlayers());
+        refreshPlayers(view);
+        if (view.isGameStarted() && !gameStarted) {
+            refreshStartButton();
+            gameStarted = true;
+        }
+        if (gameStarted) {
+            if (view.getMyPlayer() != view.getCurrentPlayer()) {
+                btnFinishedMyTurn.setEnabled(false);
+            } else {
+                btnFinishedMyTurn.setEnabled(true);
+            }
+        }
+    }
 
-    }
-    public void addMessage(Object message){
-        messages.append(message.toString()+"\n");
+    public void addMessage(Object message) {
+        messages.append(message.toString() + "\n");
     }
 
-    public void addMessage(String message){
-        messages.append(message+"\n");
+    public void addMessage(String message) {
+        messages.append(message + "\n");
     }
-    private void refreshPlayers(Collection<Player> playerCollection) {
+
+    private void refreshPlayers(GameView view) {
         players.clear();
-        for(Player p: playerCollection){
-            JLabel temp=new JLabel(p.getName());
+        for (Player p : view.getPlayers()) {
+            JLabel temp = new JLabel();
             temp.setForeground(p.getColor());
+            if (view.getCurrentPlayer() == p) {
+                temp.setText("►"+p.getName());
+            }
+            else{
+                temp.setText(p.getName());
+            }
             players.add(temp);
         }
         playersPanel.removeAll();
-        for(JLabel l: players){
+        for (JLabel l : players) {
             playersPanel.add(l);
         }
+        revalidate();
+        repaint();
+    }
+
+    private void refreshStartButton() {
+        btnFinishedMyTurn.setText("Finished");
+        btnFinishedMyTurn
+                .setToolTipText("Click this button if you have finished your turn");
     }
 
     private class SwingAction extends AbstractAction {
         public SwingAction() {
-            putValue(NAME, "Finished");
-            putValue(SHORT_DESCRIPTION, "Click this button, if you have finished your turn");
+            putValue(NAME, "Start Game");
+            putValue(SHORT_DESCRIPTION,
+                    "Click this button if you want to start the game, every player joined");
         }
+
         public void actionPerformed(ActionEvent e) {
-            if(controller!=null)controller.onEndTurnClick();
+            if (controller != null) {
+                if (!gameStarted)
+                    controller.onGameStartClick();
+                else
+                    controller.onEndTurnClick();
+            }
         }
     }
 }

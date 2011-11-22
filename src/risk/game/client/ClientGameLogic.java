@@ -163,4 +163,11 @@ public class ClientGameLogic implements Controller {
         sender.queueForSend(new AttackSetDDiceCmd(defenderDice));
         return false;
     }
+
+    @Override
+    public void onGameStartClick() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

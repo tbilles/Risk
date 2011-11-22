@@ -388,4 +388,11 @@ public class Game implements GameView, GameController {
         }
         modelChanged();
     }
+
+    @Override
+    public boolean isGameStarted() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 }

@@ -1,6 +1,7 @@
 package risk.game;
 
 public interface Controller {
+    public void onGameStartClick();
     public void onCountryClick(String country);
     public void onEndTurnClick();
     public GameView getGameView();
