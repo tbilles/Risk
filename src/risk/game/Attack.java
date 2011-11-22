@@ -8,8 +8,8 @@ import java.util.Iterator;
 
 public class Attack {
     private CountryPair countryPair;
-    private int attackerDice;
-    private int defenderDice;
+    private int attackerDice=-1;
+    private int defenderDice=-1;
     private ArrayList<Integer> aDiceResults;
     private ArrayList<Integer> dDiceResults;
     

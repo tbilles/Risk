@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 
+import risk.common.Logger;
 import risk.game.Attack;
 import risk.game.Controller;
 import risk.game.CountryPair;
@@ -18,24 +19,30 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import java.awt.image.ColorModel;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.Action;
 
 public class AttackPanel extends JPanel {
-    private int fromCurrentArmies, toCurrentArmies; 
+    private int fromCurrentArmies, toCurrentArmies;
     private AttackDialog parent;
-    private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies, lblToAfterArmies, lblFromCurrentArmies, lblToCurrentArmies;
-    private JButton aThreeDice, aTwoDice, aOneDice, btnCancelAttack, dTwoDice, dOneDice;
+    private JLabel thrownAttacker, thrownDefender, lblFromAfterArmies,
+            lblToAfterArmies, lblFromCurrentArmies, lblToCurrentArmies;
+    private JButton aThreeDice, aTwoDice, aOneDice, btnCancelAttack, dTwoDice,
+            dOneDice;
     private Controller controller;
     private int viewerType;
+    private Color defaultColor;
     private CountryPair cp;
     private final Action a3 = new SwingAction();
     private final Action a2 = new SwingAction_1();
@@ -43,37 +50,40 @@ public class AttackPanel extends JPanel {
     private final Action aCancel = new SwingAction_3();
     private final Action d2 = new SwingAction_4();
     private final Action d1 = new SwingAction_5();
+
     /**
-     * Create the panel.
-     * viewerType==0: all buttons disabled
-     * viewerType==1: defender buttons disabled (attacker mode)
-     * viewerType==2: attacker buttons disabled (defender mode)
+     * Create the panel. viewerType==0: all buttons disabled viewerType==1:
+     * defender buttons disabled (attacker mode) viewerType==2: attacker buttons
+     * disabled (defender mode)
      */
-    public AttackPanel(AttackDialog ad, Attack a, int viewerType, Controller controller) {
-        this.controller=controller;
-        this.viewerType=viewerType;
-        cp=a.getCountryPair();
-        parent=ad;
+    public AttackPanel(AttackDialog ad, Attack a, int viewerType,
+            Controller controller) {
+        this.controller = controller;
+        this.viewerType = viewerType;
+        cp = a.getCountryPair();
+        parent = ad;
         setLayout(new BorderLayout(0, 0));
-        
+
         JLabel lblAttack = new JLabel("Attack");
         lblAttack.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblAttack.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblAttack, BorderLayout.NORTH);
-        
+
         JPanel panel = new JPanel();
         add(panel, BorderLayout.CENTER);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        
+
         JPanel panel_1 = new JPanel();
         panel.add(panel_1);
         GridBagLayout gbl_panel_1 = new GridBagLayout();
-        gbl_panel_1.columnWidths = new int[]{102, 0};
-        gbl_panel_1.rowHeights = new int[]{0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_1.columnWidths = new int[] { 102, 0 };
+        gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0 };
+        gbl_panel_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+        gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
         panel_1.setLayout(gbl_panel_1);
-        
+
         JLabel lblAttacker = new JLabel(cp.From.getOwner().getName());
         lblAttacker.setForeground(cp.From.getOwner().getColor());
         GridBagConstraints gbc_lblAttacker = new GridBagConstraints();
@@ -81,14 +91,14 @@ public class AttackPanel extends JPanel {
         gbc_lblAttacker.gridx = 0;
         gbc_lblAttacker.gridy = 0;
         panel_1.add(lblAttacker, gbc_lblAttacker);
-        
+
         JLabel lblFrom = new JLabel(cp.From.getName());
         GridBagConstraints gbc_lblFrom = new GridBagConstraints();
         gbc_lblFrom.insets = new Insets(0, 0, 5, 0);
         gbc_lblFrom.gridx = 0;
         gbc_lblFrom.gridy = 1;
         panel_1.add(lblFrom, gbc_lblFrom);
-        
+
         JPanel panel_2 = new JPanel();
         GridBagConstraints gbc_panel_2 = new GridBagConstraints();
         gbc_panel_2.insets = new Insets(0, 0, 5, 0);
@@ -96,13 +106,13 @@ public class AttackPanel extends JPanel {
         gbc_panel_2.gridy = 2;
         panel_1.add(panel_2, gbc_panel_2);
         panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
+
         JLabel label_2 = new JLabel("Current armies:");
         panel_2.add(label_2);
-        
-        lblFromCurrentArmies = new JLabel(cp.From.getTroops()+"");
+
+        lblFromCurrentArmies = new JLabel(cp.From.getTroops() + "");
         panel_2.add(lblFromCurrentArmies);
-        
+
         aThreeDice = new JButton("Attack with 3 dice");
         aThreeDice.setAction(a3);
         GridBagConstraints gbc_AThreeDice = new GridBagConstraints();
@@ -110,7 +120,7 @@ public class AttackPanel extends JPanel {
         gbc_AThreeDice.gridx = 0;
         gbc_AThreeDice.gridy = 3;
         panel_1.add(aThreeDice, gbc_AThreeDice);
-        
+
         aTwoDice = new JButton("Attack with 2 dice");
         aTwoDice.setAction(a2);
         GridBagConstraints gbc_ATwoDice = new GridBagConstraints();
@@ -118,7 +128,7 @@ public class AttackPanel extends JPanel {
         gbc_ATwoDice.gridx = 0;
         gbc_ATwoDice.gridy = 4;
         panel_1.add(aTwoDice, gbc_ATwoDice);
-        
+
         aOneDice = new JButton("Attack with 1 dice");
         aOneDice.setAction(a1);
         GridBagConstraints gbc_AOneDice = new GridBagConstraints();
@@ -126,7 +136,7 @@ public class AttackPanel extends JPanel {
         gbc_AOneDice.gridx = 0;
         gbc_AOneDice.gridy = 5;
         panel_1.add(aOneDice, gbc_AOneDice);
-        
+
         btnCancelAttack = new JButton("Cancel attack");
         btnCancelAttack.setAction(aCancel);
         GridBagConstraints gbc_btnCancelAttack = new GridBagConstraints();
@@ -134,7 +144,7 @@ public class AttackPanel extends JPanel {
         gbc_btnCancelAttack.gridx = 0;
         gbc_btnCancelAttack.gridy = 6;
         panel_1.add(btnCancelAttack, gbc_btnCancelAttack);
-        
+
         JPanel panel_6 = new JPanel();
         GridBagConstraints gbc_panel_6 = new GridBagConstraints();
         gbc_panel_6.insets = new Insets(0, 0, 5, 0);
@@ -142,7 +152,7 @@ public class AttackPanel extends JPanel {
         gbc_panel_6.gridx = 0;
         gbc_panel_6.gridy = 7;
         panel_1.add(panel_6, gbc_panel_6);
-        
+
         JPanel panel_7 = new JPanel();
         GridBagConstraints gbc_panel_7 = new GridBagConstraints();
         gbc_panel_7.insets = new Insets(2, 0, 5, 0);
@@ -151,13 +161,13 @@ public class AttackPanel extends JPanel {
         gbc_panel_7.gridy = 8;
         panel_1.add(panel_7, gbc_panel_7);
         panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
+
         JLabel label_4 = new JLabel("Thrown:");
         panel_7.add(label_4);
-        
+
         thrownAttacker = new JLabel("");
         panel_7.add(thrownAttacker);
-        
+
         JPanel panel_8 = new JPanel();
         GridBagConstraints gbc_panel_8 = new GridBagConstraints();
         gbc_panel_8.insets = new Insets(0, 0, 5, 0);
@@ -166,22 +176,24 @@ public class AttackPanel extends JPanel {
         gbc_panel_8.gridy = 9;
         panel_1.add(panel_8, gbc_panel_8);
         panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
+
         JLabel label_6 = new JLabel("Died in last throw:");
         panel_8.add(label_6);
-        
+
         lblFromAfterArmies = new JLabel("?");
         panel_8.add(lblFromAfterArmies);
-        
+
         JPanel panel_3 = new JPanel();
         panel.add(panel_3);
         GridBagLayout gbl_panel_3 = new GridBagLayout();
-        gbl_panel_3.columnWidths = new int[]{102, 0};
-        gbl_panel_3.rowHeights = new int[]{0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_panel_3.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_3.columnWidths = new int[] { 102, 0 };
+        gbl_panel_3.rowHeights = new int[] { 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0,
+                0 };
+        gbl_panel_3.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+        gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
         panel_3.setLayout(gbl_panel_3);
-        
+
         JLabel lblDefender = new JLabel(cp.To.getOwner().getName());
         lblDefender.setForeground(cp.To.getOwner().getColor());
         GridBagConstraints gbc_lblDefender = new GridBagConstraints();
@@ -189,14 +201,14 @@ public class AttackPanel extends JPanel {
         gbc_lblDefender.gridx = 0;
         gbc_lblDefender.gridy = 0;
         panel_3.add(lblDefender, gbc_lblDefender);
-        
+
         JLabel lblTo = new JLabel(cp.To.getName());
         GridBagConstraints gbc_lblTo = new GridBagConstraints();
         gbc_lblTo.insets = new Insets(0, 0, 5, 0);
         gbc_lblTo.gridx = 0;
         gbc_lblTo.gridy = 1;
         panel_3.add(lblTo, gbc_lblTo);
-        
+
         JPanel panel_5 = new JPanel();
         GridBagConstraints gbc_panel_5 = new GridBagConstraints();
         gbc_panel_5.insets = new Insets(0, 0, 5, 0);
@@ -204,13 +216,13 @@ public class AttackPanel extends JPanel {
         gbc_panel_5.gridy = 2;
         panel_3.add(panel_5, gbc_panel_5);
         panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        
+
         JLabel label = new JLabel("Current armies:");
         panel_5.add(label);
-        
-        lblToCurrentArmies = new JLabel(cp.To.getTroops()+"");
+
+        lblToCurrentArmies = new JLabel(cp.To.getTroops() + "");
         panel_5.add(lblToCurrentArmies);
-        
+
         dTwoDice = new JButton("Defend with 2 dice");
         dTwoDice.setAction(d2);
         GridBagConstraints gbc_DTwoDice = new GridBagConstraints();
@@ -218,7 +230,7 @@ public class AttackPanel extends JPanel {
         gbc_DTwoDice.gridx = 0;
         gbc_DTwoDice.gridy = 3;
         panel_3.add(dTwoDice, gbc_DTwoDice);
-        
+
         dOneDice = new JButton("Defend with 1 dice");
         dOneDice.setAction(d1);
         GridBagConstraints gbc_DOneDice = new GridBagConstraints();
@@ -226,7 +238,7 @@ public class AttackPanel extends JPanel {
         gbc_DOneDice.gridx = 0;
         gbc_DOneDice.gridy = 4;
         panel_3.add(dOneDice, gbc_DOneDice);
-        
+
         JPanel panel_4 = new JPanel();
         GridBagConstraints gbc_panel_4 = new GridBagConstraints();
         gbc_panel_4.insets = new Insets(0, 0, 5, 0);
@@ -234,7 +246,7 @@ public class AttackPanel extends JPanel {
         gbc_panel_4.gridx = 0;
         gbc_panel_4.gridy = 5;
         panel_3.add(panel_4, gbc_panel_4);
-        
+
         JPanel panel_9 = new JPanel();
         GridBagConstraints gbc_panel_9 = new GridBagConstraints();
         gbc_panel_9.anchor = GridBagConstraints.SOUTH;
@@ -243,13 +255,13 @@ public class AttackPanel extends JPanel {
         gbc_panel_9.gridy = 7;
         panel_3.add(panel_9, gbc_panel_9);
         panel_9.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
+
         JLabel label_8 = new JLabel("Thrown:");
         panel_9.add(label_8);
-        
+
         thrownDefender = new JLabel("");
         panel_9.add(thrownDefender);
-        
+
         JPanel panel_10 = new JPanel();
         GridBagConstraints gbc_panel_10 = new GridBagConstraints();
         gbc_panel_10.anchor = GridBagConstraints.SOUTH;
@@ -259,42 +271,49 @@ public class AttackPanel extends JPanel {
         gbc_panel_10.gridy = 8;
         panel_3.add(panel_10, gbc_panel_10);
         panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
+
         JLabel label_10 = new JLabel("Died in last throw:");
         panel_10.add(label_10);
-        
+
         lblToAfterArmies = new JLabel("?");
         panel_10.add(lblToAfterArmies);
 
-        setButtonsStatus();
+        defaultColor = aOneDice.getBackground();
+        setButtonsStatus(null);
     }
-    
-    public void refresh(Attack attack){
-        setButtonsStatus();
-        Collection<Integer> temp=attack.getaDiceResults();
-        String tempS="";
-        for(Integer i: temp){
-            tempS+=i+";";
+
+    public void refresh(Attack attack) {
+        setButtonsStatus(attack);
+        Collection<Integer> temp = attack.getaDiceResults();
+        if (temp != null) {
+            String tempS = "";
+            for (Integer i : temp) {
+                tempS += i + ";";
+            }
+            if (tempS.endsWith(";"))
+                tempS.substring(0, tempS.length() - 1);
+            thrownAttacker.setText(tempS);
+            tempS = "";
+            temp = attack.getdDiceResults();
+            for (Integer i : temp) {
+                tempS += i + ";";
+            }
+            if (tempS.endsWith(";"))
+                tempS.substring(0, tempS.length() - 1);
+            thrownDefender.setText(tempS);
         }
-        if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
-        thrownAttacker.setText(tempS);
-        tempS="";
-        temp=attack.getdDiceResults();
-        for(Integer i: temp){
-            tempS+=i+";";
-        }
-        if(tempS.endsWith(";")) tempS.substring(0, tempS.length()-1);
-        thrownDefender.setText(tempS);
         int[] deltas = attack.calcLosses();
         int deltaA = deltas[0];
         int deltaD = deltas[1];
-        lblFromCurrentArmies.setText(attack.getCountryPair().From.getTroops()+"");
-        lblToCurrentArmies.setText(attack.getCountryPair().To.getTroops()+"");
-        lblFromAfterArmies.setText(deltaA+"");
-        lblToAfterArmies.setText(deltaD+"");
-        
+        lblFromCurrentArmies.setText(attack.getCountryPair().From.getTroops()
+                + "");
+        lblToCurrentArmies.setText(attack.getCountryPair().To.getTroops() + "");
+        lblFromAfterArmies.setText(deltaA + "");
+        lblToAfterArmies.setText(deltaD + "");
+
     }
-    private void disableAllButtons(){
+
+    private void disableAllButtons() {
         dOneDice.setEnabled(false);
         dTwoDice.setEnabled(false);
         aOneDice.setEnabled(false);
@@ -302,96 +321,154 @@ public class AttackPanel extends JPanel {
         aThreeDice.setEnabled(false);
         btnCancelAttack.setEnabled(false);
     }
-    private void setButtonsStatus(){
+
+    private void setButtonsStatus(Attack attack) {
         dOneDice.setEnabled(true);
+        dOneDice.setBackground(defaultColor);
         dTwoDice.setEnabled(true);
+        dTwoDice.setBackground(defaultColor);
         aOneDice.setEnabled(true);
+        aOneDice.setBackground(defaultColor);
         aTwoDice.setEnabled(true);
+        aTwoDice.setBackground(defaultColor);
         aThreeDice.setEnabled(true);
+        aThreeDice.setBackground(defaultColor);
         btnCancelAttack.setEnabled(true);
-        if(viewerType==0){
+        btnCancelAttack.setBackground(defaultColor);
+        if (viewerType == 0) {
+            disableAllButtons();
+        }
+        if (viewerType == 1) {
+            if (attack == null || (attack.getAttackerDice() < 0)) {
+                if (cp.From.getTroops() < 4)
+                    aThreeDice.setEnabled(false);
+                if (cp.From.getTroops() < 3)
+                    aTwoDice.setEnabled(false);
+                if (cp.From.getTroops() < 2)
+                    aOneDice.setEnabled(false);
+            }
             dOneDice.setEnabled(false);
             dTwoDice.setEnabled(false);
+        }
+        if (viewerType == 2) {
+            if (attack != null && (attack.getDefenderDice() < 0)) {
+                if (cp.To.getTroops() < 2)
+                    dTwoDice.setEnabled(false);
+                if (cp.To.getTroops() < 1)
+                    dOneDice.setEnabled(false);
+            } else {
+                dTwoDice.setEnabled(false);
+                dOneDice.setEnabled(false);
+            }
             aOneDice.setEnabled(false);
             aTwoDice.setEnabled(false);
             aThreeDice.setEnabled(false);
             btnCancelAttack.setEnabled(false);
         }
-        if (viewerType==1){
-            if(cp.From.getTroops()<4) aThreeDice.setEnabled(false);
-            if(cp.From.getTroops()<3) aTwoDice.setEnabled(false);
-            if(cp.From.getTroops()<2) aOneDice.setEnabled(false);
-            dOneDice.setEnabled(false);
-            dTwoDice.setEnabled(false);
+        if (attack != null) {
+            if (attack.getAttackerDice() > 0) {
+                if (attack.getAttackerDice() == 0)
+                    btnCancelAttack.setBackground(Color.LIGHT_GRAY);
+                if (attack.getAttackerDice() == 1)
+                    aOneDice.setBackground(Color.LIGHT_GRAY);
+                if (attack.getAttackerDice() == 2)
+                    aTwoDice.setBackground(Color.LIGHT_GRAY);
+                if (attack.getAttackerDice() == 3)
+                    aThreeDice.setBackground(Color.LIGHT_GRAY);
+            }
+            if (attack.getDefenderDice() > 0) {
+                if (attack.getDefenderDice() == 1) {
+                    dOneDice.setBackground(Color.LIGHT_GRAY);
+                }
+                if (attack.getDefenderDice() == 2) {
+                    dTwoDice.setBackground(Color.LIGHT_GRAY);
+                }
+            }
         }
-        if(viewerType==2){
-            if(cp.To.getTroops()<2) dTwoDice.setEnabled(false);
-            if(cp.To.getTroops()<1) dOneDice.setEnabled(false);
-            aOneDice.setEnabled(false);
-            aTwoDice.setEnabled(false);
-            aThreeDice.setEnabled(false);
-            btnCancelAttack.setEnabled(false);
-        }
-        
+
     }
+
     private class SwingAction extends AbstractAction {
         public SwingAction() {
             putValue(NAME, "Attack with 3 dice");
             putValue(SHORT_DESCRIPTION, "Attack with 3 dice");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttack_AttackerChose(3);
+            boolean b = controller.onAttack_AttackerChose(3);
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
+
     private class SwingAction_1 extends AbstractAction {
         public SwingAction_1() {
             putValue(NAME, "Attack with 2 dice");
             putValue(SHORT_DESCRIPTION, "Attack with 2 dice");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttack_AttackerChose(2);
+            boolean b = controller.onAttack_AttackerChose(2);
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
+
     private class SwingAction_2 extends AbstractAction {
         public SwingAction_2() {
             putValue(NAME, "Attack with 1 dice");
             putValue(SHORT_DESCRIPTION, "Attack with 1 dice");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttack_AttackerChose(1);
+            boolean b = controller.onAttack_AttackerChose(1);
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
+
     private class SwingAction_3 extends AbstractAction {
         public SwingAction_3() {
             putValue(NAME, "Cancel attack");
             putValue(SHORT_DESCRIPTION, "Cancel attack");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttackRetreat();
+            boolean b = controller.onAttackRetreat();
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
+
     private class SwingAction_4 extends AbstractAction {
         public SwingAction_4() {
             putValue(NAME, "Defend with 2 dice");
             putValue(SHORT_DESCRIPTION, "Defend with 2 dice");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttack_DefenderChose(2);
+            boolean b = controller.onAttack_DefenderChose(2);
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
+
     private class SwingAction_5 extends AbstractAction {
         public SwingAction_5() {
             putValue(NAME, "Defend with 1 dice");
             putValue(SHORT_DESCRIPTION, "Defend with 1 dice");
         }
+
         public void actionPerformed(ActionEvent e) {
-            disableAllButtons();
-            controller.onAttack_DefenderChose(1);
+            boolean b = controller.onAttack_DefenderChose(1);
+            if (b) {
+                disableAllButtons();
+            }
         }
     }
 }
