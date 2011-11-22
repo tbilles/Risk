@@ -95,9 +95,9 @@ public class ClientGameLogic implements Controller {
     public boolean onRegroupDialogOk(CountryPair cp, int troops) {
         if (troops > 0 && troops < cp.From.getTroops()) {
             sender.queueForSend(new RegroupCmd(cp, troops));
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -115,15 +115,15 @@ public class ClientGameLogic implements Controller {
         Attack attack = gameView.getAttack();
         if (attack == null) {
             Logger.logerror("Attacker retreat but no attack in progress..");
-            return true;
+            return false;
         }
         if (attack.getCountryPair().From.getOwner() != gameView.getMyPlayer() || attack.getAttackerDice() > 0) {
             // TODO error handling
             Logger.logdebug("Attack etreat not possible");
-            return true;
+            return false;
         }
         sender.queueForSend(new AttackRetreatCmd());
-        return false;
+        return true;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ClientGameLogic implements Controller {
         Attack attack = gameView.getAttack();
         if (attack == null) {
             Logger.logerror("Attacker chose but no attack in progress..");
-            return true;
+            return false;
         }
         Country from = attack.getCountryPair().From;
         if (from.getOwner() != gameView.getMyPlayer() || from.getTroops() <= attackerDice ||
@@ -139,10 +139,10 @@ public class ClientGameLogic implements Controller {
         {
             // TODO error handling
             Logger.logdebug("Attacking not possible");
-            return true;
+            return false;
         }
         sender.queueForSend(new AttackSetADiceCmd(attackerDice));
-        return false;
+        return true;
     }
 
     @Override
@@ -150,18 +150,17 @@ public class ClientGameLogic implements Controller {
         Attack attack = gameView.getAttack();
         if (attack == null) {
             Logger.logerror("Defender chose but no attack in progress..");
-            return true;
+            return false;
         }
         Country to = attack.getCountryPair().To;
         if (to.getOwner() != gameView.getMyPlayer() || to.getTroops() < defenderDice ||
                 defenderDice > 2 || defenderDice < 1)
         {
-            // TODO error handling
             Logger.logdebug("Defending not possible");
-            return true;
+            return false;
         }
         sender.queueForSend(new AttackSetDDiceCmd(defenderDice));
-        return false;
+        return true;
     }
 
     @Override
