@@ -10,13 +10,14 @@ import risk.game.Controller;
 import risk.game.Country;
 import risk.game.CountryPair;
 import risk.game.GameView;
+import risk.game.MessageListener;
 import risk.game.Observer;
 import risk.game.View;
 
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
-public class ClientPanel extends JPanel implements Observer, View {
+public class ClientPanel extends JPanel implements Observer, MessageListener, View {
     private MapPanel map = new MapPanel(this);
     private FeedbackPanel fbp = new FeedbackPanel();
     private Controller controller;
@@ -104,7 +105,7 @@ public class ClientPanel extends JPanel implements Observer, View {
     }
 
     @Override
-    public void addMessage(String msg, boolean popup) {
+    public void onNewMessage(String msg, boolean popup) {
         if (popup) {
             JOptionPane.showMessageDialog(this, msg, "Message!",
                     JOptionPane.INFORMATION_MESSAGE);

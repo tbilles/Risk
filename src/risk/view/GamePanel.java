@@ -43,5 +43,6 @@ public class GamePanel extends JPanel {
         myController=controller;
         cp.setController(controller);
         myController.getGameView().registerObserver(cp);
+        myController.getGameView().registerMsgListener(cp);
     }
 }

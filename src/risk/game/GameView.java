@@ -29,6 +29,8 @@ public interface GameView {
     public Country getSelectedCountryNeighbour(Country c);
     
     public void registerObserver(Observer o);
+    public void registerMsgListener(MessageListener listener);
+    public Collection<MessageListener> getMessageListeners();
     
     public RoundPhase getRoundPhase();
     public RoundPhase getNextRoundPhase();

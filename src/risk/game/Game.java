@@ -25,6 +25,8 @@ public class Game implements GameView, GameController {
      */
     private ArrayList<Observer> observers=new ArrayList<Observer>();
 
+    private LinkedList<MessageListener> msgListeners = new LinkedList<MessageListener>();
+    
     /**
      * Indicates in which phase the current round is. May be null.
      * Eg. reinforcement phase, attack phase, regroup phase
@@ -149,6 +151,16 @@ public class Game implements GameView, GameController {
         }
     }
 
+    @Override
+    public void registerMsgListener(MessageListener listener) {
+        msgListeners.add(listener);
+    }
+    
+    @Override
+    public Collection<MessageListener> getMessageListeners() {
+        return msgListeners;
+    }
+    
     @Override
     public Color getCountryColor(String countryName) {
         Country c = getCountry(countryName);
