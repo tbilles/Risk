@@ -39,6 +39,9 @@ public class RiskFrame extends JFrame implements ActionListener {
      */
     public RiskFrame() {
         super(appName);
+        game.setMnemonic('G');
+        startServer.setMnemonic('S');
+        startClient.setMnemonic('C');
         setSize(1280, 690);
         Logger.getInstance().initialize(true, "Risk.log");
         Logger.loginfo("Starting risk");
