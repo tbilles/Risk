@@ -204,7 +204,7 @@ public class ServerCommandVisitor implements CommandVisitor {
             int countryno = 0;
             // Count owned territorry
             for (Country c : countries) {
-                if (c.getOwner() == gameView.getCurrentPlayer()) {
+                if (c.getOwner() == p) {
                     countryno++;
                 }
             }
@@ -212,12 +212,11 @@ public class ServerCommandVisitor implements CommandVisitor {
 
             // Count continents
             Collection<Continent> continents = gameView.getContinents();
-            Player myPlayer = gameView.getMyPlayer();
             for (Continent continent : continents) {
                 boolean ownedEveryCountry = true;
                 Collection<Country> contCountries = continent.getCountries();
                 for (Country c : contCountries) {
-                    if (c.getOwner() != myPlayer) {
+                    if (c.getOwner() != p) {
                         ownedEveryCountry = false;
                         break;
                     }
