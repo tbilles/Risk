@@ -347,6 +347,12 @@ public class AttackPanel extends JPanel {
                 if (cp.From.getTroops() < 2)
                     aOneDice.setEnabled(false);
             }
+            else{
+                aThreeDice.setEnabled(false);
+                aTwoDice.setEnabled(false);
+                aOneDice.setEnabled(false);
+                btnCancelAttack.setEnabled(false);
+            }
             dOneDice.setEnabled(false);
             dTwoDice.setEnabled(false);
         }
