@@ -370,6 +370,7 @@ public class Game implements GameView, GameController {
             return;
         }
         attack.setDefenderDice(dice);
+        modelChanged();
     }
 
     @Override
@@ -379,6 +380,7 @@ public class Game implements GameView, GameController {
             return;
         }
         attack.setAttackerDice(dice);
+        modelChanged();
     }
 
     @Override
