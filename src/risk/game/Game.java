@@ -356,6 +356,7 @@ public class Game implements GameView, GameController {
         if (to.getTroops() < 1) {
             to.setOwner(from.getOwner());
             to.setTroops(attack.getAttackerDice());
+            from.setTroops(from.getTroops() - attack.getAttackerDice());
             clearAttack();
         }
         if (from.getTroops() < 2) {
