@@ -54,7 +54,7 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(GameStartedCmd cmd) {
         Logger.logdebug("Game started");
         gameCtrl.setGameStarted(true);
-        broadcastMessage("Game started.");
+        broadcastMessage("Game started");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ClientCommandVisitor implements CommandVisitor {
         String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
         String player = cmd.getPlayer() == null ? "" : cmd.getPlayer().getName();
         Logger.logdebug("Got GameEnded command: " + player + " has " + reason);
-        broadcastMessage("The game has ended, player " + player + "has " + reason, true);
+        broadcastMessage("The game has ended, player " + player + " has " + reason, true);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ClientCommandVisitor implements CommandVisitor {
         CountryPair cp = new CountryPair(from, to);
         gameCtrl.regroup(cp, cmd.getTroops());
         String playerName = from.getOwner().getName();
-        broadcastMessage("Player " + playerName + " moved " + cmd.getTroops() + " units from" + from.getName() + " to " + to.getName());
+        broadcastMessage("Player " + playerName + " moved " + cmd.getTroops() + " units from " + from.getName() + " to " + to.getName());
     }
 
     @Override

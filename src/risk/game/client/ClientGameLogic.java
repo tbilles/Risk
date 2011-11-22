@@ -84,20 +84,22 @@ public class ClientGameLogic implements Controller {
     @Override
     public boolean onReinforcementDialogOK(Country c, int troops) {
         int availableReinforcement = gameView.getAvailableReinforcement();
-        if (availableReinforcement >= troops) {
-            sender.queueForSend(new PlaceReinforcementCmd(c, troops, null));
-            return true;
+        if (availableReinforcement < troops) {
+            Logger.logdebug("Cannot place more reinforcement than you have.");
+            return false;
         }
-        return false;
+        sender.queueForSend(new PlaceReinforcementCmd(c, troops, null));
+        return true;
     }
 
     @Override
     public boolean onRegroupDialogOk(CountryPair cp, int troops) {
-        if (troops > 0 && troops < cp.From.getTroops()) {
-            sender.queueForSend(new RegroupCmd(cp, troops));
-            return true;
+        if (troops < 0 || troops >= cp.From.getTroops()) {
+            Logger.logdebug("Cannot regroup negative amount or more or equal than you have.");
+            return false;
         }
-        return false;
+        sender.queueForSend(new RegroupCmd(cp, troops));
+        return true;
     }
 
     @Override
