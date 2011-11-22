@@ -373,6 +373,11 @@ public class ServerCommandVisitor implements CommandVisitor {
             sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
+        if (gameView.getAttack() == null || gameView.getAttack().getAttackerDice() > 0) {
+            Logger.logdebug("Cannot set ADice, because not in attack or already set!");
+            sendError(ErrorCmd.INVALID_ATTACK_PHASE);
+            return;
+        }
         gameCtrl.setAttackADice(dice);
         cmdSender.sendCmd(new AttackSetADiceCmd(dice), null);
     }
@@ -395,6 +400,12 @@ public class ServerCommandVisitor implements CommandVisitor {
             sendError(ErrorCmd.ILLEGAL_ARGUMENT);
             return;
         }
+        if (gameView.getAttack() == null || gameView.getAttack().getDefenderDice() > 0) {
+            Logger.logdebug("Cannot set DDice, because not in attack or already set!");
+            sendError(ErrorCmd.INVALID_ATTACK_PHASE);
+            return;
+        }
+        
         gameCtrl.setAttackDDice(dice);
         cmdSender.sendCmd(new AttackSetDDiceCmd(dice), null);
         doAttack();

@@ -180,6 +180,9 @@ public class ClientCommandVisitor implements CommandVisitor {
         case ErrorCmd.INVALID_PHASE:
             error = "Invalid phase";
             break;
+        case ErrorCmd.INVALID_ATTACK_PHASE:
+            error = "Invalid attack phase";
+            break;
         case ErrorCmd.NAME_ALREADY_USED:
             error = "Name is already in use";
             break;
