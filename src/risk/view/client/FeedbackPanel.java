@@ -144,6 +144,16 @@ public class FeedbackPanel extends JPanel {
             else{
                 temp.setText(p.getName());
             }
+            if(p==view.getMyPlayer()){
+                Font f=temp.getFont(), tempFont;
+                tempFont=new Font(f.getName(), Font.BOLD, f.getSize());
+                temp.setFont(tempFont);                
+            }
+            else{
+                Font f=temp.getFont(), tempFont;
+                tempFont=new Font(f.getName(), Font.PLAIN, f.getSize());
+                temp.setFont(tempFont);
+            }
             players.add(temp);
         }
         playersPanel.removeAll();
