@@ -411,4 +411,5 @@ public class Game implements GameView, GameController {
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
     }
+
 }
