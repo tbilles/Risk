@@ -18,6 +18,8 @@ public interface GameController {
     public void setRoundPlayers(Collection<Player> players);
     public void initCountry(String countryName, String ownerName, int troops);
 
+    public void setGameStarted(boolean started);
+    
     public void cancelCountrySelection(Country c);
     public void selectCountry(Country c);
     public void cancelCountryNeighbourSelection(Country c);

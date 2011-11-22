@@ -8,6 +8,7 @@ import risk.game.GameController;
 import risk.game.GameView;
 import risk.game.Player;
 import risk.game.RoundPhase;
+import risk.game.server.ClientHandler;
 import risk.protocol.command.*;
 
 public class ClientCommandVisitor implements CommandVisitor {
@@ -37,6 +38,7 @@ public class ClientCommandVisitor implements CommandVisitor {
     @Override
     public void visit(GameStartedCmd cmd) {
         Logger.logdebug("Game started");
+        gameCtrl.setGameStarted(true);
     }
 
     @Override
@@ -164,5 +166,10 @@ public class ClientCommandVisitor implements CommandVisitor {
         }
         
         Logger.logerror(s);
+    }
+
+    @Override
+    public void visit(StartGameCmd cmd) {
+        WrongCommand(cmd);
     }
 }

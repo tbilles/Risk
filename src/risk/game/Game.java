@@ -66,6 +66,8 @@ public class Game implements GameView, GameController {
     private Attack attack;
     private Attack lastAttack;
 
+    private boolean gameStarted = false;
+
     public void addPlayer(Player p) {
         players.add(p);
 
@@ -391,8 +393,10 @@ public class Game implements GameView, GameController {
 
     @Override
     public boolean isGameStarted() {
-        // TODO Auto-generated method stub
-        return true;
+        return gameStarted;
     }
-
+    
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
 }

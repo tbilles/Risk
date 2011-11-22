@@ -60,11 +60,6 @@ public class ServerCommandVisitor implements CommandVisitor {
 
         gameCtrl.addPlayer(newPlayer);
         cmdSender.sendPlayerJoinedCmd(newPlayer);
-
-        // Check if all the players are here
-        if (gameView.getPlayers().size() == 2) {
-            startGame();
-        }
     }
 
     private void sendError(int errorCode) {
@@ -452,5 +447,11 @@ public class ServerCommandVisitor implements CommandVisitor {
     public void visit(ErrorCmd cmd) {
         // Client errors ignored yet
         WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(StartGameCmd cmd) {
+        Logger.logdebug("Got StartGameCmd from " + clientHandler.getPlayer().getName());
+        startGame();
     }
 }

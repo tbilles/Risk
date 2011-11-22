@@ -166,8 +166,7 @@ public class ClientGameLogic implements Controller {
 
     @Override
     public void onGameStartClick() {
-        // TODO Auto-generated method stub
-        
+        sender.queueForSend(new StartGameCmd());
     }
 
 }
