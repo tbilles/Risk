@@ -41,8 +41,8 @@ public class FeedbackPanel extends JPanel {
     private JPanel playersPanel = new JPanel();
     private Controller controller;
     private JButton btnFinishedMyTurn;
-    boolean gameStarted = false;
-
+    private boolean gameStarted = false;
+    private JScrollPane scrollPane;
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -56,9 +56,9 @@ public class FeedbackPanel extends JPanel {
         setPreferredSize(new Dimension(354, 667));
         setMinimumSize(new Dimension(128, 648));
 
-        JTextArea temp = RiskIO.getClientTextArea();
-        temp.setEditable(false);
-        temp.setRows(5);
+        //JTextArea temp = RiskIO.getClientTextArea();
+        //temp.setEditable(false);
+        //temp.setRows(5);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[] { 128, 0 };
         gridBagLayout.rowHeights = new int[] { 87, 78, 100, 91, 23, 0 };
@@ -66,27 +66,29 @@ public class FeedbackPanel extends JPanel {
         gridBagLayout.rowWeights = new double[] { 0.5, 0.5, 0.0, 0.0, 0.0,
                 Double.MIN_VALUE };
         setLayout(gridBagLayout);
-        JScrollPane sp = new JScrollPane(temp);
-        JPanel debugPanel = new JPanel();
-        GridBagConstraints gbc_debugPanel = new GridBagConstraints();
-        gbc_debugPanel.fill = GridBagConstraints.BOTH;
-        gbc_debugPanel.insets = new Insets(0, 0, 5, 0);
-        gbc_debugPanel.gridx = 0;
-        gbc_debugPanel.gridy = 0;
-        add(debugPanel, gbc_debugPanel);
-        debugPanel.setLayout(new BorderLayout());
-        debugPanel.add(sp, BorderLayout.CENTER);
+        //JScrollPane sp = new JScrollPane(temp);
+        //JPanel debugPanel = new JPanel();
+        //GridBagConstraints gbc_debugPanel = new GridBagConstraints();
+        //gbc_debugPanel.fill = GridBagConstraints.BOTH;
+        //gbc_debugPanel.insets = new Insets(0, 0, 5, 0);
+        //gbc_debugPanel.gridx = 0;
+        //gbc_debugPanel.gridy = 0;
+        //add(debugPanel, gbc_debugPanel);
+        //debugPanel.setLayout(new BorderLayout());
+        //debugPanel.add(sp, BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
         GridBagConstraints gbc_panel = new GridBagConstraints();
+        gbc_panel.gridheight = 2;
         gbc_panel.fill = GridBagConstraints.BOTH;
         gbc_panel.insets = new Insets(0, 0, 5, 0);
         gbc_panel.gridx = 0;
-        gbc_panel.gridy = 1;
+        gbc_panel.gridy = 0;
         add(panel, gbc_panel);
         panel.setLayout(new BorderLayout(0, 0));
 
-        JScrollPane scrollPane = new JScrollPane();
+        scrollPane = new JScrollPane();
+        scrollPane.setAutoscrolls(true);
         scrollPane.setViewportView(messages);
         messages.setEditable(false);
         panel.add(scrollPane);

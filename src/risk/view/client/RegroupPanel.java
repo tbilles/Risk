@@ -159,7 +159,7 @@ public class RegroupPanel extends JPanel {
         JButton cancel = new JButton("cancel");
         cancel.setAction(cancelAction);
         panel_5.add(cancel);
-
+        
     }
     public int getDelta(){
         return Integer.parseInt(amountOfRegroup.getSelectedItem().toString());
