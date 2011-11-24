@@ -4,7 +4,7 @@ public class Settings {
     private int serverListenPort = 34343;
     private String clientConnectAddr = "localhost";
     private int clientConnectPort = 34343;
-    private String playerName = "player";
+    private String playerName = System.getProperty("user.name");
     static private Settings instance = new Settings();
 
     public static Settings getInstance() {
