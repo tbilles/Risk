@@ -29,7 +29,7 @@ public class RiskPanel extends JPanel {
         gp.changeToClient();
     }
     public void changeToClientDebugView(){
-        //not yet implemented
+        gp.changeToClientDebug();
     }
     public void changeToServerDebugView(){
         gp.changeToServer();
