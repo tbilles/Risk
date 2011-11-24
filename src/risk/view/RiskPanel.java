@@ -13,7 +13,7 @@ public class RiskPanel extends JPanel {
         gp = new GamePanel();
         cp = new ControlPanel(this.gp);
         setLayout(new BorderLayout());
-        add(cp, BorderLayout.NORTH);
+        //add(cp, BorderLayout.NORTH);
         add(gp, BorderLayout.CENTER);
         setVisible(true);
     }
@@ -24,5 +24,14 @@ public class RiskPanel extends JPanel {
 
     public void clientStarted(Controller controller) {
         cp.clientStarted(controller);
+    }
+    public void changeToClientView(){
+        gp.changeToClient();
+    }
+    public void changeToClientDebugView(){
+        //not yet implemented
+    }
+    public void changeToServerDebugView(){
+        gp.changeToServer();
     }
 }

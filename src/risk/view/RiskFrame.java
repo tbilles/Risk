@@ -6,11 +6,13 @@ package risk.view;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 
 import risk.common.Logger;
 import risk.game.client.GameClient;
@@ -23,7 +25,7 @@ import risk.game.server.GameServer;
 public class RiskFrame extends JFrame implements ActionListener {
 
     /* variable declarations */
-    public static String appName = "Risk v0.01";
+    public static String appName = "Risk v0.9";
     GameClient client;
     GameServer server;
     /* menu */
@@ -31,7 +33,12 @@ public class RiskFrame extends JFrame implements ActionListener {
     JMenu game = new JMenu("Game");
     JMenuItem startServer = new JMenuItem("Start new server...");
     JMenuItem startClient = new JMenuItem("Connect to server...");
-
+    JMenu view = new JMenu("View");
+    JRadioButtonMenuItem clientView = new JRadioButtonMenuItem("Client");
+    JRadioButtonMenuItem clientDebugView = new JRadioButtonMenuItem(
+            "Client debug view");
+    JRadioButtonMenuItem serverDebugView = new JRadioButtonMenuItem(
+            "Server debug view");
     RiskPanel rp;
 
     /**
@@ -42,7 +49,8 @@ public class RiskFrame extends JFrame implements ActionListener {
         game.setMnemonic('G');
         startServer.setMnemonic('S');
         startClient.setMnemonic('C');
-        setSize(1280, 690);
+        view.setMnemonic('V');
+        setSize(1280, 660);
         Logger.getInstance().initialize(true, "Risk.log");
         Logger.loginfo("Starting risk");
         addWindowListener(new WindowAdapter() {
@@ -56,6 +64,17 @@ public class RiskFrame extends JFrame implements ActionListener {
         game.add(startClient).addActionListener(this);
         game.add(startServer).addActionListener(this);
         menu.add(game);
+        ButtonGroup viewButtons = new ButtonGroup();
+        viewButtons.add(clientView);
+        viewButtons.add(clientDebugView);
+        viewButtons.add(serverDebugView);
+        clientView.setEnabled(false);
+        clientDebugView.setEnabled(false);
+        serverDebugView.setEnabled(false);
+        view.add(clientView).addActionListener(this);
+        view.add(clientDebugView).addActionListener(this);
+        view.add(serverDebugView).addActionListener(this);
+        menu.add(view);
         setLayout(new BorderLayout());
         rp = new RiskPanel();
         add(rp, BorderLayout.CENTER);
@@ -99,6 +118,8 @@ public class RiskFrame extends JFrame implements ActionListener {
                     server = new GameServer();
                     server.start();
                     rp.serverStarted();
+                    serverDebugView.setEnabled(true);
+                    serverDebugView.setSelected(true);
                 }
             }
         }
@@ -121,8 +142,20 @@ public class RiskFrame extends JFrame implements ActionListener {
                     client = new GameClient();
                     client.start();
                     rp.clientStarted(client.getController());
+                    clientView.setEnabled(true);
+                    clientView.setSelected(true);
+                    clientDebugView.setEnabled(true);
                 }
             }
+        }
+        if(e.getSource() == clientView){
+            rp.changeToClientView();
+        }
+        if(e.getSource() == clientDebugView){
+            rp.changeToClientDebugView();
+        }
+        if(e.getSource()== serverDebugView){
+            rp.changeToServerDebugView();
         }
 
     }
