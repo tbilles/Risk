@@ -35,5 +35,6 @@ public interface GameController {
     public void setAttackDDice(int dice);
     public void setAttackADice(int dice);
     public void clearAttack();
-    public void setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults);
+    public boolean setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults);
+    public void setSecretMission(Player p, SecretMission secretMission);
 }

@@ -240,6 +240,15 @@ public class Map {
         return continents;
     }
 
+    public Continent getContinent(String name) {
+        for (Continent c : continents) {
+            if (c.getName() == name) {
+                return c;
+            }
+        }
+        return null;
+    }
+    
     public void selectCountry(Country c) {
         c.setSelected(true);
     }

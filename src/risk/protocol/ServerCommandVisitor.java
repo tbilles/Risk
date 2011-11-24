@@ -98,14 +98,31 @@ public class ServerCommandVisitor implements CommandVisitor {
     private void startGame() {
         // Send game started notification
         cmdSender.sendCmd(new GameStartedCmd(), null);
+        Collection<Player> players = gameView.getPlayers();
+        Random r = new Random();
+        
+        // Randomly give missions to players
+        ArrayList<Integer> missions = new ArrayList<Integer>();
+        for (int i = 0; i < SecretMission.SECRETMISSION_LAST-1; i++) {
+            missions.add(i+1);
+        }
+        Iterator<Player> playerIterator = players.iterator();
+        while (playerIterator.hasNext()) {
+            Player p = playerIterator.next();
+            int rand = r.nextInt(missions.size());
+            int mission = missions.get(rand);
+            missions.remove(rand);
+            
+            SecretMission sm = new SecretMission(mission);
+            gameCtrl.setSecretMission(p, sm);
+            cmdSender.sendCmd(new SecretMissionCmd(sm), p);
+        }
 
         // Randomly give countries to players
         ArrayList<Country> countries = new ArrayList<Country>(
                 gameView.getCountries());
-        Collection<Player> players = gameView.getPlayers();
 
-        Random r = new Random();
-        Iterator<Player> playerIterator = players.iterator();
+        playerIterator = players.iterator();
         while (!countries.isEmpty()) {
             Logger.logdebug("Countries: " + countries.size());
             // Generate random number
@@ -429,11 +446,26 @@ public class ServerCommandVisitor implements CommandVisitor {
             Logger.logdebug("Defender thrown " + rand);
         }
 
-        gameCtrl.setAttackRoundResults(aDice, dDice);
+        boolean conquered = gameCtrl.setAttackRoundResults(aDice, dDice);
         int[] losses = attack.calcLosses();
         Logger.logdebug("Attacker lost: " + losses[0] + " defender lost: "
                 + losses[1]);
         cmdSender.sendCmd(new AttackRoundResultCmd(aDice, dDice), null);
+        
+        if (conquered) {
+            Logger.logdebug("Country conquered, checking secret mission");
+            checkforWinner(attack.getCountryPair().From.getOwner());
+        }
+    }
+
+    private void checkforWinner(Player p) {
+        if (p.getSecretMission().hasWon(gameView, p)) {
+            // Winner!
+            Logger.logdebug("Secret mission accomplished!");
+            cmdSender.sendCmd(new GameEndedCmd(p, GameEndedCmd.WIN), null);
+        } else {
+            Logger.logdebug("Secret mission not yet accomplished");
+        }
     }
 
     @Override
@@ -463,5 +495,10 @@ public class ServerCommandVisitor implements CommandVisitor {
     public void visit(StartGameCmd cmd) {
         Logger.logdebug("Got StartGameCmd from " + clientHandler.getPlayer().getName());
         startGame();
+    }
+
+    @Override
+    public void visit(SecretMissionCmd cmd) {
+        WrongCommand(cmd);
     }
 }

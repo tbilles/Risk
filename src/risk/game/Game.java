@@ -338,10 +338,13 @@ public class Game implements GameView, GameController {
         return lastAttack;
     }
 
-    private void accountAttackLosses() {
+    /**
+     * @return true if the attacker conquered the country
+     */
+    private boolean accountAttackLosses() {
         if (attack == null) {
             Logger.logerror("Accounting attack losses when no attack is in progress");
-            return;
+            return false;
         }
         Country from = attack.getCountryPair().From;
         Country to = attack.getCountryPair().To;
@@ -353,15 +356,18 @@ public class Game implements GameView, GameController {
         from.setTroops(from.getTroops() - aLosses);
         to.setTroops(to.getTroops() - dLosses);
         
+        boolean conquered = false;
         if (to.getTroops() < 1) {
             to.setOwner(from.getOwner());
             to.setTroops(attack.getAttackerDice());
             from.setTroops(from.getTroops() - attack.getAttackerDice());
             clearAttack();
+            conquered = true;
         }
         if (from.getTroops() < 2) {
             clearAttack();
         }
+        return conquered;
     }
 
     @Override
@@ -392,18 +398,22 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public void setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults) {
+    /**
+     * @return true, if attacker conquered a country.
+     */
+    public boolean setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults) {
         if (attack == null) {
             Logger.logerror("Adding dice results when no attack is in progress");
-            return;
+            return false;
         }
         attack.setaDiceResults(aDiceResults);
         attack.setdDiceResults(dDiceResults);
-        accountAttackLosses();
+        boolean conquered = accountAttackLosses();
         if (attack != null) {
             attack.resetDice();
         }
         modelChanged();
+        return conquered;
     }
 
     @Override
@@ -413,6 +423,16 @@ public class Game implements GameView, GameController {
     
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
+    }
+
+    @Override
+    public Continent getContinent(String name) {
+        return map.getContinent(name);
+    }
+
+    @Override
+    public void setSecretMission(Player p, SecretMission secretMission) {
+        p.setSecretMission(secretMission);
     }
 
 }

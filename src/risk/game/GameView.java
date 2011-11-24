@@ -41,4 +41,5 @@ public interface GameView {
     
     public Attack getAttack();
     public Attack getLastAttack();
+    public Continent getContinent(String name);
 }

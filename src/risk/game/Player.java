@@ -15,6 +15,11 @@ public class Player implements Serializable{
      * The color of the player.
      */
     private Color color;
+    
+    /**
+     * The goal of the player. If this mission is completed, the player wins.
+     */
+    private SecretMission mission;
 
     public Player(String name, Color color) {
         this.name = name;
@@ -27,5 +32,13 @@ public class Player implements Serializable{
     
     public Color getColor() {
         return color;
+    }
+    
+    public SecretMission getSecretMission() {
+        return this.mission;
+    }
+
+    public void setSecretMission(SecretMission mission) {
+        this.mission = mission;
     }
 }

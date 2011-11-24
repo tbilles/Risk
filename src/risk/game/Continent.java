@@ -39,4 +39,15 @@ public class Continent {
     public String getName() {
         return name;
     }
+    
+    public boolean capturedByPlayer(Player p) {
+        boolean captured = true;
+        for (Country c : countries) {
+            if (c.getOwner() != p) {
+                captured = false;
+                break;
+            }
+        }
+        return captured;
+    }
 }

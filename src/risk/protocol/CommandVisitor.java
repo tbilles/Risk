@@ -21,4 +21,5 @@ public interface CommandVisitor {
     public void visit(EndTurnCmd cmd);
     public void visit(ErrorCmd cmd);
     public void visit(StartGameCmd cmd);
+    public void visit(SecretMissionCmd cmd);
 }
