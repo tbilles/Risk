@@ -13,6 +13,7 @@ import risk.network.SocketClosedException;
 import risk.protocol.ClientCommandVisitor;
 import risk.protocol.ClientProtocolHandler;
 import risk.protocol.command.Command;
+import risk.view.NotifyView;
 
 public class GameClient extends Thread implements IOutputQueue {
     private static final int SOCKET_INTERRUPT_TIMEOUT = 1000;
@@ -24,9 +25,11 @@ public class GameClient extends Thread implements IOutputQueue {
     private Controller controller = new ClientGameLogic(game, game);
     private QueuedSender queuedSender;
     private boolean serverIsAlive = false;
+    private NotifyView nv;
 
-    public GameClient() {
+    public GameClient(NotifyView nv) {
         super("ClientThread");
+        this.nv = nv;
     }
 
     public GameView getGameView() {
@@ -62,8 +65,12 @@ public class GameClient extends Thread implements IOutputQueue {
                     ConnectToServer();
                 } catch (IOException e) {
                     Logger.logexception(e, "Cannot connect to server");
+                    nv.popupMessage("Couldn't connect to " + Settings.getInstance().getClientConnectAddr() + ":" + Settings.getInstance().getClientConnectPort());
+                    return;
                 }
 
+                // TODO: fix: handle rejected player name 
+                nv.gameStarted();
                 Logger.loginfo("Connected to server");
                 while (!interrupted() && serverIsAlive) {
                     try {
@@ -92,6 +99,7 @@ public class GameClient extends Thread implements IOutputQueue {
         if (queuedSender != null) {
             queuedSender.interrupt();
         }
+        nv.gameFinished();
     }
 
     @Override

@@ -139,7 +139,7 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
             if (client == null) {
                 ClientStartDialog csd = new ClientStartDialog(this);
                 if (ClientStartDialog.isCreateClient()) {
-                    client = new GameClient();
+                    client = new GameClient(this);
                     client.start();
                 }
             }
@@ -167,7 +167,12 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
     @Override
     public void gameFinished() {
         rp.gameFinished();
-        
+        client = null;
+    }
+
+    @Override
+    public void popupMessage(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Warning", JOptionPane.ERROR_MESSAGE);
     }
 
 }
