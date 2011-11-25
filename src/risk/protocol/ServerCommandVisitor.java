@@ -218,7 +218,7 @@ public class ServerCommandVisitor implements CommandVisitor {
             if (playerno > 4) {
                 playerno = 4;
             }
-            return 40 - playerno * 5;
+            return 40 - playerno * 5 - gameView.getOwnedCountryNo(p);
         } else {
             Collection<Country> countries = gameView.getCountries();
             int countryno = 0;

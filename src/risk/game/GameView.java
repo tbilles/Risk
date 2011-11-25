@@ -22,6 +22,7 @@ public interface GameView {
     public Country getCountry(String countryName);
     public Color getCountryColor(String countryName);
     public int getCountryTroops(String countryName);
+    public int getOwnedCountryNo(Player p);
     public boolean isGameStarted();
 
     public Country getSelectedCountry();

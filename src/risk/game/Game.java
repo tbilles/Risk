@@ -424,4 +424,16 @@ public class Game implements GameView, GameController {
     public Country getSelectedNeighbour(Country c) {
         return map.getSelectedNeighbour(c);
     }
+
+    @Override
+    public int getOwnedCountryNo(Player p) {
+        Collection<Country> countries = getCountries();
+        int countryNo = 0;
+        for (Country c : countries) {
+            if (c.getOwner() == p) {
+                countryNo++;
+            }
+        }
+        return countryNo;
+    }
 }
