@@ -57,9 +57,12 @@ public class ServerCommandVisitor implements CommandVisitor {
         }
 
         // Create new player and send it to everyone
-
         gameCtrl.addPlayer(newPlayer);
         cmdSender.sendPlayerJoinedCmd(newPlayer);
+        
+        if (gameView.getPlayers().size() >= 6) {
+            startGame();
+        }
     }
 
     private void sendError(int errorCode) {
@@ -499,6 +502,11 @@ public class ServerCommandVisitor implements CommandVisitor {
     @Override
     public void visit(StartGameCmd cmd) {
         Logger.logdebug("Got StartGameCmd");
+        if (gameView.getPlayers().size() < 2) {
+            Logger.logdebug("Trying to start game when there is less than two players");
+            sendError(ErrorCmd.INVALID_PHASE);
+            return;
+        }
         startGame();
     }
 
