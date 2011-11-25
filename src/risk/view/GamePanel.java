@@ -40,8 +40,6 @@ public class GamePanel extends JPanel {
     }
 
     public void changeToClient() {
-        cp=new ClientPanel();
-        this.add(cp, "client");
         clay.show(this, "client");
     }
     

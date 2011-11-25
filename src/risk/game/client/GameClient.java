@@ -35,11 +35,11 @@ public class GameClient extends Thread implements IOutputQueue {
     public GameView getGameView() {
         return game;
     }
-    
+
     public Controller getController() {
         return controller;
     }
-    
+
     public void ConnectToServer() throws IOException {
         String address = Settings.getInstance().getClientConnectAddr();
         int port = Settings.getInstance().getClientConnectPort();
@@ -47,15 +47,16 @@ public class GameClient extends Thread implements IOutputQueue {
         nc = new NetworkClient(SOCKET_INTERRUPT_TIMEOUT, false);
         nc.connect(address, port);
         Logger.logdebug("Socket established to server");
-        queuedSender = new QueuedSender("ClientQueuedSenderThread", nc, SENDER_INTERRUPT_TIMEOUT);
+        queuedSender = new QueuedSender("ClientQueuedSenderThread", nc,
+                SENDER_INTERRUPT_TIMEOUT);
         queuedSender.start();
         // TODO: fix cast
-        ((ClientGameLogic)controller).setSender(queuedSender);
+        ((ClientGameLogic) controller).setSender(queuedSender);
         cph = new ClientProtocolHandler(queuedSender);
         cph.onConnectionEstablished(Settings.getInstance().getPlayerName());
         serverIsAlive = true;
     }
-    
+
     @Override
     public void run() {
         try {
@@ -65,17 +66,21 @@ public class GameClient extends Thread implements IOutputQueue {
                     ConnectToServer();
                 } catch (IOException e) {
                     Logger.logexception(e, "Cannot connect to server");
-                    nv.popupMessage("Couldn't connect to " + Settings.getInstance().getClientConnectAddr() + ":" + Settings.getInstance().getClientConnectPort());
+                    nv.popupMessage("Couldn't connect to "
+                            + Settings.getInstance().getClientConnectAddr()
+                            + ":"
+                            + Settings.getInstance().getClientConnectPort());
                     return;
                 }
 
-                // TODO: fix: handle rejected player name 
+                // TODO: fix: handle rejected player name
                 nv.gameStarted();
                 Logger.loginfo("Connected to server");
                 while (!interrupted() && serverIsAlive) {
                     try {
                         Command cmd = nc.readCommand();
-                        ClientCommandVisitor ccv = new ClientCommandVisitor(game, game);
+                        ClientCommandVisitor ccv = new ClientCommandVisitor(
+                                game, game);
                         cmd.accept(ccv);
                     } catch (SocketTimeoutException e) {
                     } catch (SocketClosedException e) {
