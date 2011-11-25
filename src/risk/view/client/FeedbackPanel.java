@@ -34,6 +34,9 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.TextArea;
+
 import javax.swing.UIManager;
 
 public class FeedbackPanel extends JPanel {
@@ -146,6 +149,8 @@ public class FeedbackPanel extends JPanel {
         gbc_btnFinishedMyTurn.gridx = 0;
         gbc_btnFinishedMyTurn.gridy = 4;
         add(btnFinishedMyTurn, gbc_btnFinishedMyTurn);
+        messages.setLineWrap(true);
+        messages.setWrapStyleWord(true);
 
     }
 
@@ -169,11 +174,16 @@ public class FeedbackPanel extends JPanel {
     }
 
     public void addMessage(Object message) {
-        messages.append(message.toString() + "\n");
+        messages.append("►"+message.toString() + "\n");
     }
 
     public void addMessage(String message) {
-        messages.append(message + "\n");
+        messages.append("►"+message + "\n");
+        //Rectangle temp=scrollPane.getVisibleRect();
+        //temp.y=messages.getHeight()-temp.height;
+        //temp.x=messages.getWidth()-temp.width;
+        //scrollPane.scrollRectToVisible(temp);
+        messages.setCaretPosition(messages.getDocument().getLength());
     }
 
     private void refreshPlayers(GameView view) {
