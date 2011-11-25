@@ -27,7 +27,7 @@ public class ClientGameLogic implements Controller {
             return;
         }
         
-        // Get some data to work eith
+        // Get some data to work with
         Country c = gameView.getCountry(country);
         RoundPhase phase = gameView.getRoundPhase();
         RoundPhase nextPhase = gameView.getNextRoundPhase();
@@ -36,14 +36,16 @@ public class ClientGameLogic implements Controller {
         
         // If in reinforcement phase, no second click needed
         if (phase == RoundPhase.REINFORCEMENT) {
-            view.showReinforcementDialog(c, gameView.getAvailableReinforcement());
+            if (c.getOwner() == gameView.getMyPlayer()) {
+                view.showReinforcementDialog(c, gameView.getAvailableReinforcement());
+            }
         } else {
-            Country selected;
+            Country selectedNeighbour = gameView.getSelectedNeighbour(c);
             // If this is a second click, on a selected country, unselect it
             if (c.isSelected()) {
                 Logger.logdebug("Unselecting country " + c.getName());
-                gameCtrl.cancelCountrySelection(c);
-            } else if ((selected = gameView.getSelectedCountryNeighbour(c)) != null) {
+                gameCtrl.cancelCountrySelection();
+            } else if (selectedNeighbour != null) {
                 // If this is a second click on a neighbour country, then action is needed
                 Logger.logdebug("Action needed, current round phase: " + phase.toString());
                 // If the selected country is enemy, then attack
@@ -51,23 +53,23 @@ public class ClientGameLogic implements Controller {
                     if (gameView.getAttack() != null) {
                         Logger.logerror("CurrentAttack not null, when initiating new attack!");
                     }
-                    CountryPair cp = new CountryPair(selected, c);
-                    Logger.logdebug("Attacking from " + selected.getName() + " to " + c.getName());
+                    CountryPair cp = new CountryPair(selectedNeighbour, c);
+                    Logger.logdebug("Attacking from " + selectedNeighbour.getName() + " to " + c.getName());
                     sender.queueForSend(new AttackStartCmd(cp));
                 } else if ((phase == RoundPhase.REGROUP || nextPhase == RoundPhase.REGROUP) && c.getOwner() == gameView.getMyPlayer()) {
                     // If second click is on my country, then regroup
-                    Logger.logdebug("Regrouping from " + selected.getName() + " to " + c.getName());
-                    view.showRegroupDialog(new CountryPair(selected, c));
+                    Logger.logdebug("Regrouping from " + selectedNeighbour.getName() + " to " + c.getName());
+                    view.showRegroupDialog(new CountryPair(selectedNeighbour, c));
                 } else {
                     // Something went wrong
                     Logger.logwarn("Invalid game phase!");
                 }
                 // After action unselect all countries.
-                gameCtrl.cancelCountryNeighbourSelection(c);
-            } else {
-                // Otherwise select country
+                gameCtrl.cancelCountrySelection();
+            } else if (c.getOwner() == gameView.getMyPlayer()) {
+                // Select country if mine
                 Logger.logdebug("Selecting country " + c.getName());
-                gameCtrl.selectCountry(c);
+                gameCtrl.setSelectedCountry(c);
             }
         }
     }
@@ -110,6 +112,8 @@ public class ClientGameLogic implements Controller {
             return;
         }
         sender.queueForSend(new EndTurnCmd());
+        // Cancel country selection on the end of the turn
+        gameCtrl.cancelCountrySelection();
     }
 
     @Override

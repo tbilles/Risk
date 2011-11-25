@@ -32,7 +32,7 @@ public class SecretMission implements Serializable {
         case EU_AUS_OTH:
             return "Capture Europe, Australia, and one other continent";
         case EU_SA_OTH:
-            return "Capture Europe, South Ameria, and one other continent";
+            return "Capture Europe, South America, and one other continent";
         case NA_AF:
             return "Capture North America and Africa";
         case NA_AUS:

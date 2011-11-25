@@ -493,7 +493,7 @@ public class ServerCommandVisitor implements CommandVisitor {
 
     @Override
     public void visit(StartGameCmd cmd) {
-        Logger.logdebug("Got StartGameCmd from " + clientHandler.getPlayer().getName());
+        Logger.logdebug("Got StartGameCmd");
         startGame();
     }
 

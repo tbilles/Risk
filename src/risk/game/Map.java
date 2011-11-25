@@ -9,6 +9,7 @@ public class Map {
      * A list of continents.
      */
     private LinkedList<Continent> continents;
+    private Country selectedCountry;
     
     public Map() {
         continents = new LinkedList<Continent>();
@@ -58,6 +59,39 @@ public class Map {
             countries.add(new Country(n));
         }
         continents.add(new Continent("North America", countries));
+    }
+    
+    public Country getSelectedCountry() {
+        return selectedCountry;
+    }
+
+    public void setSelectedCountry(Country selectedCountry) {
+        if (this.selectedCountry != null) {
+            this.selectedCountry.setSelected(false);
+        }
+        this.selectedCountry = selectedCountry;
+        selectedCountry.setSelected(true);
+    }
+    
+    public void cancelCountrySelection() {
+        if (selectedCountry != null) {
+            selectedCountry.setSelected(false);
+        }
+        selectedCountry = null;
+    }
+
+    public boolean isCountrySelected(String name) {
+        Country c = getCountry(name);
+        return c != null && c.isSelected();
+    }
+    
+    public Country getSelectedNeighbour(Country c) {
+        for (Country neighbour : c.getNeighbours()) {
+            if (selectedCountry == neighbour) {
+                return selectedCountry;
+            }
+        }
+        return null;
     }
     
     private void initSouthAmerica() {
@@ -247,35 +281,5 @@ public class Map {
             }
         }
         return null;
-    }
-    
-    public void selectCountry(Country c) {
-        c.setSelected(true);
-    }
-
-    public void cancelCountrySelection(Country c) {
-        c.setSelected(false);
-    }
-
-    public Country getSelectedCountryNeighbour(Country c) {
-        for (Country neighbour : c.getNeighbours()) {
-            if (neighbour.isSelected()) {
-                return neighbour;
-            }
-        }
-        return null;
-    }
-    
-    public boolean isCountrySelected(Country c) {
-        return c.isSelected();
-    }
-
-    public void cancelCountryNeighbourSelection(Country c) {
-        for (Country neighbour : c.getNeighbours()) {
-            if (neighbour.isSelected()) {
-                neighbour.setSelected(false);
-                break;
-            }
-        }
     }
 }

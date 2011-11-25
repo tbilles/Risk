@@ -180,45 +180,6 @@ public class Game implements GameView, GameController {
     }
 
     @Override
-    public void cancelCountrySelection(Country c) {
-        map.cancelCountrySelection(c);
-        modelChanged();
-    }
-
-    @Override
-    public void selectCountry(Country c) {
-        map.selectCountry(c);
-        modelChanged();
-    }
-
-    @Override
-    public boolean isCountrySelected(String name) {
-        Country c = getCountry(name);
-        return isCountrySelected(c);
-    }
-
-    @Override
-    public boolean isCountryNeighbourSelected(String name) {
-        Country c = getCountry(name);
-        return getSelectedCountryNeighbour(c) != null;
-    }
-    
-    @Override
-    public boolean isCountrySelected(Country c) {
-        return map.isCountrySelected(c);
-    }
-
-    @Override
-    public Country getSelectedCountryNeighbour(Country c) {
-        return map.getSelectedCountryNeighbour(c);
-    }
-
-    @Override
-    public void cancelCountryNeighbourSelection(Country c) {
-        map.cancelCountryNeighbourSelection(c);
-    }
-
-    @Override
     public RoundPhase getRoundPhase() {
         return currentRoundPhase;
     }
@@ -434,5 +395,33 @@ public class Game implements GameView, GameController {
     public void setSecretMission(Player p, SecretMission secretMission) {
         p.setSecretMission(secretMission);
     }
+    
+    @Override
+    public Country getSelectedCountry() {
+        return map.getSelectedCountry();
+    }
 
+    @Override
+    public void setSelectedCountry(Country selectedCountry) {
+        map.setSelectedCountry(selectedCountry);
+        modelChanged();
+    }
+    
+    public void cancelCountrySelection() {
+        map.cancelCountrySelection();
+        modelChanged();
+    }
+
+    public boolean isCountrySelected(String name) {
+        return map.isCountrySelected(name);
+    }
+
+    public boolean isCountryNeighbourSelected(String name) {
+        Country c = getCountry(name);
+        return map.getSelectedNeighbour(c) != null;
+    }
+    
+    public Country getSelectedNeighbour(Country c) {
+        return map.getSelectedNeighbour(c);
+    }
 }

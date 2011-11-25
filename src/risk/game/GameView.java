@@ -23,10 +23,11 @@ public interface GameView {
     public Color getCountryColor(String countryName);
     public int getCountryTroops(String countryName);
     public boolean isGameStarted();
+
+    public Country getSelectedCountry();
+    public Country getSelectedNeighbour(Country c);
     public boolean isCountrySelected(String name);
-    public boolean isCountrySelected(Country c);
     public boolean isCountryNeighbourSelected(String name);
-    public Country getSelectedCountryNeighbour(Country c);
     
     public void registerObserver(Observer o);
     public void registerMsgListener(MessageListener listener);

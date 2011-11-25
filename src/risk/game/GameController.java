@@ -20,9 +20,8 @@ public interface GameController {
 
     public void setGameStarted(boolean started);
     
-    public void cancelCountrySelection(Country c);
-    public void selectCountry(Country c);
-    public void cancelCountryNeighbourSelection(Country c);
+    public void setSelectedCountry(Country selectedCountry);
+    public void cancelCountrySelection();
     
     public void setRoundNumber(int roundNumber);
     public void setRoundPhases(Collection<RoundPhase> roundPhases);
