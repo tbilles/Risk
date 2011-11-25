@@ -37,7 +37,7 @@ public class AttackDialog extends JDialog {
                 showWarning();
             }
         });
-        setBounds(100, 100, 289, 328);
+        setBounds(100, 100, 320, 360);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

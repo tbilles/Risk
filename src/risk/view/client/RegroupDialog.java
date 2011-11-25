@@ -25,7 +25,7 @@ public class RegroupDialog extends JDialog {
     public RegroupDialog(CountryPair cp, Controller controller) {
         this.controller=controller;
         setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-        setBounds(100, 100, 320, 218);
+        setBounds(100, 100, 340, 218);
         setTitle("Regrouping...");
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setLayout(new FlowLayout());
