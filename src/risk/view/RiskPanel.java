@@ -34,4 +34,7 @@ public class RiskPanel extends JPanel {
     public void changeToServerDebugView(){
         gp.changeToServer();
     }
+    public void gameFinished(){
+        gp.changeToEmpty();
+    }
 }
