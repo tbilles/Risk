@@ -53,4 +53,8 @@ public class GamePanel extends JPanel {
         myController.getGameView().registerObserver(cp);
         myController.getGameView().registerMsgListener(cp);
     }
+    public void createNewClientPanel(){
+        cp=new ClientPanel();
+        this.add(cp, "client");
+    }
 }

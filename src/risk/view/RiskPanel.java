@@ -36,5 +36,6 @@ public class RiskPanel extends JPanel {
     }
     public void gameFinished(){
         gp.changeToEmpty();
+        gp.createNewClientPanel();
     }
 }
