@@ -211,8 +211,8 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
         synchronized (clientHandlerLock) {
             for (ClientHandler ch : clientHandlers) {
                 ch.closeConnection();
-                clientHandlers.remove(ch);
             }
+            clientHandlers.clear();
         }
     }
 }

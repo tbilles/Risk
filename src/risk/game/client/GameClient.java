@@ -86,9 +86,11 @@ public class GameClient extends Thread implements IOutputQueue {
                     } catch (SocketClosedException e) {
                         serverIsAlive = false;
                         Logger.loginfo("Server closed connection");
+                        nv.popupMessage("Server has closed the connection");
                     } catch (IOException e) {
                         Logger.logexception(e, "Couldn't read Command");
                         serverIsAlive = false;
+                        nv.popupMessage("The connection to the server has lost because of an unknown error");
                     }
                 }
             } finally {
