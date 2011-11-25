@@ -133,6 +133,7 @@ public class FeedbackPanel extends JPanel {
         mission = new JTextArea();
         mission.setBackground(UIManager.getColor("Panel.background"));
         mission.setLineWrap(true);
+        mission.setWrapStyleWord(true);
         mission.setEditable(false);
         GridBagConstraints gbc_textArea = new GridBagConstraints();
         gbc_textArea.insets = new Insets(0, 0, 0, 5);
