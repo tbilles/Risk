@@ -22,7 +22,7 @@ import risk.game.server.GameServer;
  * @author Tamas
  * 
  */
-public class RiskFrame extends JFrame implements ActionListener {
+public class RiskFrame extends JFrame implements ActionListener, NotifyView {
 
     /* variable declarations */
     public static String appName = "Risk v0.9";
@@ -141,10 +141,6 @@ public class RiskFrame extends JFrame implements ActionListener {
                 if (ClientStartDialog.isCreateClient()) {
                     client = new GameClient();
                     client.start();
-                    rp.clientStarted(client.getController());
-                    clientView.setEnabled(true);
-                    clientView.setSelected(true);
-                    clientDebugView.setEnabled(true);
                 }
             }
         }
@@ -158,6 +154,20 @@ public class RiskFrame extends JFrame implements ActionListener {
             rp.changeToServerDebugView();
         }
 
+    }
+
+    @Override
+    public void gameStarted() {
+        rp.clientStarted(client.getController());
+        clientView.setEnabled(true);
+        clientView.setSelected(true);
+        clientDebugView.setEnabled(true);
+    }
+
+    @Override
+    public void gameFinished() {
+        rp.gameFinished();
+        
     }
 
 }

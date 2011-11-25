@@ -34,6 +34,7 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.UIManager;
 
 public class FeedbackPanel extends JPanel {
     private JTextArea messages = new JTextArea();
@@ -48,6 +49,9 @@ public class FeedbackPanel extends JPanel {
     }
 
     private final Action action = new SwingAction();
+    private JPanel panel_1;
+    private JLabel lblMySecretMission;
+    private JTextArea mission;
 
     /**
      * Create the panel.
@@ -92,7 +96,6 @@ public class FeedbackPanel extends JPanel {
         scrollPane.setViewportView(messages);
         messages.setEditable(false);
         panel.add(scrollPane);
-        playersPanel.setPreferredSize(new Dimension(128, 100));
 
         GridBagConstraints gbc_playersPanel = new GridBagConstraints();
         gbc_playersPanel.fill=GridBagConstraints.BOTH;
@@ -101,6 +104,40 @@ public class FeedbackPanel extends JPanel {
         gbc_playersPanel.gridy = 2;
         add(playersPanel, gbc_playersPanel);
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+        
+        panel_1 = new JPanel();
+        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+        gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_1.fill = GridBagConstraints.BOTH;
+        gbc_panel_1.gridx = 0;
+        gbc_panel_1.gridy = 3;
+        add(panel_1, gbc_panel_1);
+        GridBagLayout gbl_panel_1 = new GridBagLayout();
+        gbl_panel_1.columnWidths = new int[]{128};
+        gbl_panel_1.rowHeights = new int[]{16, 0};
+        gbl_panel_1.columnWeights = new double[]{1.0};
+        gbl_panel_1.rowWeights = new double[]{0.0, 1.0};
+        panel_1.setLayout(gbl_panel_1);
+        
+        lblMySecretMission = new JLabel("");
+        GridBagConstraints gbc_lblMySecretMission = new GridBagConstraints();
+        gbc_lblMySecretMission.anchor = GridBagConstraints.WEST;
+        gbc_lblMySecretMission.insets = new Insets(0, 0, 5, 5);
+        gbc_lblMySecretMission.gridx = 0;
+        gbc_lblMySecretMission.gridy = 0;
+        panel_1.add(lblMySecretMission, gbc_lblMySecretMission);
+        
+        mission = new JTextArea();
+        mission.setBackground(UIManager.getColor("Panel.background"));
+        mission.setLineWrap(true);
+        mission.setEditable(false);
+        GridBagConstraints gbc_textArea = new GridBagConstraints();
+        gbc_textArea.insets = new Insets(0, 0, 0, 5);
+        gbc_textArea.anchor = GridBagConstraints.NORTHWEST;
+        gbc_textArea.fill = GridBagConstraints.BOTH;
+        gbc_textArea.gridx = 0;
+        gbc_textArea.gridy = 1;
+        panel_1.add(mission, gbc_textArea);
 
         btnFinishedMyTurn = new JButton("Start Game");
         btnFinishedMyTurn.setAction(action);
@@ -124,6 +161,10 @@ public class FeedbackPanel extends JPanel {
             } else {
                 btnFinishedMyTurn.setEnabled(true);
             }
+        }
+        if(view.getMyPlayer()!=null && view.getMyPlayer().getSecretMission()!=null){
+            lblMySecretMission.setText("My mission:");
+            mission.setText(view.getMyPlayer().getSecretMission().toString());
         }
     }
 
