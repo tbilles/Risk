@@ -202,6 +202,17 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
             Logger.logdebug("Connection lost, notifying users");
             Player p = ch.getPlayer();
             sendCmd(new GameEndedCmd(p, GameEndedCmd.QUIT), null);
+            closeConnections();
+        }
+    }
+
+    @Override
+    public void closeConnections() {
+        synchronized (clientHandlerLock) {
+            for (ClientHandler ch : clientHandlers) {
+                ch.closeConnection();
+                clientHandlers.remove(ch);
+            }
         }
     }
 }

@@ -458,11 +458,16 @@ public class ServerCommandVisitor implements CommandVisitor {
         }
     }
 
+    private void gameEnded(Player p, int reason) {
+        cmdSender.sendCmd(new GameEndedCmd(p, GameEndedCmd.WIN), null);
+        cmdSender.closeConnections();
+    }
+    
     private void checkforWinner(Player p) {
         if (p.getSecretMission().hasWon(gameView, p)) {
             // Winner!
             Logger.logdebug("Secret mission accomplished!");
-            cmdSender.sendCmd(new GameEndedCmd(p, GameEndedCmd.WIN), null);
+            gameEnded(p, GameEndedCmd.WIN);
         } else {
             Logger.logdebug("Secret mission not yet accomplished");
         }

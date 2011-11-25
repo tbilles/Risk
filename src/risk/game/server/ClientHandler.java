@@ -88,4 +88,12 @@ public class ClientHandler extends Thread implements IOutputQueue {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public void closeConnection() {
+        try {
+            nc.close();
+        } catch (IOException e) {
+            Logger.logexception(e, "Couldn't close socket.");
+        }
+    }
 }
