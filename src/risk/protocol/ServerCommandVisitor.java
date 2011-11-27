@@ -348,10 +348,9 @@ public class ServerCommandVisitor implements CommandVisitor {
             return;
         }
         Attack lastAttack = gameView.getLastAttack();
-        if (lastAttack == null
-                || (from != lastAttack.getCountryPair().From || to != lastAttack
-                        .getCountryPair().To)
-                && gameView.getRoundPhase() != RoundPhase.REGROUP) {
+        if (gameView.getRoundPhase() != RoundPhase.REGROUP && lastAttack == null
+                || (from != lastAttack.getCountryPair().From || to != lastAttack.getCountryPair().To))
+        {
             initNextPhase();
         }
         CountryPair cp = new CountryPair(from, to);
