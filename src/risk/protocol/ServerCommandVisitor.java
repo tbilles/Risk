@@ -107,6 +107,11 @@ public class ServerCommandVisitor implements CommandVisitor {
         // Randomly give missions to players
         ArrayList<Integer> missions = new ArrayList<Integer>();
         for (int i = 0; i < SecretMission.SECRETMISSION_LAST-1; i++) {
+            // When only two players are playing, exclude some missions because of the
+            // large initial territory count.
+            if (players.size() == 2 && (i == SecretMission.ANY24 || i == SecretMission.ANY18W2)) {
+                continue;
+            }
             missions.add(i+1);
         }
         Iterator<Player> playerIterator = players.iterator();
