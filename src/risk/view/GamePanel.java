@@ -8,13 +8,13 @@ import risk.game.Controller;
 import risk.game.client.GameClient;
 import risk.view.client.ClientDebugPanel;
 import risk.view.client.ClientPanel;
-import risk.view.server.ServerPanel;
+import risk.view.server.ServerDebugPanel;
 
 public class GamePanel extends JPanel {
     private CardLayout clay = new CardLayout();
     private ClientPanel cp;
     private ClientDebugPanel cdp;
-    private ServerPanel sp;
+    private ServerDebugPanel sp;
     private JPanel empty;
     private Controller myController;
 
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel {
         add(cp, "client");
         cdp = new ClientDebugPanel();
         add(cdp, "clientDebug");
-        sp = new ServerPanel();
+        sp = new ServerDebugPanel();
         add(sp, "server");
     }
 

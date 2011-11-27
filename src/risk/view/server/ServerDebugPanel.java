@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class ServerPanel extends JPanel {
+public class ServerDebugPanel extends JPanel {
 
-    public ServerPanel() {
+    public ServerDebugPanel() {
         JTextArea temp = RiskIO.getServerTextArea();
         setLayout(new BorderLayout());
         JScrollPane sp=new JScrollPane();

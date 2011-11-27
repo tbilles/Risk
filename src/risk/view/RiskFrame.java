@@ -25,7 +25,7 @@ import risk.game.server.GameServer;
 public class RiskFrame extends JFrame implements ActionListener, NotifyView {
 
     /* variable declarations */
-    public static String appName = "Risk v0.9";
+    public static String appName = "Risk v1.0";
     GameClient client;
     GameServer server;
     /* menu */
@@ -35,10 +35,11 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
     JMenuItem startClient = new JMenuItem("Connect to server...");
     JMenu view = new JMenu("View");
     JRadioButtonMenuItem clientView = new JRadioButtonMenuItem("Client");
+    JRadioButtonMenuItem serverView = new JRadioButtonMenuItem("Server");
     JRadioButtonMenuItem clientDebugView = new JRadioButtonMenuItem(
-            "Client debug view");
+            "Client log");
     JRadioButtonMenuItem serverDebugView = new JRadioButtonMenuItem(
-            "Server debug view");
+            "Server log");
     RiskPanel rp;
 
     /**
@@ -66,12 +67,15 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
         menu.add(game);
         ButtonGroup viewButtons = new ButtonGroup();
         viewButtons.add(clientView);
+        viewButtons.add(serverView);
         viewButtons.add(clientDebugView);
         viewButtons.add(serverDebugView);
         clientView.setEnabled(false);
+        serverView.setEnabled(false);
         clientDebugView.setEnabled(false);
         serverDebugView.setEnabled(false);
         view.add(clientView).addActionListener(this);
+        view.add(serverView).addActionListener(this);
         view.add(clientDebugView).addActionListener(this);
         view.add(serverDebugView).addActionListener(this);
         menu.add(view);
