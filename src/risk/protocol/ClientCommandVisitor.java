@@ -74,11 +74,12 @@ public class ClientCommandVisitor implements CommandVisitor {
         }
         RoundPhase phase = gameView.getRoundPhase();
         Logger.logdebug("Switched to phase: " + phase.toString());
+        broadcastMessage("Next phase: " + phase);
         if (phase == RoundPhase.REINFORCEMENT) {
             gameCtrl.setAvailableReinforcement(cmd.getReinforcement());
             Logger.logdebug("Got " + cmd.getReinforcement() + "reinforcement");
+            broadcastMessage(cmd.getReinforcement() + " reinforcement arrived");
         }
-        broadcastMessage("Next phase: " + phase);
     }
 
     @Override
