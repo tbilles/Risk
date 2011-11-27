@@ -8,6 +8,7 @@ import risk.protocol.command.Command;
 public class QueuedSender extends Thread implements IOutputQueue {
     private LinkedList<Command> queue = new LinkedList<Command>();
     private Object queueLock = new Object();
+    private boolean shouldQuit = false;
     private NetworkClient nc;
     private int timeout;
 
@@ -19,10 +20,20 @@ public class QueuedSender extends Thread implements IOutputQueue {
 
     @Override
     public void queueForSend(Command cmd) {
+        queueForSend(cmd, false);
+    }
+    
+    @Override
+    public void queueForSend(Command cmd, boolean last) {
         synchronized (queueLock) {
             queue.add(cmd);
+            if (last) {
+                Logger.logdebug("Setting QueuedSender to quit");
+                this.shouldQuit = true;
+            }
             queueLock.notify();
             Logger.logdebug("Added command to queue");
+            
         }
     }
 
@@ -41,7 +52,12 @@ public class QueuedSender extends Thread implements IOutputQueue {
                         }
                     }
                     if (queue.isEmpty()) {
-                        continue;
+                        if (shouldQuit) {
+                            Logger.logdebug("QueuedSender got quit command");
+                            break;
+                        } else {
+                            continue;
+                        }
                     }
                     Logger.logdebug("Removing command from queue");
                     cmd = queue.removeFirst();

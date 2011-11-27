@@ -107,6 +107,11 @@ public class ServerCommandVisitor implements CommandVisitor {
         // Randomly give missions to players
         ArrayList<Integer> missions = new ArrayList<Integer>();
         for (int i = 0; i < SecretMission.SECRETMISSION_LAST-1; i++) {
+            // When only two players are playing, exclude some missions because of the
+            // large initial territory count.
+            if (players.size() == 2 && (i+1 == SecretMission.ANY24 || i+1 == SecretMission.ANY18W2)) {
+                continue;
+            }
             missions.add(i+1);
         }
         Iterator<Player> playerIterator = players.iterator();
@@ -343,10 +348,9 @@ public class ServerCommandVisitor implements CommandVisitor {
             return;
         }
         Attack lastAttack = gameView.getLastAttack();
-        if (lastAttack == null
-                || (from != lastAttack.getCountryPair().From || to != lastAttack
-                        .getCountryPair().To)
-                && gameView.getRoundPhase() != RoundPhase.REGROUP) {
+        if (gameView.getRoundPhase() != RoundPhase.REGROUP && lastAttack == null
+                || (from != lastAttack.getCountryPair().From || to != lastAttack.getCountryPair().To))
+        {
             initNextPhase();
         }
         CountryPair cp = new CountryPair(from, to);
@@ -462,8 +466,8 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     private void gameEnded(Player p, int reason) {
-        cmdSender.sendCmd(new GameEndedCmd(p, GameEndedCmd.WIN), null);
-        cmdSender.closeConnections();
+        cmdSender.sendCmd(new GameEndedCmd(p, reason), null, true);
+        gameCtrl.setEnded(true);
     }
     
     private void checkforWinner(Player p) {
@@ -513,5 +517,15 @@ public class ServerCommandVisitor implements CommandVisitor {
     @Override
     public void visit(SecretMissionCmd cmd) {
         WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(ClientQuitCmd cmd) {
+        Player p = clientHandler.getPlayer();
+        String name = p == null ? "" : p.getName();
+        Logger.logdebug("Client " + name + " has quit");
+        if (!gameView.isEnded()) {
+            gameEnded(p, GameEndedCmd.QUIT);
+        }
     }
 }

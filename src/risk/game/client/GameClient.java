@@ -86,7 +86,9 @@ public class GameClient extends Thread implements IOutputQueue {
                     } catch (SocketClosedException e) {
                         serverIsAlive = false;
                         Logger.loginfo("Server closed connection");
-                        nv.popupMessage("Server has closed the connection");
+                        if (!game.isEnded()) {
+                            nv.popupMessage("The server closed the connection");
+                        }
                     } catch (IOException e) {
                         Logger.logexception(e, "Couldn't read Command");
                         serverIsAlive = false;
@@ -103,6 +105,10 @@ public class GameClient extends Thread implements IOutputQueue {
 
     private void onExit() {
         Logger.loginfo("Client stops");
+        try {
+            nc.close();
+        } catch (Exception e) {
+        }
         if (queuedSender != null) {
             queuedSender.interrupt();
         }
@@ -114,4 +120,8 @@ public class GameClient extends Thread implements IOutputQueue {
         queuedSender.queueForSend(cmd);
     }
 
+    @Override
+    public void queueForSend(Command cmd, boolean last) {
+        queuedSender.queueForSend(cmd, last);
+    }
 }

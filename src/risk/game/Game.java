@@ -69,6 +69,7 @@ public class Game implements GameView, GameController {
     private Attack lastAttack;
 
     private boolean gameStarted = false;
+    private boolean ended = false;
 
     public void addPlayer(Player p) {
         players.add(p);
@@ -436,4 +437,15 @@ public class Game implements GameView, GameController {
         }
         return countryNo;
     }
+
+    @Override
+    public boolean isEnded() {
+        return ended;
+    }
+
+    @Override
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+    
 }

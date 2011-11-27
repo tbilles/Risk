@@ -36,4 +36,5 @@ public interface GameController {
     public void clearAttack();
     public boolean setAttackRoundResults(ArrayList<Integer> aDiceResults, ArrayList<Integer> dDiceResults);
     public void setSecretMission(Player p, SecretMission secretMission);
+    public void setEnded(boolean b);
 }

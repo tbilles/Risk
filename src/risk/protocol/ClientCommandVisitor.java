@@ -74,11 +74,12 @@ public class ClientCommandVisitor implements CommandVisitor {
         }
         RoundPhase phase = gameView.getRoundPhase();
         Logger.logdebug("Switched to phase: " + phase.toString());
+        broadcastMessage("Next phase: " + phase);
         if (phase == RoundPhase.REINFORCEMENT) {
             gameCtrl.setAvailableReinforcement(cmd.getReinforcement());
             Logger.logdebug("Got " + cmd.getReinforcement() + "reinforcement");
+            broadcastMessage(cmd.getReinforcement() + " reinforcement arrived");
         }
-        broadcastMessage("Next phase: " + phase);
     }
 
     @Override
@@ -93,6 +94,7 @@ public class ClientCommandVisitor implements CommandVisitor {
         String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
         String player = cmd.getPlayer() == null ? "" : cmd.getPlayer().getName();
         Logger.logdebug("Got GameEnded command: " + player + " has " + reason);
+        gameCtrl.setEnded(true);
         broadcastMessage("The game has ended, player " + player + " has " + reason, true);
     }
 
@@ -204,5 +206,10 @@ public class ClientCommandVisitor implements CommandVisitor {
     public void visit(SecretMissionCmd cmd) {
         Logger.logdebug("Got SecretMission: " + cmd.getSecretMission());
         gameCtrl.setSecretMission(gameView.getMyPlayer(), cmd.getSecretMission());
+    }
+
+    @Override
+    public void visit(ClientQuitCmd cmd) {
+        WrongCommand(cmd);
     }
 }

@@ -10,6 +10,7 @@ import risk.network.IOutputQueue;
 import risk.network.NetworkClient;
 import risk.network.QueuedSender;
 import risk.network.SocketClosedException;
+import risk.protocol.command.ClientQuitCmd;
 import risk.protocol.command.Command;
 import risk.protocol.command.CommandFromClient;
 import risk.protocol.command.PlayerJoinedCmd;
@@ -25,6 +26,7 @@ public class ClientHandler extends Thread implements IOutputQueue {
     private static final int SOCKET_INTERRUPT_TIMEOUT = 1000;
     private static final int SENDER_INTERRUPT_TIMEOUT = 1000;
     private QueuedSender queuedSender;
+    private boolean keepQueuedSender = false;
     
     public ClientHandler(ThreadGroup tg, Socket s, CommandExecutor commandExecutor, ConnectionAcceptor connectionAcceptor) throws IOException {
         super(tg, "");
@@ -66,9 +68,15 @@ public class ClientHandler extends Thread implements IOutputQueue {
 
     private void onExit() {
         Logger.loginfo("ClientHandler stops.");
-        if (queuedSender != null) {
+        if (queuedSender != null && !keepQueuedSender) {
             queuedSender.interrupt();
         }
+        try {
+            nc.close();
+        } catch (Exception e) {
+            Logger.logexception(e, "Cannot close socket");
+        }
+        commandExecutor.QueueCommand(new CommandFromClient(new ClientQuitCmd(), this));
         connectionAcceptor.connectionLost(this);
     }
 
@@ -78,7 +86,16 @@ public class ClientHandler extends Thread implements IOutputQueue {
     
     @Override
     public void queueForSend(Command cmd) {
-        queuedSender.queueForSend(cmd);
+        queuedSender.queueForSend(cmd, false);
+    }
+    
+    @Override
+    public void queueForSend(Command cmd, boolean last) {
+        queuedSender.queueForSend(cmd, last);
+        if (last) {
+            keepQueuedSender  = true;
+            this.interrupt();
+        }
     }
 
     public Player getPlayer() {
