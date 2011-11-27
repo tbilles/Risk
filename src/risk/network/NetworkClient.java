@@ -58,7 +58,9 @@ public class NetworkClient {
 
     public void close() throws IOException {
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+            }
         } catch (IOException e) {
             throw new IOException("Couldn't close socket", e);
         }

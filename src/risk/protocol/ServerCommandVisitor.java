@@ -462,8 +462,8 @@ public class ServerCommandVisitor implements CommandVisitor {
     }
 
     private void gameEnded(Player p, int reason) {
-        cmdSender.sendCmd(new GameEndedCmd(p, GameEndedCmd.WIN), null);
-        cmdSender.closeConnections();
+        cmdSender.sendCmd(new GameEndedCmd(p, reason), null, true);
+        gameCtrl.setEnded(true);
     }
     
     private void checkforWinner(Player p) {
@@ -513,5 +513,15 @@ public class ServerCommandVisitor implements CommandVisitor {
     @Override
     public void visit(SecretMissionCmd cmd) {
         WrongCommand(cmd);
+    }
+
+    @Override
+    public void visit(ClientQuitCmd cmd) {
+        Player p = clientHandler.getPlayer();
+        String name = p == null ? "" : p.getName();
+        Logger.logdebug("Client " + name + " has quit");
+        if (!gameView.isEnded()) {
+            gameEnded(p, GameEndedCmd.QUIT);
+        }
     }
 }

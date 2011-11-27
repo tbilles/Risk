@@ -68,15 +68,7 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
             }
         }
 
-        synchronized (clientHandlerLock) {
-            for (ClientHandler ch : clientHandlers) {
-                try {
-                    ch.interrupt();
-                } catch (SecurityException e) {
-                    Logger.logexception(e, "Insufficient permissions to interrupt thread");
-                }
-            }
-        }
+        closeConnections();
     }
 
     @Override
@@ -170,13 +162,22 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
     }
 
     @Override
-    public void sendCmd(Command cmd, Player p) {
+    public void sendCmd(Command cmd, Player p, boolean last) {
+        if (last) {
+            Logger.logdebug("Sending last quit command");
+        }
         synchronized (clientHandlerLock) {
             for (ClientHandler ch : clientHandlers) {
-                if (p == null || ch.getPlayer() == p)
-                    ch.queueForSend(cmd);
+                if (p == null || ch.getPlayer() == p) {
+                    ch.queueForSend(cmd, last);
+                }
             }
         }
+    }
+    
+    @Override
+    public void sendCmd(Command cmd, Player p) {
+        sendCmd(cmd, p, false);
     }
     
     @Override
@@ -190,27 +191,24 @@ public class GameServer extends Thread implements ConnectionAcceptor, CommandExe
 
     @Override
     public void connectionLost(ClientHandler ch) {
-        boolean needSend = false;
         synchronized (clientHandlerLock) {
             clientHandlers.remove(ch);
-            if (!closingDown) {
-                closingDown = true;
-                needSend  = true;
+            if (clientHandlers.isEmpty()) {
+                this.interrupt();
             }
-        }
-        if (needSend) {
-            Logger.logdebug("Connection lost, notifying users");
-            Player p = ch.getPlayer();
-            sendCmd(new GameEndedCmd(p, GameEndedCmd.QUIT), null);
-            closeConnections();
         }
     }
 
     @Override
     public void closeConnections() {
+        if (closingDown) {
+            return;
+        }
+        closingDown = true;
         synchronized (clientHandlerLock) {
             for (ClientHandler ch : clientHandlers) {
                 ch.closeConnection();
+                ch.interrupt();
             }
             clientHandlers.clear();
         }

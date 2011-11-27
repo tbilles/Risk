@@ -205,4 +205,9 @@ public class ClientCommandVisitor implements CommandVisitor {
         Logger.logdebug("Got SecretMission: " + cmd.getSecretMission());
         gameCtrl.setSecretMission(gameView.getMyPlayer(), cmd.getSecretMission());
     }
+
+    @Override
+    public void visit(ClientQuitCmd cmd) {
+        WrongCommand(cmd);
+    }
 }
