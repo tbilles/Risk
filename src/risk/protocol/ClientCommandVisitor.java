@@ -93,6 +93,7 @@ public class ClientCommandVisitor implements CommandVisitor {
         String reason = cmd.getReason() == GameEndedCmd.WIN ? "won" : "quit";
         String player = cmd.getPlayer() == null ? "" : cmd.getPlayer().getName();
         Logger.logdebug("Got GameEnded command: " + player + " has " + reason);
+        gameCtrl.setEnded(true);
         broadcastMessage("The game has ended, player " + player + " has " + reason, true);
     }
 
