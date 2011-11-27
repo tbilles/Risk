@@ -108,7 +108,7 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
                 int answer = JOptionPane
                         .showConfirmDialog(
                                 this,
-                                "A server is already running. Do you want to finish it, and start a new client?",
+                                "A server is already running. Do you want to finish it, and start a new server?",
                                 "Warning!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     // the current server should be terminated correctly
@@ -122,8 +122,9 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
                     server = new GameServer();
                     server.start();
                     rp.serverStarted();
+                    serverView.setEnabled(true);
                     serverDebugView.setEnabled(true);
-                    serverDebugView.setSelected(true);
+                    serverView.setSelected(true);
                 }
             }
         }
@@ -150,6 +151,9 @@ public class RiskFrame extends JFrame implements ActionListener, NotifyView {
         }
         if(e.getSource() == clientView){
             rp.changeToClientView();
+        }
+        if(e.getSource()== serverView){
+            rp.changeToServerView();
         }
         if(e.getSource() == clientDebugView){
             rp.changeToClientDebugView();
