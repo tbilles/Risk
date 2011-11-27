@@ -28,11 +28,14 @@ public class RiskPanel extends JPanel {
     public void changeToClientView(){
         gp.changeToClient();
     }
+    public void changeToServerView(){
+        gp.changeToServer();
+    }
     public void changeToClientDebugView(){
         gp.changeToClientDebug();
     }
     public void changeToServerDebugView(){
-        gp.changeToServer();
+        gp.changeToServerDebug();
     }
     public void gameFinished(){
         gp.changeToEmpty();
